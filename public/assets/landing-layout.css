@@ -1,0 +1,84 @@
+/* A centered 75% content rail, shared by every landing-page section. */
+:root { --pad: 12.5vw; }
+.hero { grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); }
+.hero-copy { min-width: 0; container-type: inline-size; }
+.hero-title { font-size: clamp(32px, 15cqi, 116px); line-height: 1.12; }
+.hero-title .line-mask { padding-block: .08em; margin-block: -.08em; }
+.hero-title .line-mask > span { width: 100%; }
+.hero-actions { flex-wrap: wrap; row-gap: 16px; }
+.hero-note { line-height: 1.7; }
+
+/* Grid children must shrink within their columns instead of extending beyond them. */
+.section-grid > *, .section-heading > *, .feature-chapter > *,
+.role-switcher > *, .process-track > *, .final-cta > *, .site-footer > * { min-width: 0; }
+.section-heading > div, .story-intro, .ai-copy,
+.governance > div:first-child, .final-cta > div:first-child { container-type: inline-size; }
+.section-heading h2, .story-intro h2, .ai-copy h2,
+.governance h2, .final-cta h2 { font-size: clamp(30px, 12cqi, 78px); line-height: 1.12; }
+.landing h2, .landing h3 { overflow-wrap: break-word; }
+.eyebrow { overflow-wrap: break-word; }
+.faq-list { width: calc(100% - 2 * var(--pad)); max-width: 880px; margin-inline: auto; padding-inline: 0; }
+.faq-list summary { gap: 18px; line-height: 1.5; }
+.faq-list summary > span { flex-shrink: 0; }
+.cap-item > div, .governance-list > div > div { min-width: 0; }
+.governance-icon { flex-shrink: 0; }
+.role-tabs button { flex-shrink: 0; }
+
+/* Let interface previews grow to contain their content instead of clipping it. */
+.dashboard-main { position: relative; inset: auto; width: 93%; margin: 52px 0 48px 7%; }
+.metric-row > *, .dashboard-split > *, .ai-body > *, .role-kpis > * { min-width: 0; }
+.metric strong, .review-item b, .role-table b { overflow-wrap: break-word; }
+.interface-top { gap: 12px; }
+.interface-top > b { min-width: 0; overflow-wrap: break-word; }
+.ai-top { gap: 12px; flex-wrap: wrap; }
+.site-footer .wordmark { width: fit-content; }
+.site-footer .copyright { max-width: 100%; line-height: 1.7; }
+
+@media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; row-gap: 20px; padding-top: 70px; padding-bottom: 60px; }
+    .hero-art { min-height: 0; margin-top: 20px; }
+    .cap-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+    .strip-intro { grid-column: 1 / -1; border: 0; }
+    .cap-item { padding: 0; border: 0; }
+    .site-header nav { display: none; }
+    .site-header { gap: 16px; }
+    .header-cta { margin-left: auto; }
+    .menu-toggle { display: block; font-size: 18px; }
+    .site-header nav.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; padding: 18px var(--pad); gap: 18px; flex-wrap: wrap; margin: 0; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 10px 20px #10213d0a; }
+}
+@media (max-width: 560px) {
+    :root { --pad: 20px; }
+    .site-header { gap: 10px; }
+    .site-header .wordmark { font-size: 16px; gap: 8px; }
+    .site-header .wordmark small { font-size: 6px; letter-spacing: .7px; }
+    .site-header .brand-glyph { width: 32px; height: 34px; flex-shrink: 0; }
+    .header-cta { font-size: 10px; white-space: nowrap; }
+    .menu-toggle { padding: 6px; flex-shrink: 0; }
+    .hero { padding-top: 50px; }
+    .hero-title { font-size: clamp(32px, 15cqi, 80px); }
+    .hero-actions { gap: 16px; }
+    .hero-note { margin-top: 38px; }
+    .dashboard-main { width: 100%; margin: 48px 0; transform: none; }
+    .dash-heading { flex-wrap: wrap; }
+    .metric-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metric { padding: 8px 6px; }
+    .dash-content { padding: 12px; }
+    .dash-heading strong { font-size: 15px; }
+    .chart-card { padding: 10px; }
+    .card-top { gap: 8px; flex-wrap: wrap; }
+    .audit-panel { top: 0; }
+    .schedule-panel { bottom: 0; }
+    .cap-item { gap: 8px; }
+    .role-kpis { padding: 12px; gap: 5px; }
+    .role-kpis div { padding: 8px 5px; }
+    .role-window-top { padding: 12px; }
+    .role-window-top .window-user { flex-shrink: 0; }
+    .role-table { padding: 0 12px 12px; }
+    .role-table > span { column-gap: 8px; }
+    .final-cta { padding-inline: 22px; }
+    .footer-links { gap: 32px; flex-wrap: wrap; }
+}
+
+/* Shared ExamCell identity */
+.examcell-logo{display:inline-block}.window-title .mini-logo{margin-right:7px}.orbit-core .orbit-logo{display:block;margin:0 auto 5px}
+@media(max-width:560px){.site-header .examcell-logo{max-width:34px;max-height:34px}}

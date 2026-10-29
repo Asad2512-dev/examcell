@@ -1,0 +1,125 @@
+{
+  "checks": [
+    {
+      "route": "/",
+      "width": 375,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/sign-in",
+      "width": 375,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/forgot-password",
+      "width": 375,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/reset-password/preview-token",
+      "width": 375,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/missing-page",
+      "width": 375,
+      "status": 404,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/sign-in",
+      "width": 768,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/forgot-password",
+      "width": 768,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/reset-password/preview-token",
+      "width": 768,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/missing-page",
+      "width": 768,
+      "status": 404,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/sign-in",
+      "width": 1280,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/forgot-password",
+      "width": 1280,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/reset-password/preview-token",
+      "width": 1280,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/missing-page",
+      "width": 1280,
+      "status": 404,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/sign-in",
+      "width": 1920,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/forgot-password",
+      "width": 1920,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/reset-password/preview-token",
+      "width": 1920,
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "route": "/missing-page",
+      "width": 1920,
+      "status": 404,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,2 @@
+@props(['steps'=>['Configure','Review','Confirm']])
+<div {{ $attributes->class(['wizard']) }} x-data="wizard(@js($steps))"><ol class="stepper"><template x-for="(label,index) in labels" :key="index"><li :class="{'is-current':index<=step}" :aria-current="index===step?'step':null"><span x-text="String(index+1).padStart(2,'0')"></span><strong x-text="label"></strong></li></template></ol>{{ $slot }}</div>

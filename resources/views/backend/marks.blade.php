@@ -1,0 +1,18 @@
+
+@if($role==='teacher')<x-submission-deadlines :courses="$courses"/>
+@endif
+
+@include('backend.course-select')
+@if($role==='admin'&&$selected)<x-submission-deadline-editor :course="$selected"/>
+@endif
+@if($selected)<x-card class=""><div class="card-heading"><h2>{{ $selected->course->name }}</h2><x-badge :status="ucfirst($selected->submission?->status??'draft')"/></div><p>{{ $selected->submission?->return_reason }}</p><div class="marks-toolbar"><span><x-icon name="edit" :size="14"/> Enter marks · ↑ / ↓ / Enter moves between scores</span><label class="toggle-field"><input type="checkbox" data-autosave @disabled($selected->submission?->status==='submitted')>Autosave draft</label><span data-save-status role="status">{{ $selected->submission?->status==='submitted'?'Submitted · editing locked':'Ready · use Save draft to persist changes' }}</span></div><form method="POST" action="/workflow/marks/{{ $selected->id }}">
+@csrf<x-data-table :enhanced="false"><table class="data-table marks-grid"><thead><tr><th>Roll / Student</th><th>Component / Maximum</th><th>Score</th><th>Absent</th><th>Weighted preview</th></tr></thead><tbody>
+@php $i=0; @endphp @foreach($students as $enrollment)
+@foreach($selected->components as $component)
+@php $mark=$marks->get($enrollment->student_id.':'.$component->id);$index=$i++;$locked=$selected->submission?->status==='submitted'; @endphp<tr data-student="{{ $enrollment->student_id }}" data-weight="{{ $component->weight }}"><td>{{ $enrollment->student->profile?->roll_number }} · {{ $enrollment->student->name }}</td><td>{{ $component->name }} / {{ $component->maximum }} ({{ $component->weight }}%)</td><td><input type="hidden" name="rows[{{ $index }}][student_id]" value="{{ $enrollment->student_id }}"><input type="hidden" name="rows[{{ $index }}][assessment_component_id]" value="{{ $component->id }}"><input type="number" step="0.01" min="0" max="{{ $component->maximum }}" name="rows[{{ $index }}][score]" value="{{ old('rows.'.$index.'.score',$mark?->score) }}" @disabled($locked) aria-label="Score for {{ $enrollment->student->name }} {{ $component->name }}"></td><td><input type="hidden" name="rows[{{ $index }}][absent]" value="0"><input type="checkbox" data-absent aria-label="Absent: {{ $enrollment->student->name }}, {{ $component->name }}" name="rows[{{ $index }}][absent]" value="1" @checked(old('rows.'.$index.'.absent',$mark?->absent)) @disabled($locked)></td><td><strong data-total="{{ $enrollment->student_id }}">—</strong></td></tr>
+@endforeach @endforeach</tbody></table></x-data-table><div class="form-actions"><x-button variant="secondary" class="" name="submit" value="0" :disabled="$selected->submission?->status==='submitted'" type="submit">Save draft</x-button><x-button variant="primary" class="" name="submit" value="1" data-confirm="true" data-confirm-title="Submit and lock these marks?" data-confirm-message="The server will validate completeness and lock this submission. Changes after submission require an authorized return." data-confirm-label="Submit and lock" :disabled="$selected->submission?->status==='submitted'" type="submit">Submit and lock</x-button></div></form>
+@if($role==='admin')<form method="POST" action="/workflow/marks/{{ $selected->id }}/return" class="form-grid">
+@csrf<x-form-field ><span>Return reason</span><textarea name="reason" required minlength="5"></textarea></x-form-field><x-button variant="secondary" class="" type="submit">Return for correction</x-button></form>
+@endif</x-card>
+@else<x-card class="empty-state">No assigned examination courses. The examination cell must configure assignments and assessment components.</x-card>
+@endif

@@ -1,0 +1,110 @@
+/* Shared action geometry for Admin, Teacher and Student workspaces. */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    max-width: 100%;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+.btn > svg { flex: 0 0 auto; align-self: center; }
+.btn:not(:disabled):hover { transform: none; }
+.page-actions, .form-actions, .dialog-actions {
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.page-actions .btn, .form-actions .btn, .dialog-actions .btn { margin: 0; min-height: 44px; }
+.card form.form-grid > .btn {
+    grid-column: 1 / -1;
+    align-self: end;
+    justify-self: end;
+    margin: 0;
+    min-width: 128px;
+}
+.card form.form-grid > .form-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0;
+    padding-top: 18px;
+}
+.form-grid > label:not(.field) {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    min-width: 0;
+    padding-block: 4px;
+    font-size: 12px;
+    line-height: 1.7;
+}
+.form-grid > label:not(.field) input[type="checkbox"] { flex: 0 0 auto; margin: 3px 0 0; }
+.filter-bar { align-items: flex-end; }
+.filter-controls { align-items: flex-end; }
+.filter-controls .btn, .filter-bar > .btn { min-height: 44px; align-self: flex-end; margin: 0; }
+.filter-controls input:not([type="checkbox"]):not([type="hidden"]) { height: 44px; min-height: 44px; }
+.table-footer > div { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.table-footer .btn { min-height: 36px; padding: 7px 12px; font-size: 11px; }
+.data-table td .btn { min-height: 36px; padding: 7px 10px; font-size: 11px; line-height: 20px; }
+.data-table td form { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.data-table td form > .btn { align-self: flex-end; }
+.data-table td textarea { width: 100%; }
+.notification-item > form:not(.reserve-nomination):not(.reserve-approval):not(.reserve-rejection) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    min-width: 0;
+    margin: 0;
+}
+.notification-item > form > .btn { justify-self: end; margin: 0; }
+.notification-item > form > textarea { width: 100%; min-width: 0; }
+.notification-list .notification-item form .btn { min-height: 40px; }
+.review-action-form { width: min(100%, 400px); }
+.review-action-form .field { margin: 0; }
+.review-action-form textarea { width: 100%; resize: vertical; min-height: 88px; }
+.review-action-form .form-actions { padding: 12px 0 0; border: 0; background: transparent; }
+.card > .notification-item:has(> form) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 400px);
+    gap: 24px;
+    align-items: start;
+}
+.card > form:not(.form-grid):not(.seating-setup-form):has(> .btn):not(:has(.field, .table-scroll, textarea, select, input:not([type="hidden"]))) {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.card > form:not(.form-grid) > .btn { display: flex; width: fit-content; margin-left: auto; }
+.seating-action-buttons .btn, .reserve-review .btn { min-height: 44px; }
+.shortcut-grid .btn { min-height: 38px; }
+.app-dialog .dialog-actions .btn { min-height: 44px; }
+
+@media (max-width: 900px) {
+    .card > .notification-item:has(> form) { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+    .data-table td .btn, .table-footer .btn { min-height: 44px; }
+    .filter-controls .btn { flex: 1 1 100%; }
+    .filter-bar > .btn { width: 100%; }
+    .card form.form-grid > .btn { width: 100%; min-width: 0; justify-self: stretch; }
+    .card > form:not(.form-grid) > .btn { width: 100%; }
+    .review-action-form { width: 100%; }
+}
+@media (max-width: 560px) {
+    .page-actions { width: 100%; align-items: stretch; }
+    .page-actions .btn { flex: 1 1 100%; width: 100%; }
+    .form-actions, .dialog-actions { flex-direction: column; align-items: stretch; }
+    .form-actions .btn, .dialog-actions .btn { width: 100%; }
+    .app-dialog .dialog-actions { flex-direction: column-reverse; }
+    .notification-item > form > .btn { width: 100%; justify-self: stretch; }
+}

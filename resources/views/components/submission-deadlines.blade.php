@@ -1,0 +1,5 @@
+@props(['courses'])
+<x-card title="Marks submission deadlines" description="Your course deadlines, including any teacher-specific extensions."><x-data-table><table class="data-table"><thead><tr><th>Course</th><th>Examination</th><th>Submission</th><th>Time remaining</th><th>Action</th></tr></thead><tbody>
+@forelse($courses as $deadlineCourse)<tr><td>{{ $deadlineCourse->course->code }} · {{ $deadlineCourse->course->name }}</td><td>{{ $deadlineCourse->examination->name }}</td><td><x-badge :status="ucfirst($deadlineCourse->submission?->status??'draft')"/></td><td><x-submission-countdown :deadline="$deadlineCourse->submissionDeadlineFor(auth()->user())" :submitted="$deadlineCourse->submission?->status==='submitted'"/></td><td><x-button variant="secondary" href="/teacher/marks-entry?course_id={{ $deadlineCourse->id }}">Open marks</x-button></td></tr>
+@empty<tr><td colspan="5"><x-empty-state title="No assigned examination courses" description="Your submission deadlines will appear when courses are assigned." icon="calendar"/></td></tr>
+@endforelse</tbody></table></x-data-table></x-card>

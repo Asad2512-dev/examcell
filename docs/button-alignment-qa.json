@@ -1,0 +1,677 @@
+{
+  "pages": [
+    {
+      "role": "admin",
+      "slug": "admin-dashboard",
+      "width": 320,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "student-directory",
+      "width": 320,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "bulk-user-import",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "date-sheet-list",
+      "width": 320,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "eligible-admit-card-students",
+      "width": 320,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "seating-plan-overview",
+      "width": 320,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "duty-allocation-overview",
+      "width": 320,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "marks-submission-overview",
+      "width": 320,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "result-batch-overview",
+      "width": 320,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "rechecking-request-queue",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "analytics-overview",
+      "width": 320,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-ai-assistant",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "backup-status",
+      "width": 320,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-dashboard",
+      "width": 390,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "student-directory",
+      "width": 390,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "bulk-user-import",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "date-sheet-list",
+      "width": 390,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "eligible-admit-card-students",
+      "width": 390,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "seating-plan-overview",
+      "width": 390,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "duty-allocation-overview",
+      "width": 390,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "marks-submission-overview",
+      "width": 390,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "result-batch-overview",
+      "width": 390,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "rechecking-request-queue",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "analytics-overview",
+      "width": 390,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-ai-assistant",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "backup-status",
+      "width": 390,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-dashboard",
+      "width": 768,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "student-directory",
+      "width": 768,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "bulk-user-import",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "date-sheet-list",
+      "width": 768,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "eligible-admit-card-students",
+      "width": 768,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "seating-plan-overview",
+      "width": 768,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "duty-allocation-overview",
+      "width": 768,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "marks-submission-overview",
+      "width": 768,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "result-batch-overview",
+      "width": 768,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "rechecking-request-queue",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "analytics-overview",
+      "width": 768,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-ai-assistant",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "backup-status",
+      "width": 768,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-dashboard",
+      "width": 1440,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "student-directory",
+      "width": 1440,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "bulk-user-import",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "date-sheet-list",
+      "width": 1440,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "eligible-admit-card-students",
+      "width": 1440,
+      "buttons": 5
+    },
+    {
+      "role": "admin",
+      "slug": "seating-plan-overview",
+      "width": 1440,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "duty-allocation-overview",
+      "width": 1440,
+      "buttons": 7
+    },
+    {
+      "role": "admin",
+      "slug": "marks-submission-overview",
+      "width": 1440,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "result-batch-overview",
+      "width": 1440,
+      "buttons": 4
+    },
+    {
+      "role": "admin",
+      "slug": "rechecking-request-queue",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "analytics-overview",
+      "width": 1440,
+      "buttons": 3
+    },
+    {
+      "role": "admin",
+      "slug": "admin-ai-assistant",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "admin",
+      "slug": "backup-status",
+      "width": 1440,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-dashboard",
+      "width": 320,
+      "buttons": 5
+    },
+    {
+      "role": "teacher",
+      "slug": "my-courses",
+      "width": 320,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "my-students",
+      "width": 320,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-entry",
+      "width": 320,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-submissions",
+      "width": 320,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-csv-import",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "invigilation-duties",
+      "width": 320,
+      "buttons": 4
+    },
+    {
+      "role": "teacher",
+      "slug": "performance-analytics",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-ai-assistant",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-dashboard",
+      "width": 390,
+      "buttons": 5
+    },
+    {
+      "role": "teacher",
+      "slug": "my-courses",
+      "width": 390,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "my-students",
+      "width": 390,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-entry",
+      "width": 390,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-submissions",
+      "width": 390,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-csv-import",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "invigilation-duties",
+      "width": 390,
+      "buttons": 4
+    },
+    {
+      "role": "teacher",
+      "slug": "performance-analytics",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-ai-assistant",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-dashboard",
+      "width": 768,
+      "buttons": 5
+    },
+    {
+      "role": "teacher",
+      "slug": "my-courses",
+      "width": 768,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "my-students",
+      "width": 768,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-entry",
+      "width": 768,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-submissions",
+      "width": 768,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-csv-import",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "invigilation-duties",
+      "width": 768,
+      "buttons": 4
+    },
+    {
+      "role": "teacher",
+      "slug": "performance-analytics",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-ai-assistant",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-dashboard",
+      "width": 1440,
+      "buttons": 5
+    },
+    {
+      "role": "teacher",
+      "slug": "my-courses",
+      "width": 1440,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "my-students",
+      "width": 1440,
+      "buttons": 0
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-entry",
+      "width": 1440,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-submissions",
+      "width": 1440,
+      "buttons": 3
+    },
+    {
+      "role": "teacher",
+      "slug": "marks-csv-import",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "invigilation-duties",
+      "width": 1440,
+      "buttons": 4
+    },
+    {
+      "role": "teacher",
+      "slug": "performance-analytics",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "teacher",
+      "slug": "teacher-ai-assistant",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-dashboard",
+      "width": 320,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "my-courses",
+      "width": 320,
+      "buttons": 0
+    },
+    {
+      "role": "student",
+      "slug": "my-results",
+      "width": 320,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "rechecking-requests",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "performance-analysis",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-ai-assistant",
+      "width": 320,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-dashboard",
+      "width": 390,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "my-courses",
+      "width": 390,
+      "buttons": 0
+    },
+    {
+      "role": "student",
+      "slug": "my-results",
+      "width": 390,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "rechecking-requests",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "performance-analysis",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-ai-assistant",
+      "width": 390,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-dashboard",
+      "width": 768,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "my-courses",
+      "width": 768,
+      "buttons": 0
+    },
+    {
+      "role": "student",
+      "slug": "my-results",
+      "width": 768,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "rechecking-requests",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "performance-analysis",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-ai-assistant",
+      "width": 768,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-dashboard",
+      "width": 1440,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "my-courses",
+      "width": 1440,
+      "buttons": 0
+    },
+    {
+      "role": "student",
+      "slug": "my-results",
+      "width": 1440,
+      "buttons": 6
+    },
+    {
+      "role": "student",
+      "slug": "rechecking-requests",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "performance-analysis",
+      "width": 1440,
+      "buttons": 1
+    },
+    {
+      "role": "student",
+      "slug": "student-ai-assistant",
+      "width": 1440,
+      "buttons": 1
+    }
+  ],
+  "errors": []
+}

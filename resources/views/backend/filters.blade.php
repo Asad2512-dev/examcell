@@ -1,0 +1,5 @@
+<form class="filter-bar" method="GET"><div class="filter-controls">
+@if($module==='academic')<input type="hidden" name="resource" value="{{ $resource }}">
+@endif<input name="q" placeholder="Search records" value="{{ request('q') }}" aria-label="Search records"><select name="status" aria-label="Status"><option value="">All statuses</option>
+@foreach(['draft','submitted','returned','under_review','approved','published','pending','assigned','unavailable','replaced'] as $s)<option value="{{ $s }}" @selected(request('status')===$s)>{{ ucwords(str_replace('_',' ',$s)) }}</option>
+@endforeach</select><select name="sort" aria-label="Sort records by"><option value="id">Record number</option><option value="name" @selected(request('sort')==='name')>Name</option><option value="created_at" @selected(request('sort')==='created_at')>Created</option></select><select name="direction" aria-label="Sort direction"><option value="desc">Descending</option><option value="asc" @selected(request('direction')==='asc')>Ascending</option></select><x-button variant="secondary" class="" type="submit">Apply filters</x-button></div></form>

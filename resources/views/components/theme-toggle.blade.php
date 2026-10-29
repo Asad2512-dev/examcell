@@ -1,0 +1,1 @@
+<button type="button" {{ $attributes->class(['icon-button']) }} x-data="themeToggle" @click="toggle()" :aria-label="dark?'Use light mode':'Use dark mode'" :aria-pressed="dark"><span x-show="!dark"><x-icon name="moon" :size="18"/></span><span x-show="dark" x-cloak><x-icon name="sun" :size="18"/></span></button>

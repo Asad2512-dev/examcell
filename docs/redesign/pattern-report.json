@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "Date-sheet wizard: configure, review, confirm, back without submitting",
+    "Assessment weights include other configured components in live total",
+    "CSV upload: local parsed preview without server submission"
+  ],
+  "errors": []
+}

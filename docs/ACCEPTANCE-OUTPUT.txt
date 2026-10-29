@@ -1,0 +1,146 @@
+
+   INFO  Configuration cache cleared successfully.  
+
+
+Connected: examcell_test; server 10.11.14-MariaDB-0ubuntu0.24.04.1
+
+
+   INFO  Nothing to migrate.  
+
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.6
+Configuration: /workspace/scratch/a427d90bc59e/examcell-frontend/phpunit.xml
+
+......................................                            38 / 38 (100%)
+
+Time: 00:08.327, Memory: 64.50 MB
+
+Assistant (Tests\Feature\Assistant)
+ ✔ Deterministic scope missing key and invalid intent
+ ✔ Provider failure and success are safe and do not mutate records
+ ✔ Assistant rate limit
+ ✔ Daily budget counts failed provider attempts
+
+Final Flow (Tests\Feature\FinalFlow)
+ ✔ Exact 48 hour deadline ownership and late rejection
+ ✔ Reserve swap approval revalidates and notifies both people
+ ✔ Unresolved request can be nominated after reserve staff is configured
+ ✔ Standby reserve assignment is promoted without duplicate duty
+ ✔ Multi room capacity seating room specific duties and student lookup
+ ✔ Generator uses combined room capacity and publication blocks uncovered rooms
+ ✔ Forecast is permission scoped persisted and never changes official results
+ ✔ Forecast fits trend and retains uncertainty
+ ✔ Signed backup restore and download permissions
+
+Frontend (Tests\Feature\Frontend)
+ ✔ All screens use authenticated roles and render real empty states
+ ✔ Public routes do not expose role workspaces
+ ✔ Login logout and inactive account
+ ✔ Server side pagination and validation
+
+Import (Tests\Feature\Import)
+ ✔ Student csv preview commit and duplicate rejection
+ ✔ Marks csv scope absence and duplicates
+ ✔ Excel xlsx import and formula rejection
+
+Security (Tests\Feature\Security)
+ ✔ Returned marks are recalculated before result approval
+ ✔ Sql analytics and teacher roster are scoped
+ ✔ Password reset changes password and invalid token is rejected
+ ✔ Notification ownership and audit write protection
+ ✔ Published configuration is immutable and roles are server derived
+ ✔ Schedule revision retains history and notifies students
+ ✔ Bulk admit job is queued and actual artifacts are generated
+ ✔ Duty overlap and workload limit reject assignment
+ ✔ Ai timeout invalid output and daily budget have truthful fallbacks
+ ✔ Weighted assessments rounding gpa and absence rules
+
+Workflow (Tests\Feature\Workflow)
+ ✔ Scheduling conflicts capacity unavailability and publication
+ ✔ Generation and seat uniqueness and student scope
+ ✔ Duty unavailability proposals revalidation and history
+ ✔ No eligible replacement stays unresolved
+ ✔ Marks are authorized validated complete and locked
+ ✔ Grading boundaries decimal rounding and credit weighting
+ ✔ Result lifecycle published correction recheck and private download
+ ✔ Incomplete publication and analysis flags are distinct
+
+OK (38 tests, 588 assertions)
+
+
+PASS concurrent duty request and seating transactions.
+
+
+  Dropping all tables ........................................... 10.77ms DONE
+
+   INFO  Preparing database.  
+
+  Creating migration table ....................................... 3.02ms DONE
+
+   INFO  Running migrations.  
+
+  2026_10_11_000001_create_examcell_schema ..................... 100.32ms DONE
+  2026_10_11_000002_add_teacher_profiles_and_schedule_versions ... 5.32ms DONE
+  2026_10_11_000003_create_bulk_generation_queue ................. 5.08ms DONE
+  2026_10_12_000004_complete_operational_workflows .............. 22.20ms DONE
+
+
+
+   INFO  Application cache cleared successfully.  
+
+
+Browser-only test fixtures created.
+
+PASS Session login derives administrator role
+PASS Missing CSRF token rejected by real HTTP middleware
+PASS Blade create form persists in MySQL after reload
+PASS Schedule reads published database entries
+PASS Duties read actual assignments
+PASS Authorized report generates an actual PDF
+PASS Teacher marks show submitted records and lock editing
+PASS Teacher submits a duty request before the 48-hour deadline
+PASS Administrator approves reserve cover through Blade form
+PASS Backup UI creates and downloads a real verified archive
+PASS Reserve staff portal shows approved replacement duty
+PASS Original teacher sees approved request history
+PASS Teacher direct administrator URL denied
+PASS Student sees own published results only
+PASS Student seat lookup is scoped to authenticated identity
+PASS Student private admit download
+PASS Assistant returns scoped records and truthful missing-key fallback
+PASS Student forecast form reads own published history and shows uncertainty
+PASS Student rechecking form persists request
+PASS Student dashboard, result and assistant layouts fit 1440px
+PASS Student dashboard, result and assistant layouts fit 1024px
+PASS Student dashboard, result and assistant layouts fit 390px
+PASS Mobile navigation drawer opens and closes
+PASS No browser JavaScript errors
+ALL 24 BROWSER CHECKS PASSED
+
+Queued actual smoke-check job.
+
+  2026-10-12 04:23:19 App\Jobs\GenerateAdmitCards .................... RUNNING
+  2026-10-12 04:23:19 App\Jobs\GenerateAdmitCards .............. 322.05ms DONE
+
+PASS real database queue worker generated two PDFs.
+
+PASS PHP 8.2+
+PASS PDO MySQL
+PASS BCMath
+PASS ZIP
+PASS APP_KEY
+PASS Private storage writable
+PASS Queue driver configured
+PASS MySQL connection
+OpenAI optional explanation disabled/unconfigured; exact database answers work.
+Mail transport: log; run queue:work and schedule:work in separate terminals.
+
+Verified backup #2 stored privately.
+
