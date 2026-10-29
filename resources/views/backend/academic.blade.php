@@ -43,11 +43,15 @@ $uiOtherWeights=app(\App\Services\AcademicContext::class)->apply(\App\Models\Ass
 @endif<div class="form-actions"><x-button variant="primary" class="" type="submit">{{ $record?'Save changes':'Create record' }}</x-button></div></form></x-card>
 <x-card class="table-card"><x-data-table><table class="data-table"><thead><tr><th>Record</th>
 @foreach(array_keys(\App\Support\Resources::fields($resource)) as $f)
-@if($f!=='password')<th>{{ ucwords(str_replace('_',' ',$f)) }}</th>
+@if($f!=='password')<th>{{ ucwords(str_replace('_',' ',preg_replace('/_id$/','',$f))) }}</th>
 @endif @endforeach<th>Action</th></tr></thead><tbody>
+@php
+$uiLabels=[];
+foreach(array_keys(\App\Support\Resources::fields($resource)) as $uiF){if(str_ends_with($uiF,'_id')){try{$uiLabels[$uiF]=\App\Support\Resources::options($uiF);}catch(\Throwable $e){$uiLabels[$uiF]=[];}}}
+@endphp
 @forelse($records as $row)<tr><td>#{{ $row->id }}</td>
 @foreach(array_keys(\App\Support\Resources::fields($resource)) as $f)
-@if($f!=='password')<td>{{ is_bool($row->$f)?($row->$f?'Yes':'No'):$row->$f }}</td>
+@if($f!=='password')<td>{{ is_bool($row->$f)?($row->$f?'Yes':'No'):(isset($uiLabels[$f])?($uiLabels[$f][$row->$f]??$row->$f):$row->$f) }}</td>
 @endif @endforeach<td><a class="btn btn-secondary" href="/{{ $role }}/records?resource={{ $resource }}&id={{ $row->id }}">Edit</a></td></tr>
 @empty<tr><td colspan="12" class="empty-state">No records yet. Create the first record above.</td></tr>
 @endforelse</tbody></table></x-data-table>
