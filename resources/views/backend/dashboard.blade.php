@@ -7,6 +7,7 @@ $uiGroups=\App\View\WorkspaceNavigation::groups($role);
 $uiOpenFlagCount=$role==='admin'?app(\App\Services\AcademicContext::class)->apply(\App\Models\AnalysisFlag::query())->where('status','open')->count():0;
 @endphp
 @if($role==='admin')
+@include('ai.command-box',['from'=>'dashboard'])
 <div class="dashboard-kpis kpi-five"><x-stat-card label="Active examinations" :value="$exams->whereIn('status',['draft','approved','published'])->count()" icon="calendar" note="Draft, approved and published"/><x-stat-card label="Pending submissions" :value="$uiPending->count()" icon="edit" note="Courses awaiting submitted marks" tone="warning"/><x-stat-card label="Open review flags" :value="$uiOpenFlagCount" icon="alert" note="Recorded analysis findings" tone="warning"/><x-stat-card label="Rechecking requests" :value="app(\App\Services\AcademicContext::class)->apply(\App\Models\RecheckRequest::query())->whereIn('status',['pending','under_review'])->count()" icon="history" note="Awaiting review or decision" tone="teal"/><x-stat-card label="Published result batches" :value="$exams->filter(fn($e)=>$e->batch?->status==='published')->count()" icon="award" note="Approved and released results" tone="teal"/></div>
 @elseif($role==='teacher')
 <x-submission-deadlines :courses="$courses"/>

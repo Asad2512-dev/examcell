@@ -10,7 +10,7 @@ class WorkflowNotice extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return \App\Services\Settings::noticeEnabled($this->title) ? ['database'] : [];
     }
 
     public function toArray($notifiable)

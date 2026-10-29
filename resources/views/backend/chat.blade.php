@@ -1,3 +1,15 @@
+@if($role==='admin'&&$page['slug']==='admin-ai-assistant')
+@include('ai.command-box',['from'=>'assistant'])
+<x-card title="AI conversation" description="Ask for actions or answers. Every action opens a proposal for your approval."><div class="chat-messages">
+@forelse(($conversation?->messages??collect()) as $m)<article class="chat-message {{ $m->role }}"><strong>{{ $m->role==='user'?'You':'ExamCell AI' }}</strong>
+@php
+$parts=preg_split('/\[\[link:(\/admin\/[^|\]]+)\|([^\]]+)\]\]/',$m->content,-1,PREG_SPLIT_DELIM_CAPTURE);
+@endphp
+<pre>{{ $parts[0] }}</pre>@if(isset($parts[1]))<a class="btn btn-secondary btn-small" href="{{ $parts[1] }}">{{ $parts[2] }}</a>@endif</article>
+@empty<x-empty-state title="What would you like to do?" description="Try: Generate date sheet for Fall 2026, Who has missing marks?, Draft a results announcement." icon="sparkles"/>
+@endforelse</div></x-card>
+<h2>Records assistant</h2>
+@endif
 
 @if(in_array($page['slug'],['assistant-no-matching-records','assistant-permission-denied','assistant-data-unavailable']))
 <x-card><x-empty-state :title="match($page['slug']){'assistant-no-matching-records'=>'No matching records','assistant-permission-denied'=>'These records are restricted',default=>'Data is currently unavailable'}" :description="match($page['slug']){'assistant-no-matching-records'=>'Try a different question or choose another record type.','assistant-permission-denied'=>'Choose records within your account’s authorized scope.',default=>'Try again later or contact the examination cell.'}" icon="sparkles"/></x-card>

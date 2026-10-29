@@ -43,18 +43,18 @@ class AiAutomationTest extends TestCase
     public function test_settings_never_reveal_the_key_and_show_status(): void
     {
         $f = $this->fixture();
-        $html = $this->actingAs($f['admin'])->get('/admin/ai-settings')->assertOk()->assertSee('Configured')->getContent();
+        $html = $this->actingAs($f['admin'])->get('/admin/settings?tab=ai')->assertOk()->assertSee('Configured')->getContent();
         $this->assertStringNotContainsString('test-only-key', $html);
         config(['openai.api_key' => '']);
-        $this->get('/admin/ai-settings')->assertOk()->assertSee('Missing');
-        $this->actingAs($f['student'])->get('/admin/ai-settings')->assertForbidden();
+        $this->get('/admin/settings?tab=ai')->assertOk()->assertSee('Missing');
+        $this->actingAs($f['student'])->get('/admin/settings?tab=ai')->assertForbidden();
     }
 
     public function test_connection_test_logs_usage_and_cost_without_the_key(): void
     {
         $f = $this->fixture();
         OpenAI::fake([$this->reply(['ok' => true], 1000, 500)]);
-        $this->actingAs($f['admin'])->post('/admin/ai-settings/test')->assertRedirect('/admin/ai-settings')->assertSessionHas('status', 'Connection successful.');
+        $this->actingAs($f['admin'])->post('/admin/ai-settings/test')->assertRedirect('/admin/settings?tab=ai')->assertSessionHas('status', 'Connection successful.');
         $u = M\AiUsage::first();
         $this->assertSame(1000, $u->input_tokens);
         $this->assertGreaterThan(0, (float) $u->cost_usd);
@@ -88,8 +88,8 @@ class AiAutomationTest extends TestCase
         $this->assertSame([], $run->result['errors']);
         $this->assertSame(2, $run->result['attempts']);
         $this->assertSame(0, M\ScheduleEntry::count(), 'nothing is saved before approval');
-        $this->get('/admin/ai-automation?run='.$run->id)->assertOk()->assertSee('Spread over two days.');
-        $this->post('/ai/runs/'.$run->id.'/approve')->assertRedirect('/admin/ai-automation');
+        $this->get('/admin/assistant?tab=actions&run='.$run->id)->assertOk()->assertSee('Spread over two days.');
+        $this->post('/ai/runs/'.$run->id.'/approve')->assertRedirect();
         $this->assertSame(2, M\ScheduleEntry::count());
         $this->assertDatabaseHas('audit_logs', ['action' => 'ai.datesheet.applied']);
     }
@@ -236,7 +236,7 @@ class AiAutomationTest extends TestCase
         $f = $this->fixture();
         foreach (['teacher', 'student'] as $r) {
             $this->actingAs($f[$r])->post('/ai/start', ['feature' => 'datesheet'])->assertForbidden();
-            $this->get('/admin/ai-automation')->assertForbidden();
+            $this->get('/admin/assistant?tab=actions')->assertForbidden();
         }
     }
 
@@ -252,7 +252,7 @@ class AiAutomationTest extends TestCase
         $this->post('/ai/start', ['feature' => 'import', 'target' => 'marks', 'course_id' => $f['ec']->id, 'file' => UploadedFile::fake()->createWithContent('m.csv', $csv)])->assertRedirect();
         $run = M\AiRun::first();
         $this->assertSame(2, $run->result['counts']['ok']);
-        $this->get('/teacher/marks-csv-import?run='.$run->id)->assertOk()->assertSee('Confirm import');
+        $this->get('/teacher/courses?tab=import&run='.$run->id)->assertOk()->assertSee('Confirm import');
         $this->post('/ai/runs/'.$run->id.'/approve');
         $this->assertSame(2, M\Mark::count());
     }

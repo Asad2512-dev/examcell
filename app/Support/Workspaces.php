@@ -161,7 +161,7 @@ final class Workspaces
         if (count($w['tabs']) > 1) {
             $params['tab'] = $tab;
         }
-        if ($slug !== $primary && $slug !== $w['slug'] && ! in_array($kind, ['state'], true) && $ws !== 'dashboard') {
+        if ($slug !== $primary && $slug !== $w['slug'] && ! ($kind === 'state' && $role === 'admin') && $ws !== 'dashboard') {
             $params['view'] = $slug;
         }
 

@@ -49,16 +49,21 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::post('/workflow/analysis/{exam}', [W::class, 'analysis']);
         Route::post('/workflow/flag/{flag}/review', [W::class, 'reviewFlag']);
         Route::post('/workflow/admit/{exam}', [W::class, 'admit']);
+        Route::post('/admin/settings/notifications', [\App\Http\Controllers\AdminSettingsController::class, 'notifications']);
+        Route::post('/admin/settings/grading-rules', [\App\Http\Controllers\AdminSettingsController::class, 'gradingRules']);
+        Route::post('/admin/settings/accounts/{user}', [\App\Http\Controllers\AdminSettingsController::class, 'account']);
         Route::post('/admin/ai-settings/model', [Ai::class, 'saveModel']);
         Route::post('/admin/ai-settings/test', [Ai::class, 'test'])->middleware('throttle:10,1');
         Route::middleware('throttle:20,1')->group(function () {
             Route::post('/admin/ai/runs/{run}/revise', [Ai::class, 'revise']);
+            Route::post('/admin/ai/command', [Ai::class, 'command']);
             Route::post('/admin/ai/draft', [Ai::class, 'draft']);
             Route::post('/admin/ai/report', [Ai::class, 'report']);
             Route::post('/admin/ai/triage', [Ai::class, 'triage']);
             Route::post('/admin/ai/replacement/{replacement}', [Ai::class, 'replacement']);
         });
         Route::post('/admin/ai/send', [Ai::class, 'send']);
+        Route::get('/admin/ai/quick/{key}', [Ai::class, 'quick']);
         Route::post('/workflow/seat-map/{entry}/swap', [Ai::class, 'seatSwap']);
     });
     Route::post('/workflow/duty/{duty}/request', [W::class, 'dutyRequest'])->middleware('role:teacher');

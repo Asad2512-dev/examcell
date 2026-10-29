@@ -21,11 +21,20 @@ class AiController
         }
     }
 
+    /** Back to the page the admin/teacher came from (so panels appear in context), optionally showing a run. */
     private function go(string $message, ?int $run = null)
     {
-        $base = auth()->user()?->role === 'teacher' ? '/teacher/marks-csv-import' : '/admin/ai-automation';
+        $user = auth()->user();
+        $fallback = $user?->role === 'teacher' ? '/teacher/courses?tab=import' : '/admin/assistant?tab=actions';
+        $prev = parse_url(url()->previous(), PHP_URL_PATH) ?: '';
+        parse_str((string) parse_url(url()->previous(), PHP_URL_QUERY), $q);
+        $ok = preg_match('#^/(admin|teacher)/#', $prev) && ! str_contains($prev, '/ai/') && ! str_contains($prev, '/workflow/');
+        unset($q['run']);
+        if ($run) {
+            $q['run'] = $run;
+        }
 
-        return redirect($base.($run ? '?run='.$run : ''))->with('status', $message);
+        return redirect(($ok ? $prev : explode('?', $fallback)[0]).'?'.http_build_query($ok ? $q : ($run ? ['tab' => 'actions', 'run' => $run] : ['tab' => 'actions'])))->with('status', $message);
     }
 
     public function saveModel(Request $r, AI\AiSettings $s)
@@ -34,7 +43,7 @@ class AiController
         $s->setModel($d['model']);
         app(AuditService::class)->record('ai.model_changed', 'ai', ['model' => $d['model']]);
 
-        return redirect('/admin/ai-settings')->with('status', 'AI model updated.');
+        return redirect('/admin/settings?tab=ai')->with('status', 'AI model updated.');
     }
 
     public function test(AI\AiClient $ai)
@@ -50,7 +59,7 @@ class AiController
             $msg = $e instanceof AI\AiException || $e instanceof V ? ($e instanceof V ? collect($e->errors())->flatten()->first() : $e->getMessage()) : 'Connection failed.';
         }
 
-        return redirect('/admin/ai-settings')->with($ok ? 'status' : 'ai_error', $msg);
+        return redirect('/admin/settings?tab=ai')->with($ok ? 'status' : 'ai_error', $msg);
     }
 
     public function start(Request $r, AI\AiClient $ai)
@@ -161,6 +170,114 @@ class AiController
         $exam = M\Examination::findOrFail($d['exam_id']);
 
         return $this->go('Triage ready — you decide.')->with('ai_triage', ['kind' => $d['kind']] + ($d['kind'] === 'recheck' ? $svc->rechecks($exam, $r->user()->id) : $svc->anomalies($exam, $r->user()->id)));
+    }
+
+    /** One sentence in, one routed proposal out. Used by the dashboard box and the AI Assistant chat. */
+    public function command(Request $r, AI\CommandService $svc, AI\AiClient $ai)
+    {
+        $d = $r->validate(['text' => 'required|string|max:500', 'from' => 'nullable|in:dashboard,assistant']);
+        $this->guard($ai);
+        $u = $r->user();
+        $out = $svc->interpret($d['text'], $u);
+        $reply = $out['reply'];
+        $url = null;
+        $flash = [];
+        $need = function (string $what) use (&$reply) {
+            $reply = "I need to know which $what — please name it (for example the examination name).";
+        };
+        switch ($out['action']) {
+            case 'datesheet':
+                $exam = $out['exam_id'] ? M\Examination::find($out['exam_id']) : null;
+                if (! $exam) {
+                    $need('draft examination');
+                } elseif ($exam->status !== 'draft') {
+                    $reply = $exam->name.' is not a draft, so a new date sheet cannot be generated. Create a revision first.';
+                } else {
+                    $run = M\AiRun::create(['user_id' => $u->id, 'feature' => 'datesheet', 'subject_id' => $exam->id, 'input' => ['exam_id' => $exam->id, 'constraints' => $d['text']]]);
+                    RunAiTask::dispatch($run->id);
+                    $url = '/admin/exams?exam='.$exam->id.'&tab=datesheet&run='.$run->id;
+                    $reply = 'Generating a date sheet for '.$exam->name.'. Review the proposal and approve it with one click.';
+                }
+                break;
+            case 'seating':
+                if (! $out['entry_id']) {
+                    $need('scheduled paper');
+                } else {
+                    $run = M\AiRun::create(['user_id' => $u->id, 'feature' => 'seating', 'subject_id' => $out['entry_id'], 'input' => ['entry_id' => $out['entry_id']]]);
+                    RunAiTask::dispatch($run->id);
+                    $url = '/admin/seating?run='.$run->id;
+                    $reply = 'Generating a seating plan. Review and approve it on the seating page.';
+                }
+                break;
+            case 'duties':
+                if (! $out['exam_id']) {
+                    $need('examination');
+                } else {
+                    $run = M\AiRun::create(['user_id' => $u->id, 'feature' => 'duties', 'subject_id' => $out['exam_id'], 'input' => ['exam_id' => $out['exam_id']]]);
+                    RunAiTask::dispatch($run->id);
+                    $url = '/admin/invigilation?run='.$run->id;
+                    $reply = 'Assigning invigilators. Review and approve on the invigilation page.';
+                }
+                break;
+            case 'report':
+                $plan = app(AI\ReportAiService::class)->plan($out['report_question'] ?: $d['text'], $u);
+                $flash['ai_report'] = app(AI\ReportAiService::class)->run($plan, $u);
+                $url = '/admin/reports?tab=reports';
+                $reply = 'Report ready: '.$plan['title'];
+                break;
+            case 'announcement':
+                $exam = $out['exam_id'] ? M\Examination::find($out['exam_id']) : null;
+                if (! $exam || ! $out['announcement_kind']) {
+                    $need('examination and topic (schedule, results or duties)');
+                } else {
+                    $flash['ai_draft'] = app(AI\NotificationDraftService::class)->draft($out['announcement_kind'], $exam, $u->id);
+                    $url = '/admin/assistant?tab=actions';
+                    $reply = 'Draft ready — edit and send it from the AI tools tab.';
+                }
+                break;
+            case 'triage_recheck':
+            case 'triage_anomaly':
+                $exam = $out['exam_id'] ? M\Examination::find($out['exam_id']) : null;
+                if (! $exam) {
+                    $need('examination');
+                } else {
+                    $kind = $out['action'] === 'triage_recheck' ? 'recheck' : 'anomaly';
+                    $flash['ai_triage'] = ['kind' => $kind] + ($kind === 'recheck' ? app(AI\TriageService::class)->rechecks($exam, $u->id) : app(AI\TriageService::class)->anomalies($exam, $u->id));
+                    $url = $kind === 'recheck' ? '/admin/marks?tab=rechecking' : '/admin/marks?tab=processing';
+                    $reply = 'Triage ready — recommendations only, you decide.';
+                }
+                break;
+            case 'missing_marks':
+                $rows = $svc->missingMarks($u);
+                $reply = $rows ? "Marks not yet submitted:\n• ".implode("\n• ", array_slice($rows, 0, 30)) : 'Every course in your current scope has submitted marks.';
+                break;
+            case 'navigate':
+                $url = $out['navigate_to'] && in_array($out['navigate_to'], AI\CommandService::NAV) ? '/admin/'.$out['navigate_to'] : null;
+                break;
+        }
+        $c = $r->filled('conversation_id') ? M\Conversation::where('user_id', $u->id)->find($r->integer('conversation_id')) : null;
+        $c ??= M\Conversation::create(['user_id' => $u->id]);
+        $c->messages()->create(['role' => 'user', 'content' => $d['text']]);
+        $c->messages()->create(['role' => 'assistant', 'content' => $reply.($url ? "\n[[link:$url|Open]]" : ''), 'provider_status' => 'ai_command']);
+        app(AuditService::class)->record('ai.command', 'assistant', ['action' => $out['action']]);
+        if ($url && ! str_starts_with($url, '/admin/') ) {
+            $url = null;
+        }
+        if ($url) {
+            return redirect($url)->with($flash)->with('status', $reply);
+        }
+
+        return redirect('/admin/assistant?tab=chat&conversation_id='.$c->id)->with('ai_reply', $reply);
+    }
+
+    /** Saved quick reports: fixed plans, no AI call, same permission-scoped queries. */
+    public function quick(Request $r, string $key, AI\ReportAiService $svc)
+    {
+        $plans = ['pass-rate-department' => ['Pass rate by department', 'pass_rate', 'department', 'bar'], 'average-course' => ['Average percentage by course', 'average_percentage', 'course', 'bar'], 'grade-distribution' => ['Grade distribution', 'result_count', 'grade', 'pie'], 'results-section' => ['Pass rate by section', 'pass_rate', 'section', 'bar']];
+        abort_unless(isset($plans[$key]), 404);
+        [$title, $metric, $group, $chart] = $plans[$key];
+
+        return redirect('/admin/reports?tab=reports')->with('ai_report', $svc->run(['title' => $title, 'metric' => $metric, 'group_by' => $group, 'chart' => $chart, 'examination_id' => null, 'department_code' => null, 'course_code' => null, 'summary' => 'Saved quick report from live records.'], $r->user()));
     }
 
     /** Seat map data for a schedule entry; students see only their own identity, others as anonymous colours. */

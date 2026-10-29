@@ -16,6 +16,12 @@ class ScreenBindings
         if (in_array($s, ['ai-automation', 'ai-settings'], true)) {
             return 'ai';
         }
+        if ($s === 'notification-settings') {
+            return 'settings-notifications';
+        }
+        if ($s === 'account-and-permissions') {
+            return 'settings-accounts';
+        }
         if (str_contains($s, 'assistant')) {
             return 'chat';
         }

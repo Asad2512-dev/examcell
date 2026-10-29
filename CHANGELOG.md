@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-31 — AI-first navigation (Admin 10 · Teacher 7 · Student 6)
+
+- Replaced the 21-section/157-entry admin sidebar with 10 flat items (Dashboard, AI Assistant, Exams & Date Sheets, Seating, Invigilation, Marks & Results, Reports & Analytics, People & Academics, Rooms, Settings). Teacher has 7 and Student 6. Workspaces use tabs; no sub-menus. Notifications stay as the bell; session switcher and theme toggle unchanged.
+- All legacy routes redirect to their workspace/tab (`view=` keeps the original screen available as a step inside the workspace). Error/state demo screens are out of navigation and redirect to the nearest workspace. Full map: docs/NAVIGATION-MAP.md. No backend logic, data, permission or workflow route was removed.
+- Dashboard AI command box and AI Assistant chat route one sentence to a proposal (date sheet, seating, duties, report, announcement, triage) or an answer; nothing changes until approved.
+- Exams: per-exam Overview · Date Sheet (AI generate, calendar, clashes, approve/publish, versions) · Admit Cards. Seating "AI Generate", Invigilation "AI Assign" and per-replacement AI suggestion, AI anomaly check and rechecking triage, report prompt with saved quick reports, single "AI Import" on People.
+- Fixed gaps: real Notification settings (switch event types off; enforced when notices are sent), real Accounts & permissions editor (role/active with self-lockout and last-admin protection, audited), real GPA/CGPA rules editor (CGPA attempt policy used by the calculator; rounding for draft schemes).
+- Migration `2026_10_31_000001_create_app_settings`. Tests: 80 PHP tests (navigation, redirects for every catalog slug, new editors, command box).
+
 ## 2026-10-30 — AI automation (OpenAI)
 
 - Added `openai-php/laravel` AI layer (`app/Services/AI`): strict structured outputs, retries, timeouts, queued runs with progress, usage/cost tracking and audit summaries. Key is read only from `OPENAI_API_KEY`.

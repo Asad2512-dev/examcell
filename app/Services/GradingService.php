@@ -45,7 +45,7 @@ class GradingService
     public function academicGpa($results): ?string
     {
         $finals = $results->filter(fn ($r) => $r->examCourse->examination->type === 'final');
-        if (config('examcell.cgpa_attempt_policy') === 'latest') {
+        if (Settings::get('cgpa_attempt_policy', config('examcell.cgpa_attempt_policy')) === 'latest') {
             $finals = $finals->sortByDesc(fn ($r) => $r->batch->published_at?->timestamp ?? 0)->unique(fn ($r) => $r->examCourse->course_id);
         }
 

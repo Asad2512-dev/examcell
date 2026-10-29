@@ -43,6 +43,7 @@ $uiDutyEvents=collect($records->items())->map(fn($duty)=>['id'=>$duty->id,'date'
 @endphp
 <div class="reserve-review" aria-label="Reserve cover review"><div class="diff-comparison"><div><small>Current invigilator</small>{{ $req->teacher->name }}</div><div><small>Proposed reserve cover</small>{{ $req->proposal?->candidate?->name??'Not nominated' }}</div></div>
     <div class="reserve-review-heading"><span><x-icon name="shield" :size="18"/></span><div><h3>Review reserve cover</h3><p>The original duty stays assigned until cover is approved.</p></div></div>
+    <form method="POST" action="/admin/ai/replacement/{{ $req->proposal->id }}" class="page-actions">@csrf<x-button type="submit" variant="secondary" icon="sparkles">Ask AI for best cover</x-button><x-button type="submit" variant="secondary" name="nominate" value="1">AI suggest &amp; nominate</x-button></form>
     <form class="reserve-nomination" method="POST" action="/workflow/replacement/{{ $req->proposal->id }}/nominate">
 @csrf
         <x-form-field ><span>Eligible reserve staff</span><select name="candidate_id" required><option value="">Select available staff</option>
