@@ -52,15 +52,12 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::post('/admin/ai-settings/model', [Ai::class, 'saveModel']);
         Route::post('/admin/ai-settings/test', [Ai::class, 'test'])->middleware('throttle:10,1');
         Route::middleware('throttle:20,1')->group(function () {
-            Route::post('/admin/ai/start', [Ai::class, 'start']);
             Route::post('/admin/ai/runs/{run}/revise', [Ai::class, 'revise']);
             Route::post('/admin/ai/draft', [Ai::class, 'draft']);
             Route::post('/admin/ai/report', [Ai::class, 'report']);
             Route::post('/admin/ai/triage', [Ai::class, 'triage']);
             Route::post('/admin/ai/replacement/{replacement}', [Ai::class, 'replacement']);
         });
-        Route::get('/admin/ai/runs/{run}/status', [Ai::class, 'status']);
-        Route::post('/admin/ai/runs/{run}/approve', [Ai::class, 'approve']);
         Route::post('/admin/ai/send', [Ai::class, 'send']);
         Route::post('/workflow/seat-map/{entry}/swap', [Ai::class, 'seatSwap']);
     });
@@ -69,6 +66,11 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::post('/workflow/availability', [W::class, 'availability'])->middleware('role:admin,teacher');
     Route::post('/workflow/marks/{course}', [W::class, 'marks'])->middleware('role:admin,teacher');
     Route::post('/workflow/import', [W::class, 'import'])->middleware('role:admin,teacher');
+    Route::middleware('role:admin,teacher')->group(function () {
+        Route::post('/ai/start', [Ai::class, 'start'])->middleware('throttle:20,1');
+        Route::get('/ai/runs/{run}/status', [Ai::class, 'status']);
+        Route::post('/ai/runs/{run}/approve', [Ai::class, 'approve']);
+    });
     Route::post('/workflow/recheck/{result}', [W::class, 'recheck'])->middleware('role:student');
     Route::post('/workflow/assistant', [W::class, 'assistant'])->middleware('throttle:assistant');
     Route::post('/workflow/notifications/{id}/read', [W::class, 'readNotification']);

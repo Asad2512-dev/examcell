@@ -27,8 +27,13 @@
 ## Seat map
 Room grids (rows/columns from `rooms.seat_columns`, default 6), board and door marked, colour by class with legend, hover/focus details, class filter, room-wise / class-wise toggle, roll-number search, drag-and-drop swap with immediate server validation, student's own seat highlighted (classmates anonymised for students), printable A4 per room. Mark accessible seats on a room via `rooms.accessible_seats` (JSON list) and students via `student_profiles.special_needs`.
 
-## Not covered / limits
-- Teacher-side AI import (marks) is admin-only for now; the old CSV import screen still exists alongside it and was not removed.
+## Also included
+- Teachers can import marks for their own courses with AI (Marks → Import marks); everything else stays admin-only.
+- When a teacher requests to be relieved from a duty, the AI picks the best eligible replacement, explains why (audit log + admin notification), and the admin still approves.
+- Reports render a chart (bar/pie/line) plus the data table.
+- The old template-based CSV/XLSX upload screen was replaced by AI import.
+
+## Limits
 - Photo/PDF extraction accuracy depends on the model; always review the preview.
 - Cost figures are estimates from `config/ai.php` prices.
-- Tests mock OpenAI (`OpenAI::fake`); no live call is made by the suite.
+- Tests mock OpenAI and `phpunit.xml` blanks `OPENAI_API_KEY`, so the suite never calls the network.

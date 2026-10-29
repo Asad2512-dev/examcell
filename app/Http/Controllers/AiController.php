@@ -23,7 +23,9 @@ class AiController
 
     private function go(string $message, ?int $run = null)
     {
-        return redirect('/admin/ai-automation'.($run ? '?run='.$run : ''))->with('status', $message);
+        $base = auth()->user()?->role === 'teacher' ? '/teacher/marks-csv-import' : '/admin/ai-automation';
+
+        return redirect($base.($run ? '?run='.$run : ''))->with('status', $message);
     }
 
     public function saveModel(Request $r, AI\AiSettings $s)
@@ -54,6 +56,9 @@ class AiController
     public function start(Request $r, AI\AiClient $ai)
     {
         $this->guard($ai);
+        if ($r->user()->role === 'teacher') {
+            abort_unless($r->input('feature') === 'import' && $r->input('target') === 'marks' && $r->filled('course_id') && app(ScopedQueries::class)->courses($r->user())->whereKey($r->integer('course_id'))->exists(), 403);
+        }
         $d = $r->validate(['feature' => 'required|in:datesheet,seating,duties,import', 'exam_id' => 'required_if:feature,datesheet,duties|nullable|exists:examinations,id', 'entry_id' => 'required_if:feature,seating|nullable|exists:schedule_entries,id', 'constraints' => 'nullable|string|max:1500', 'file' => 'required_if:feature,import|nullable|file|max:8192|mimes:csv,txt,tsv,xlsx,pdf,png,jpg,jpeg,webp', 'target' => 'nullable|in:students,teachers,courses,marks', 'course_id' => 'nullable|exists:exam_courses,id']);
         $input = collect($d)->only('exam_id', 'entry_id', 'constraints', 'target', 'course_id')->filter(fn ($v) => $v !== null)->all();
         if ($d['feature'] === 'datesheet') {
@@ -90,6 +95,7 @@ class AiController
     public function approve(Request $r, M\AiRun $run)
     {
         abort_unless($run->user_id === auth()->id() && $run->status === 'needs_review', 403);
+        abort_if($r->user()->role === 'teacher' && $run->feature !== 'import', 403);
         $res = $run->result;
         $actor = $r->user()->id;
         if (! empty($res['errors']) && $run->feature !== 'import') {

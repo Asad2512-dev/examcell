@@ -66,7 +66,7 @@ class AiAutomationTest extends TestCase
         $f = $this->fixture();
         config(['openai.api_key' => '']);
         OpenAI::fake([]);
-        $this->actingAs($f['admin'])->post('/admin/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id])->assertSessionHasErrors('ai');
+        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id])->assertSessionHasErrors('ai');
         $this->assertSame(0, M\AiRun::count());
     }
 
@@ -82,14 +82,14 @@ class AiAutomationTest extends TestCase
             $this->reply(['entries' => [['exam_course_id' => $a, 'room_ids' => [$room], 'starts_at' => '2026-10-16 14:00'], ['exam_course_id' => $b, 'room_ids' => [$room], 'starts_at' => '2026-10-16 14:00']], 'explanation' => 'first try']),
             $this->reply(['entries' => [['exam_course_id' => $a, 'room_ids' => [$room], 'starts_at' => '2026-10-14 09:00'], ['exam_course_id' => $b, 'room_ids' => [$room], 'starts_at' => '2026-10-15 09:00']], 'explanation' => 'Spread over two days.']),
         ]);
-        $this->actingAs($f['admin'])->post('/admin/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id, 'constraints' => 'No Friday afternoon, one paper a day'])->assertRedirect();
+        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id, 'constraints' => 'No Friday afternoon, one paper a day'])->assertRedirect();
         $run = M\AiRun::first();
         $this->assertSame('needs_review', $run->status);
         $this->assertSame([], $run->result['errors']);
         $this->assertSame(2, $run->result['attempts']);
         $this->assertSame(0, M\ScheduleEntry::count(), 'nothing is saved before approval');
         $this->get('/admin/ai-automation?run='.$run->id)->assertOk()->assertSee('Spread over two days.');
-        $this->post('/admin/ai/runs/'.$run->id.'/approve')->assertRedirect('/admin/ai-automation');
+        $this->post('/ai/runs/'.$run->id.'/approve')->assertRedirect('/admin/ai-automation');
         $this->assertSame(2, M\ScheduleEntry::count());
         $this->assertDatabaseHas('audit_logs', ['action' => 'ai.datesheet.applied']);
     }
@@ -100,11 +100,11 @@ class AiAutomationTest extends TestCase
         $this->secondPaper($f);
         $bad = $this->reply(['entries' => [['exam_course_id' => $f['ec']->id, 'room_ids' => [$f['room']->id], 'starts_at' => '2026-10-14 09:00']], 'explanation' => 'incomplete']);
         OpenAI::fake([$bad, $bad, $bad]);
-        $this->actingAs($f['admin'])->post('/admin/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id]);
+        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id]);
         $run = M\AiRun::first();
         $this->assertSame(3, $run->result['attempts']);
         $this->assertStringContainsString('is not scheduled', implode('|', $run->result['errors']));
-        $this->post('/admin/ai/runs/'.$run->id.'/approve')->assertSessionHasErrors('ai');
+        $this->post('/ai/runs/'.$run->id.'/approve')->assertSessionHasErrors('ai');
         $this->assertSame(0, M\ScheduleEntry::count());
     }
 
@@ -137,11 +137,11 @@ class AiAutomationTest extends TestCase
             $this->reply(['assignments' => [['student_id' => $s1, 'room_id' => $f['room2']->id, 'seat_number' => 1], ['student_id' => $s2, 'room_id' => $f['room2']->id, 'seat_number' => 2]], 'explanation' => 'adjacent']),
             $this->reply(['assignments' => [['student_id' => $s1, 'room_id' => $f['room2']->id, 'seat_number' => 1], ['student_id' => $s2, 'room_id' => $f['room2']->id, 'seat_number' => 3]], 'explanation' => 'Skipped a seat between classmates.']),
         ]);
-        $this->post('/admin/ai/start', ['feature' => 'seating', 'entry_id' => $entry->id]);
+        $this->post('/ai/start', ['feature' => 'seating', 'entry_id' => $entry->id]);
         $run = M\AiRun::first();
         $this->assertSame([], $run->result['errors']);
         $this->assertSame(0, M\SeatAssignment::count());
-        $this->post('/admin/ai/runs/'.$run->id.'/approve');
+        $this->post('/ai/runs/'.$run->id.'/approve');
         $this->assertSame([1, 3], M\SeatAssignment::orderBy('seat_number')->pluck('seat_number')->all());
         $this->postJson('/workflow/seat-map/'.$entry->id.'/swap', ['student_id' => $s2, 'room_id' => $f['room2']->id, 'seat' => 2])->assertStatus(422)->assertJsonPath('ok', false);
         $this->assertSame([1, 3], M\SeatAssignment::orderBy('seat_number')->pluck('seat_number')->all());
@@ -169,11 +169,11 @@ class AiAutomationTest extends TestCase
         $f = $this->fixture();
         $csv = "Pupil,Mail,Class,Reg No\nAda Lovelace,ada@example.test,BSIT 5-A,R-100\nBad Row,not-an-email,BSIT 5-A,R-101\nGrace,grace@example.test,BSIT 5,R-102\n";
         OpenAI::fake([$this->reply(['target' => 'students', 'header_rows' => 1, 'mappings' => [['column_index' => 0, 'field' => 'name'], ['column_index' => 1, 'field' => 'email'], ['column_index' => 2, 'field' => 'section'], ['column_index' => 3, 'field' => 'roll_number']], 'notes' => 'Mapped Pupil to name'])]);
-        $this->actingAs($f['admin'])->post('/admin/ai/start', ['feature' => 'import', 'file' => UploadedFile::fake()->createWithContent('list.csv', $csv)]);
+        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'import', 'file' => UploadedFile::fake()->createWithContent('list.csv', $csv)]);
         $run = M\AiRun::first();
         $this->assertEquals(['ok' => 1, 'uncertain' => 1, 'error' => 1], $run->result['counts']);
         $this->assertDatabaseMissing('users', ['email' => 'ada@example.test']);
-        $this->post('/admin/ai/runs/'.$run->id.'/approve')->assertRedirect();
+        $this->post('/ai/runs/'.$run->id.'/approve')->assertRedirect();
         $this->assertDatabaseHas('users', ['email' => 'ada@example.test', 'role' => 'student']);
         $this->assertDatabaseHas('student_profiles', ['roll_number' => 'R-102']);
         $this->assertDatabaseMissing('users', ['email' => 'not-an-email']);
@@ -205,10 +205,10 @@ class AiAutomationTest extends TestCase
             $this->reply(['duties' => [['schedule_entry_id' => $entry->id, 'room_id' => $f['room2']->id, 'teacher_id' => $f['student']->id]], 'explanation' => 'x']),
             $this->reply(['duties' => [['schedule_entry_id' => $entry->id, 'room_id' => $f['room2']->id, 'teacher_id' => $f['teacher']->id]], 'explanation' => 'Lightest workload.']),
         ]);
-        $this->post('/admin/ai/start', ['feature' => 'duties', 'exam_id' => $f['exam']->id]);
+        $this->post('/ai/start', ['feature' => 'duties', 'exam_id' => $f['exam']->id]);
         $run = M\AiRun::first();
         $this->assertSame([], $run->result['errors']);
-        $this->post('/admin/ai/runs/'.$run->id.'/approve');
+        $this->post('/ai/runs/'.$run->id.'/approve');
         $this->assertDatabaseHas('duty_assignments', ['teacher_id' => $f['teacher']->id, 'schedule_entry_id' => $entry->id]);
     }
 
@@ -235,8 +235,36 @@ class AiAutomationTest extends TestCase
     {
         $f = $this->fixture();
         foreach (['teacher', 'student'] as $r) {
-            $this->actingAs($f[$r])->post('/admin/ai/start', ['feature' => 'datesheet'])->assertForbidden();
+            $this->actingAs($f[$r])->post('/ai/start', ['feature' => 'datesheet'])->assertForbidden();
             $this->get('/admin/ai-automation')->assertForbidden();
         }
+    }
+
+    public function test_teacher_import_is_limited_to_own_marks_courses(): void
+    {
+        $f = $this->fixture();
+        $this->publish($f);
+        $csv = "Reg,Marks\nTEST-0,80\nTEST-1,70\n";
+        $map = ['target' => 'marks', 'header_rows' => 1, 'mappings' => [['column_index' => 0, 'field' => 'roll_number'], ['column_index' => 1, 'field' => 'score']], 'notes' => 'ok'];
+        OpenAI::fake([$this->reply($map)]);
+        $this->actingAs($f['teacher'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id])->assertForbidden();
+        $this->post('/ai/start', ['feature' => 'import', 'target' => 'students', 'file' => UploadedFile::fake()->createWithContent('a.csv', $csv)])->assertForbidden();
+        $this->post('/ai/start', ['feature' => 'import', 'target' => 'marks', 'course_id' => $f['ec']->id, 'file' => UploadedFile::fake()->createWithContent('m.csv', $csv)])->assertRedirect();
+        $run = M\AiRun::first();
+        $this->assertSame(2, $run->result['counts']['ok']);
+        $this->get('/teacher/marks-csv-import?run='.$run->id)->assertOk()->assertSee('Confirm import');
+        $this->post('/ai/runs/'.$run->id.'/approve');
+        $this->assertSame(2, M\Mark::count());
+    }
+
+    public function test_unavailable_duty_request_gets_an_ai_replacement_suggestion(): void
+    {
+        $f = $this->fixture();
+        $this->publish($f);
+        $duty = M\DutyAssignment::where('teacher_id', $f['teacher']->id)->first();
+        $this->travelTo(\Carbon\Carbon::parse('2026-10-12 09:00:00', 'Asia/Karachi'));
+        OpenAI::fake([$this->reply(['candidate_id' => $f['replacement']->id, 'explanation' => 'Fewest duties that day.'])]);
+        $this->actingAs($f['teacher'])->post('/workflow/duty/'.$duty->id.'/request', ['reason' => 'An unavoidable academic commitment'])->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('audit_logs', ['action' => 'ai.replacement.suggested']);
     }
 }

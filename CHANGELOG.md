@@ -8,6 +8,7 @@
 - New visual seat map (room grids, class colours, filters, search, drag-and-drop with live validation, student highlight, A4 print).
 - Migration `2026_10_30_000001`: `ai_settings`, `ai_usages`, `ai_runs`, `rooms.seat_columns/accessible_seats`, `student_profiles.special_needs`.
 - Fix: added missing `Course::department()` relation. Tests: 70 PHP tests (14 new, OpenAI mocked).
+- Teacher AI marks import, AI replacement suggestion on duty requests, report charts, template-based import UI replaced. Browser-checked seat map (admin/student), AI hub and settings with no console errors.
 - Docs: docs/AI_FEATURES.md.
 
 ## 2026-10-29 — Sidebar footer cleanup

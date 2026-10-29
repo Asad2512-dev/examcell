@@ -79,6 +79,10 @@ class DutyService
             }$req = M\DutyRequest::create(['duty_assignment_id' => $d->id, 'teacher_id' => $teacher, 'reason' => $reason, 'requested_at' => now(), 'deadline_at' => $deadline, 'status' => 'pending']);
             $candidate = $this->candidates($d->scheduleEntry)->where('id', '!=', $teacher)->first();
             M\DutyReplacement::create(['duty_assignment_id' => $d->id, 'duty_request_id' => $req->id, 'candidate_id' => $candidate?->id, 'status' => $candidate ? 'proposed' : 'unresolved', 'reason' => $reason]);
+            if ($candidate) {
+                $repId = M\DutyReplacement::where('duty_request_id', $req->id)->value('id');
+                DB::afterCommit(fn () => $this->aiPick($repId, $teacher));
+            }
             app(AuditService::class)->record('duty.requested', $req, ['deadline' => $deadline->toDateTimeString()]);
             M\User::where('role', 'admin')->where('active', true)->get()->each(fn ($u) => $u->notify(new WorkflowNotice('48-hour duty request', 'A teacher requested replacement; review the reserve-staff proposal.', '/admin/duty-replacements')));
             $d->teacher->notify(new WorkflowNotice('Duty request submitted', 'Your current duty remains assigned until reserve cover is approved.', '/teacher/replacement-status'));
@@ -166,5 +170,24 @@ class DutyService
             app(AuditService::class)->record('duty.request_rejected', $req, ['reason' => $reason]);
             $req->teacher->notify(new WorkflowNotice('Duty request rejected', $reason.' Your original duty remains assigned.', '/teacher/replacement-status'));
         });
+    }
+
+    /** Best-effort: AI picks and explains the replacement among eligible candidates; the admin still approves. */
+    private function aiPick(int $replacementId, int $actor): void
+    {
+        try {
+            if (! app(\App\Services\AI\AiClient::class)->configured()) {
+                return;
+            }
+            $p = M\DutyReplacement::with('duty.scheduleEntry.examCourse.course')->findOrFail($replacementId);
+            $pick = app(\App\Services\AI\DutyAiService::class)->suggestReplacement($p, $actor);
+            if ($pick['candidate_id'] && $pick['candidate_id'] !== $p->candidate_id) {
+                $this->nominate($p, $pick['candidate_id'], $actor);
+            }
+            app(AuditService::class)->record('ai.replacement.suggested', $p, ['candidate' => $pick['candidate_id'], 'explanation' => $pick['explanation']]);
+            M\User::where('role', 'admin')->where('active', true)->get()->each(fn ($u) => $u->notify(new WorkflowNotice('AI replacement suggestion', $pick['explanation'], '/admin/duty-replacements')));
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 }
