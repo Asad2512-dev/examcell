@@ -26,4 +26,16 @@ class SeatAssignment extends Model
     {
         return $this->belongsTo(SeatingPlan::class);
     }
+
+    /** Row-letter seat label (e.g. C4) from the room's layout. */
+    public function seatLabel(): string
+    {
+        static $layouts = [];
+        $room = $this->room ?? $this->seatingPlan?->scheduleEntry?->room;
+        if (! $room) {
+            return (string) $this->seat_number;
+        }
+
+        return ($layouts[$room->id.':'.$room->updated_at] ??= $room->layout())->labelOf((int) $this->seat_number);
+    }
 }

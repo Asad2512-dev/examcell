@@ -143,7 +143,7 @@
     /* ---------- legend + summary + thumbnails ---------- */
     function renderLegend() {
       legend.innerHTML = '';
-      if (!S.data.sections || !S.data.sections.length) { legend.hidden = true; return; }
+      if (!S.data.sections || !S.data.sections.length || opts.print) { legend.hidden = true; return; }
       S.data.sections.forEach(function (s) {
         var chip = h('button', 'sm2-chip', legend);
         chip.type = 'button';
@@ -218,7 +218,13 @@
     function openRoom(id) {
       S.room = id; S.geo = new Geometry(roomById(id)); fit(); renderThumbs();
     }
-    function fit() { if (!S.geo) return; S.vb = { x: 0, y: 0, w: S.geo.W, h: S.geo.H }; applyVb(); draw(); }
+    function size() {
+      if (!S.geo || opts.print) return;
+      var w = svg.clientWidth || stage.clientWidth || 800;
+      svg.style.height = Math.round(Math.min(window.innerHeight * (S.static ? 0.5 : 0.72), Math.max(220, w * S.geo.H / S.geo.W))) + 'px';
+    }
+    function fit() { if (!S.geo) return; size(); S.vb = { x: 0, y: 0, w: S.geo.W, h: S.geo.H }; applyVb(); draw(); }
+    window.addEventListener('resize', function () { size(); });
     function applyVb() { svg.setAttribute('viewBox', [S.vb.x, S.vb.y, S.vb.w, S.vb.h].join(' ')); }
     function zoom(f, cx, cy) {
       if (!S.vb) return;
@@ -443,9 +449,9 @@
       if (!S.data.rooms.length) { stage.innerHTML = '<p class="muted">No rooms to show.</p>'; return; }
       var start = S.room && roomById(S.room) ? S.room : (opts.roomId || (S.data.seats.filter(function (s) { return s.mine; })[0] || {}).room || S.data.rooms[0].id);
       S.room = start; S.geo = new Geometry(roomById(start));
+      size();
       if (!keepView || !S.vb) S.vb = { x: 0, y: 0, w: S.geo.W, h: S.geo.H };
       applyVb(); draw(); renderThumbs(); renderClassPanel();
-      if (S.data.mode === 'student' && !keepView) { var me = S.data.seats.filter(function (s) { return s.mine; })[0]; if (me) msg.textContent = S.data.directions || ''; }
     }
     renderAll(false);
     return { find: find, fit: fit, openRoom: openRoom, state: S };

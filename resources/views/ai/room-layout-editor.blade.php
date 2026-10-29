@@ -33,7 +33,7 @@ $rlAcc=$rlRoom?collect($rlRoom->accessible_seats??[])->map(fn($n)=>$rlLayout->la
     var accN=pos.filter(function(p){return acc.indexOf(p.label)>=0;}).map(function(p){return p.n;});
     var aisles=list(f.aisles.value).map(Number).filter(function(a){return a>=1&&a<cols;});
     cap.textContent='Usable seats (capacity): '+pos.length;
-    SeatMap.mount(box,{entry:0,mode:'admin',rooms:[{id:1,name:name+' (preview)',rows:rows,cols:cols,aisles:aisles,door:f.door_side.value,disabled:disabled,positions:pos,accessible:accN,capacity:pos.length,used:0,by_section:{}}],seats:[],sections:[],papers:[],pairs:[],summary:null,editable:false},{static:true});
+    SeatMap.mount(box,{entry:0,mode:'admin',rooms:[{id:1,name:name+' (preview)',rows:rows,cols:cols,aisles:aisles,door:f.door_side.value,disabled:disabled,positions:pos,accessible:accN,capacity:pos.length,used:0,by_section:{}}],seats:[],sections:[],papers:[],pairs:[],summary:null,editable:false});
   }
   f.addEventListener('input',render); f.addEventListener('change',render); render();
 })();

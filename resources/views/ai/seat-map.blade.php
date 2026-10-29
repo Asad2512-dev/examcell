@@ -28,16 +28,17 @@ $smQuery=collect(request()->query())->except(['entry','run'])->all();
 @if($smData['locked'])<span class="muted text-xs">A paper in this slot is published — seating is locked. Create a revision to change it.</span>@else<span class="muted text-xs">You will see a before/after preview and approve it.</span>@endif
 </div>
 @endif
-@if($smUser->role!=='student'&&$smHasSeats)<div class="page-actions" aria-label="Print">@foreach($smData['rooms'] as $room)<span class="muted text-xs">{{ $room['name'] }}:</span>
+@if($smUser->role!=='student'&&$smHasSeats)<details class="sm2-prints"><summary class="card-link">Print room plans, door notices and attendance sheets</summary><table class="data-table"><tbody>
+@foreach($smData['rooms'] as $room)<tr><td>{{ $room['name'] }} · {{ $room['used'] }}/{{ $room['capacity'] }}</td><td><div class="page-actions">
 <a class="btn btn-secondary btn-small" target="_blank" href="/seat-map/{{ $smEntry->id }}/room/{{ $room['id'] }}/print?type=map">Room plan (A4)</a>
 <a class="btn btn-secondary btn-small" target="_blank" href="/seat-map/{{ $smEntry->id }}/room/{{ $room['id'] }}/print?type=door">Door notice</a>
-<a class="btn btn-secondary btn-small" target="_blank" href="/seat-map/{{ $smEntry->id }}/room/{{ $room['id'] }}/print?type=attendance">Attendance sheet</a>
-@endforeach</div>@endif
+<a class="btn btn-secondary btn-small" target="_blank" href="/seat-map/{{ $smEntry->id }}/room/{{ $room['id'] }}/print?type=attendance">Attendance sheet</a></div></td></tr>
+@endforeach</tbody></table></details>@endif
 <div data-seatmap id="seatmap-main" aria-label="Graphical seating plan"></div>
 @if($smData['editable']&&$smHasSeats)<p class="muted text-xs">Drag a student onto another seat to move or swap. Green = allowed, red = not allowed (reason shown) — the server checks every move again.</p>@endif
 </div></x-card>
 <script src="/js/seat-map.js?v={{ filemtime(public_path('js/seat-map.js')) }}"></script>
-<script>SeatMap.mount(document.getElementById('seatmap-main'), @json($smData));</script>
+<script>window.examcellSeatMap=SeatMap.mount(document.getElementById('seatmap-main'), @json($smData));</script>
 @else
 <x-card title="Seating plan"><x-empty-state title="No seating to show yet" :description="$smUser->role==='admin'?'Schedule papers first, then generate seating here.':'Seats appear here once the seating plan is published.'"/></x-card>
 @endif

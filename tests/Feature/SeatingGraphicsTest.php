@@ -171,6 +171,9 @@ class SeatingGraphicsTest extends TestCase
         $this->get($base.'?type=door')->assertOk()->assertSee('Door notice')->assertSee('TEST-1');
         $this->get($base.'?type=attendance')->assertOk()->assertSee('Signature')->assertSee('Student Two')->assertSee('A1');
         $this->get($base.'?type=poster')->assertNotFound();
+        $html = $this->get('/admin/seating')->assertOk()->getContent();
+        $this->assertStringNotContainsString('raw_block', $html, 'seat list must not leak template code');
+        $this->assertMatchesRegularExpression('#<td>A[12]</td>#', $html, 'seat list shows row-letter labels');
         $this->actingAs($f['teacher'])->get($base.'?type=attendance')->assertOk();
         $this->actingAs($f['student'])->get($base.'?type=door')->assertForbidden();
     }

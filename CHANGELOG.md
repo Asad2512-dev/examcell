@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-01 — Graphical seating
+
+- Room layouts: rows × columns, aisles, broken seats, door side and accessible seats, edited on the Rooms page with a live preview. Capacity is the number of usable seats. Seats are labelled by row letter and column number (A1, B4…). Unconfigured rooms keep the previous 6-per-row behaviour.
+- Same-slot room sharing: papers that start at exactly the same time may share a room when every student fits. Before this, one paper meant one class per room, so classes could never be mixed. Different start times still clash. The scheduler, the AI date-sheet validator, seating allocation (no seat used twice across papers) and the AI seating prompt were all updated.
+- AI seating now plans the whole slot. Validation is layout-aware: aisles break adjacency, special-needs students go to accessible seats, and students stay in their paper's rooms.
+- New SVG seat map (`public/js/seat-map.js`): floor plan with walls, door, windows, whiteboard, FRONT and invigilator desk, plus row and column axes. Desks are coloured with the colour-blind-safe Okabe–Ito palette, with a pattern and class abbreviation on each, in light and dark. It also has a legend with counts and highlight, hover/tap cards, search with zoom and pulse, zoom/pan/pinch and fit, and drag-and-drop with a red/green check and reason before dropping (re-checked on the server). An adjacency overlay draws side-by-side pairs solid and front/back pairs dashed. It includes room thumbnails with fill level, a summary panel (students, seats, rooms, classes mixed, clashes), class-wise view, slot picker, AI Generate/Regenerate, and a before/after preview of AI proposals.
+- Views: students see only their own seat marked "You" with walking directions, and no other student details. Invigilators see the rooms they cover with full details; course teachers also see their own papers' rooms.
+- Printing: A4 room plan (logo, exam, time, map, legend, seat list on page 2), door notice (large roll numbers) and attendance sheet (seat, roll, name, class, signature). Staff only.
+- Fix: the seat list table now shows seat labels (it was printing template code).
+- Migration `2026_11_01_000001_add_room_layouts`. Tests: 86 PHP tests. Browser QA: 70 checks with no console errors and no mobile overflow; screenshots in docs/seating-screens/.
+
 ## 2026-10-31 — AI-first navigation (Admin 10 · Teacher 7 · Student 6)
 
 - Replaced the 21-section/157-entry admin sidebar with 10 flat items (Dashboard, AI Assistant, Exams & Date Sheets, Seating, Invigilation, Marks & Results, Reports & Analytics, People & Academics, Rooms, Settings). Teacher has 7 and Student 6. Workspaces use tabs; no sub-menus. Notifications stay as the bell; session switcher and theme toggle unchanged.

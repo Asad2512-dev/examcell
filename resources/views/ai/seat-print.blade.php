@@ -4,6 +4,7 @@ $papers=collect($data['papers']);
 $titleType=['map'=>'Room seating plan','door'=>'Door notice','attendance'=>'Attendance sheet'][$type];
 @endphp
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ $room['name'] }} · {{ $titleType }}</title>
+<link rel="icon" type="image/svg+xml" href="/brand/favicon.svg">
 <link rel="stylesheet" href="/css/seat-map.css?v={{ filemtime(public_path('css/seat-map.css')) }}">
 <style>
 @page{size:A4 portrait;margin:12mm}

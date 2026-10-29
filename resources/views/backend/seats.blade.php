@@ -43,7 +43,7 @@ $preview=session('seating_preview');
 </details>
 @endif
 <x-card class="table-card"><x-data-table><table class="data-table"><thead><tr><th>Student</th><th>Course</th><th>Room</th><th>Seat</th><th>Date / Time</th></tr></thead><tbody>
-@forelse($records as $s)<tr><td>{{ $s->student->profile?->roll_number }} · {{ $s->student->name }}</td><td>{{ $s->seatingPlan->scheduleEntry->examCourse->course->code }}</td><td>{{ $s->room?->name??$s->seatingPlan->scheduleEntry->room->name }}</td><td>@php $uiRoom=$s->room??$s->seatingPlan->scheduleEntry->room; $uiLayouts[$uiRoom->id]??=$uiRoom->layout(); @endphp{{ $uiLayouts[$uiRoom->id]->labelOf($s->seat_number) }}</td><td>{{ $s->seatingPlan->scheduleEntry->starts_at }}</td></tr>
+@forelse($records as $s)<tr><td>{{ $s->student->profile?->roll_number }} · {{ $s->student->name }}</td><td>{{ $s->seatingPlan->scheduleEntry->examCourse->course->code }}</td><td>{{ $s->room?->name??$s->seatingPlan->scheduleEntry->room->name }}</td><td>{{ $s->seatLabel() }}</td><td>{{ $s->seatingPlan->scheduleEntry->starts_at }}</td></tr>
 @empty<tr><td colspan="5">No allocated seats are available to your account.</td></tr>
 @endforelse</tbody></table></x-data-table>
 @include('backend.pagination')</x-card>
