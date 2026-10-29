@@ -26,3 +26,80 @@
 .feature-card>h3{margin:0}.feature-card>p{margin:10px 0 0}
 .context-switcher{display:grid;gap:14px}.context-switcher select{width:100%;font-size:12px}.submission-countdown{display:grid;gap:6px}.deadline-date{font-size:10px;color:var(--muted)}.verification-card{max-width:560px}.verification-eyebrow{margin-top:32px}.verification-status{margin:18px 0}.verification-details{display:grid;gap:0;margin:24px 0}.verification-details>div{display:flex;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid var(--border)}.verification-details dd{text-align:right;overflow-wrap:anywhere}.verification-card h1{font-size:24px}.verification-card .card-body{padding:30px}.verification-card .brand-name small{font-size:6px}@media(max-width:768px){.context-picker{display:block}.context-picker>summary>span{display:none}.context-menu{position:fixed;top:64px;right:16px;width:min(320px,calc(100vw - 32px))}.verification-card .card-body{padding:22px}.verification-details>div{flex-direction:column;gap:5px}.verification-details dd{text-align:left}.topbar-right{gap:4px}}
 .chart-container canvas{max-width:100%}
+
+/* Shared dropdowns: forms, filters, session pickers and legacy screens. */
+select {
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23626c83' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  min-height: 44px;
+  border-radius: 10px;
+  padding: 11px 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  box-shadow: 0 1px 2px #18214306;
+  transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+.dark select {
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a6b1c8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+}
+select:not([multiple]):is(:not([size]), [size="1"]) {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-inline-end: 44px;
+  background-image: var(--select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.field > select { width: 100%; }
+select:hover:not(:disabled) { border-color: var(--muted); }
+select:focus {
+  border-color: var(--primary);
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 16%, transparent);
+}
+select:required:invalid { color: var(--muted); }
+select option, select optgroup {
+  color: var(--text);
+  background-color: var(--surface);
+}
+select option:disabled { color: var(--muted); }
+select:disabled, select:disabled:not([multiple]) {
+  color: var(--muted);
+  background-color: var(--surface-muted);
+  border-color: var(--border);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: .75;
+}
+select[aria-invalid="true"], .field:has(> .field-error) > select {
+  border-color: var(--danger);
+}
+select[aria-invalid="true"]:focus, .field:has(> .field-error) > select:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 16%, transparent);
+}
+select[multiple], select[size]:not([size="1"]) {
+  padding: 6px;
+  background-image: none;
+  min-height: 132px;
+}
+select[multiple] option, select[size]:not([size="1"]) option {
+  padding: 8px 10px;
+  border-radius: 5px;
+  margin: 2px 0;
+}
+select:dir(rtl):not([multiple]):is(:not([size]), [size="1"]) {
+  background-position: left 14px center;
+}
+@media (max-width: 768px) {
+  select, .filter-controls select, .context-switcher select { font-size: 16px; }
+}
+@media (forced-colors: active) {
+  select:not([multiple]):is(:not([size]), [size="1"]) {
+    appearance: auto;
+    background-image: none;
+    padding-inline-end: 14px;
+  }
+  select:focus { outline: 2px solid Highlight; outline-offset: 2px; }
+}

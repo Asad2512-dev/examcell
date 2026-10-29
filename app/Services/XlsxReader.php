@@ -26,8 +26,12 @@ class XlsxReader
 return $d;
     }
 
-    public function rows(string $path, array $headers): array
+    /** $raw = true returns every row as a plain list (up to 40 columns) with no header contract; the AI import maps columns itself. */
+    public function rows(string $path, array $headers, bool $raw = false): array
     {
+        if ($raw) {
+            $headers = array_map(fn ($i) => 'c'.$i, range(0, 39));
+        }
         $z = new ZipArchive;
         if ($z->open($path) !== true) {
             throw V::withMessages(['file' => 'Invalid XLSX workbook.']);
@@ -107,6 +111,9 @@ continue;
                 if (count($rows) > 1001) {
                     throw V::withMessages(['file' => 'Maximum 1000 data rows per import.']);
                 }
+            }
+            if ($raw) {
+                return array_map(fn ($row) => array_values($row), $rows);
             }
             if (array_shift($rows) !== $headers) {
                 throw V::withMessages(['file' => 'Workbook headers must be exactly: '.implode(',', $headers)]);

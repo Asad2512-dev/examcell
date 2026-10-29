@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-30 — AI automation (OpenAI)
+
+- Added `openai-php/laravel` AI layer (`app/Services/AI`): strict structured outputs, retries, timeouts, queued runs with progress, usage/cost tracking and audit summaries. Key is read only from `OPENAI_API_KEY`.
+- AI Settings screen (key status, model, test connection, monthly usage). AI Automation hub: date-sheet generation with plain-language constraints and chat revision, seating, invigilation duties and replacement suggestion, smart file import (xlsx/csv/pdf/image), natural-language reports via a fixed read-only query plan, recheck/anomaly triage, announcement drafts.
+- Every AI proposal is deterministically validated (≤3 automatic AI retries with the errors) and applied only on admin approval; grades/GPA/CGPA untouched.
+- New visual seat map (room grids, class colours, filters, search, drag-and-drop with live validation, student highlight, A4 print).
+- Migration `2026_10_30_000001`: `ai_settings`, `ai_usages`, `ai_runs`, `rooms.seat_columns/accessible_seats`, `student_profiles.special_needs`.
+- Fix: added missing `Course::department()` relation. Tests: 70 PHP tests (14 new, OpenAI mocked).
+- Docs: docs/AI_FEATURES.md.
+
+## 2026-10-29 — Sidebar footer cleanup
+
+- Removed the fixed “Examination Cell · IT Department” label and green dot from the shared sidebar footer for all roles, preserving the collapse control.
+- Files: `resources/views/components/sidebar.blade.php`, `CHANGELOG.md`.
+
+## 2026-10-29 — Consistent dropdown design
+
+- Updated every native select through shared styles: balanced spacing, inset chevrons, rounded borders, quieter focus rings, long-label truncation, dark mode, disabled/error states and multi-select lists. Mobile selects use 16px text to avoid automatic input zoom; native keyboard and selection behavior is preserved.
+- Rebuilt production assets; all four existing frontend checks pass.
+- Files: `resources/css/app.css`, `public/build/manifest.json`, generated `public/build/assets/*`, `CHANGELOG.md`.
+
+## 2026-10-29 — Sign-in returns existing sessions to the correct panel
+
+- Fixed authenticated visits to the sign-in form and repeated sign-in submissions returning to the public landing page. Both now pass through `/workspace` to the account's own role dashboard; role permissions remain unchanged.
+- Verified fresh sign-in and existing-session redirects over HTTP on the running ExamCell server at port 8001 for Admin, Teacher and Student. Added regression coverage for all three roles.
+- Files: `app/Http/Controllers/AuthController.php`, `bootstrap/app.php`, `tests/Feature/NormalSignInTest.php`, `CHANGELOG.md`.
+
 ## 2026-10-29 — Backend deadlines, academic context and signed QR verification
 
 - Added course-level marks deadlines and assigned-teacher overrides, administrator editing/clearing, timezone normalization and audit events. Teacher Dashboard and marks screens show live server-clock countdowns: amber under 48 hours, red at/past the deadline, submitted state when locked/submitted.

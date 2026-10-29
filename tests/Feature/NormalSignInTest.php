@@ -10,6 +10,19 @@ class NormalSignInTest extends TestCase
 {
     use RefreshDatabase, Fixture;
 
+    public function test_existing_sessions_return_to_their_own_panel_from_sign_in(): void
+    {
+        $f = $this->fixture();
+        foreach (['admin', 'teacher', 'student'] as $role) {
+            $this->actingAs($f[$role]);
+            $this->get('/sign-in')->assertRedirect('/workspace');
+            $this->get('/login')->assertRedirect('/sign-in');
+            $this->post('/sign-in', [])->assertRedirect('/workspace');
+            $this->get('/workspace')->assertRedirect('/'.$role.'/'.$role.'-dashboard');
+            $this->get('/'.$role.'/'.$role.'-dashboard')->assertOk();
+        }
+    }
+
     public function test_every_role_signs_in_directly_to_its_dashboard_without_styleguide(): void
     {
         $f = $this->fixture();

@@ -44,9 +44,4 @@ $preview=session('seating_preview');
 @empty<tr><td colspan="5">No allocated seats are available to your account.</td></tr>
 @endforelse</tbody></table></x-data-table>
 @include('backend.pagination')</x-card>
-
-@foreach(collect($records->items())->groupBy(fn($seat)=>($seat->room_id??$seat->seatingPlan->scheduleEntry->room_id).':'.$seat->seating_plan_id) as $uiRoomSeats)
-<x-card :title="($uiRoomSeats->first()->room?->name??$uiRoomSeats->first()->seatingPlan->scheduleEntry->room->name).' · seating view'" description="Assigned seats on this page. Hover or focus a seat for student details."><div class="room-front">FRONT OF ROOM · INVIGILATOR</div><div class="seat-map">
-@foreach($uiRoomSeats as $uiSeat)<div class="seat" tabindex="0" title="{{ $uiSeat->student->name }} · {{ $uiSeat->student->profile?->roll_number }}"><x-icon name="user" :size="18"/><strong>Seat {{ $uiSeat->seat_number }}</strong><small>{{ $uiSeat->student->profile?->roll_number }}</small></div>
-@endforeach</div></x-card>
-@endforeach
+@include('ai.seat-map')

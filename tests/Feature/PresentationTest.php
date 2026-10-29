@@ -26,7 +26,7 @@ class PresentationTest extends TestCase
         $pages=(new ScreenCatalog)->all();
         $keys=array_map(fn($p)=>$p['role'].':'.$p['slug'],$pages);
         $this->assertCount(count(array_unique($keys)),$keys);
-        $this->assertCount(19,WorkspaceNavigation::groups('admin'));
+        $this->assertCount(21,WorkspaceNavigation::groups('admin'));
         foreach(['admin','teacher','student'] as $role){
             $reachable=array_merge(...array_column(WorkspaceNavigation::groups($role),'children'));
             $expected=array_filter($pages,fn($p)=>$p['role']===$role&&$p['kind']!=='auth');

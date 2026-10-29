@@ -10997,5 +10997,35 @@
     },
     "description": "Configure approved grade boundaries, credit hours and assessment weights.",
     "figma_id": null
+  },
+  {
+    "kind": "form",
+    "action": null,
+    "extra": null,
+    "role": "admin",
+    "module": "AI Automation",
+    "data": {
+      "headers": [],
+      "rows": []
+    },
+    "figma_id": null,
+    "slug": "ai-automation",
+    "title": "AI Automation",
+    "description": "Describe what you need — AI proposes, the system validates, you approve with one click."
+  },
+  {
+    "kind": "form",
+    "action": null,
+    "extra": null,
+    "role": "admin",
+    "module": "AI Automation",
+    "data": {
+      "headers": [],
+      "rows": []
+    },
+    "figma_id": null,
+    "slug": "ai-settings",
+    "title": "AI Settings",
+    "description": "Connection status, model and monthly usage for the OpenAI integration."
   }
 ]

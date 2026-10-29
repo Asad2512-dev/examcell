@@ -17,9 +17,9 @@ final class WorkspaceNavigation
                 ['Invigilation','duty-allocation-overview','shield'],['Marks Submissions','marks-submission-overview','edit'],
                 ['Results & Corrections','result-batch-overview','file'],['Grading','grading-scheme-list','award'],
                 ['Result Processing','result-processing-overview','checklist'],['Rechecking','rechecking-request-queue','history'],
-                ['AI Analytics','analytics-overview','chart'],['AI Assistant','admin-ai-assistant','sparkles'],
+                ['AI Automation','ai-automation','sparkles'],['AI Analytics','analytics-overview','chart'],['AI Assistant','admin-ai-assistant','sparkles'],
                 ['Reports','reports-overview','download'],['Notifications','notification-center','bell'],
-                ['Audit & Administration','audit-logs','settings'],
+                ['AI Settings','ai-settings','settings'],['Audit & Administration','audit-logs','settings'],
             ];
             $starts=array_column($definitions,1); $group=0; $children=array_fill(0,count($definitions),[]);
             foreach($screens as $screen){if($screen['kind']==='auth')continue;$found=array_search($screen['slug'],$starts,true);if($found!==false)$group=$found;$children[$group][]=$screen;}

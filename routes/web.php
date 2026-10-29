@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AiController as Ai;
 use App\Http\Controllers\AuthController as A;
 use App\Http\Controllers\ResourceController as R;
 use App\Http\Controllers\ScreenController as S;
@@ -48,6 +49,20 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::post('/workflow/analysis/{exam}', [W::class, 'analysis']);
         Route::post('/workflow/flag/{flag}/review', [W::class, 'reviewFlag']);
         Route::post('/workflow/admit/{exam}', [W::class, 'admit']);
+        Route::post('/admin/ai-settings/model', [Ai::class, 'saveModel']);
+        Route::post('/admin/ai-settings/test', [Ai::class, 'test'])->middleware('throttle:10,1');
+        Route::middleware('throttle:20,1')->group(function () {
+            Route::post('/admin/ai/start', [Ai::class, 'start']);
+            Route::post('/admin/ai/runs/{run}/revise', [Ai::class, 'revise']);
+            Route::post('/admin/ai/draft', [Ai::class, 'draft']);
+            Route::post('/admin/ai/report', [Ai::class, 'report']);
+            Route::post('/admin/ai/triage', [Ai::class, 'triage']);
+            Route::post('/admin/ai/replacement/{replacement}', [Ai::class, 'replacement']);
+        });
+        Route::get('/admin/ai/runs/{run}/status', [Ai::class, 'status']);
+        Route::post('/admin/ai/runs/{run}/approve', [Ai::class, 'approve']);
+        Route::post('/admin/ai/send', [Ai::class, 'send']);
+        Route::post('/workflow/seat-map/{entry}/swap', [Ai::class, 'seatSwap']);
     });
     Route::post('/workflow/duty/{duty}/request', [W::class, 'dutyRequest'])->middleware('role:teacher');
     Route::post('/workflow/forecast', [W::class, 'forecast']);
@@ -57,6 +72,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::post('/workflow/recheck/{result}', [W::class, 'recheck'])->middleware('role:student');
     Route::post('/workflow/assistant', [W::class, 'assistant'])->middleware('throttle:assistant');
     Route::post('/workflow/notifications/{id}/read', [W::class, 'readNotification']);
+    Route::get('/seat-map/{entry}/room/{room}/print', [Ai::class, 'seatPrint']);
     Route::get('/download/admit/{card}', [W::class, 'downloadAdmit']);
     Route::get('/reports/{type}', [W::class, 'report']);
     Route::get('/{role}/{screen?}', [S::class, 'show'])->where('role', 'admin|teacher|student')->name('screen');

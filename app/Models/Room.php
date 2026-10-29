@@ -12,5 +12,10 @@ class Room extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = ['active' => 'boolean'];
+    protected $casts = ['active' => 'boolean', 'accessible_seats' => 'array'];
+
+    public function columns(): int
+    {
+        return max(1, (int) ($this->seat_columns ?: config('ai.default_columns', 6)));
+    }
 }

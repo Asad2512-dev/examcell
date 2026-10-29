@@ -13,4 +13,9 @@ class Course extends Model
     protected $guarded = ['id'];
 
     protected $casts = ['credits' => 'decimal:2', 'active' => 'boolean'];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

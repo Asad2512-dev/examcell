@@ -31,9 +31,9 @@ class SeatingService
         return $rows;
     }
 
-    public function allocate(M\ScheduleEntry $entry, int $actor): M\SeatingPlan
+    public function allocate(M\ScheduleEntry $entry, int $actor, ?array $override = null): M\SeatingPlan
     {
-        return DB::transaction(function () use ($entry, $actor) {
+        return DB::transaction(function () use ($entry, $actor, $override) {
             M\Room::orderBy('id')->lockForUpdate()->get();
             $entry = M\ScheduleEntry::lockForUpdate()->findOrFail($entry->id);
             $exam = M\Examination::lockForUpdate()->findOrFail($entry->examCourse->examination_id);
@@ -55,12 +55,28 @@ class SeatingService
                 $plan->seats()->delete();
                 $plan->increment('revision');
             }
-            foreach ($this->assignments($entry) as $seat) {
+            if ($override !== null) {
+                $this->assertValidOverride($entry, $override);
+            }
+            foreach ($override ?? $this->assignments($entry) as $seat) {
                 $plan->seats()->create(collect($seat)->only('student_id', 'room_id', 'seat_number')->all());
             }
             app(AuditService::class)->record('seating.allocated', $plan, ['previous' => $old, 'revision' => $plan->revision, 'count' => $students->count()]);
 
             return $plan;
         });
+    }
+
+    /** Every eligible student exactly once, in an allocated room, inside capacity, no duplicate seat. */
+    public function assertValidOverride(M\ScheduleEntry $entry, array $rows): void
+    {
+        $rooms = $entry->allocatedRooms()->keyBy('id');
+        $expected = $entry->examCourse->eligible()->pluck('student_id')->sort()->values()->all();
+        $given = collect($rows)->pluck('student_id')->map(fn ($i) => (int) $i)->sort()->values()->all();
+        $taken = collect($rows)->map(fn ($r) => $r['room_id'].':'.$r['seat_number']);
+        $bad = collect($rows)->contains(fn ($r) => ! $rooms->has($r['room_id']) || $r['seat_number'] < 1 || $r['seat_number'] > $rooms[$r['room_id']]->capacity);
+        if ($given !== $expected || $taken->unique()->count() !== $taken->count() || $bad) {
+            throw V::withMessages(['seats' => 'The seat layout is incomplete, duplicates a seat, or exceeds room capacity.']);
+        }
     }
 }

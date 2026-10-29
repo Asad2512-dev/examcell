@@ -16,6 +16,10 @@ class AuthController
 {
     public function form(string $mode = 'login')
     {
+        if ($mode === 'login' && Auth::check()) {
+            return redirect('/workspace');
+        }
+
         return view('backend.auth', ['mode' => $mode]);
     }
 

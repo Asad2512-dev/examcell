@@ -17,4 +17,4 @@ $active=\App\View\WorkspaceNavigation::active($group,$page['slug'],$resource);
 @endif</a>
 @endif
 @endforeach</nav><div class="sidebar-footer">
-<div class="session-label"><span class="workspace-dot"></span><span>Examination Cell · IT Department</span></div><button type="button" class="collapse-button" data-collapse-nav aria-label="Collapse navigation"><x-icon name="chevron" :size="16"/><span>Collapse sidebar</span></button></div></aside>
+<button type="button" class="collapse-button" data-collapse-nav aria-label="Collapse navigation"><x-icon name="chevron" :size="16"/><span>Collapse sidebar</span></button></div></aside>

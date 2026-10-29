@@ -13,6 +13,9 @@ class ScreenBindings
         if ($page['kind'] === 'dashboard') {
             return 'dashboard';
         }
+        if (in_array($s, ['ai-automation', 'ai-settings'], true)) {
+            return 'ai';
+        }
         if (str_contains($s, 'assistant')) {
             return 'chat';
         }

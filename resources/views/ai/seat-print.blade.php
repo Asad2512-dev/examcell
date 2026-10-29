@@ -1,0 +1,6 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{{ $room['name'] }} seating</title>
+<style>@page{size:A4 portrait;margin:14mm}body{font-family:system-ui,sans-serif;color:#111}h1{font-size:18px;margin:0}p{margin:2px 0 10px;font-size:12px}.board{text-align:center;border:1px solid #111;padding:4px;font-size:11px;margin-bottom:8px}.g{display:grid;gap:4px;grid-template-columns:repeat({{ $room['cols'] }},1fr)}.s{border:1px solid #444;min-height:44px;font-size:9px;text-align:center;padding:2px;break-inside:avoid}.s b{display:block;font-size:10px}.door{margin-top:8px;font-size:11px}@media screen{body{max-width:190mm;margin:16px auto}}</style></head>
+<body onload="window.print()"><h1>{{ $room['name'] }} · {{ $data['title'] }}</h1><p>{{ $room['capacity'] }} seats · {{ $room['cols'] }} per row · ExamCell</p>
+<div class="board">FRONT · BOARD / INVIGILATOR DESK</div>
+<div class="g">@for($n=1;$n<=$room['capacity'];$n++)@php $s=collect($data['seats'])->first(fn($x)=>$x['room']===$room['id']&&$x['seat']===$n);@endphp<div class="s"><b>{{ $n }}</b>@if($s){{ $s['roll']??'' }}<br>{{ $s['name']??'' }}<br>{{ $s['section'] }}@endif</div>
+@endfor</div><div class="door">⬇ Door</div></body></html>
