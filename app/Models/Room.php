@@ -12,7 +12,12 @@ class Room extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = ['active' => 'boolean', 'accessible_seats' => 'array'];
+    protected $casts = ['active' => 'boolean', 'accessible_seats' => 'array', 'aisles' => 'array', 'disabled_seats' => 'array'];
+
+    public function layout(): \App\Support\RoomLayout
+    {
+        return \App\Support\RoomLayout::for($this);
+    }
 
     public function columns(): int
     {

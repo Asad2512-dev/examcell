@@ -25,7 +25,18 @@ $aiRun=request('run')?\App\Models\AiRun::where('user_id',auth()->id())->find(req
 <form method="POST" action="/admin/ai/runs/{{ $aiRun->id }}/revise" class="form-grid card-body">@csrf
 <x-input name="instruction" label="Ask for a change" placeholder="e.g. Move Physics to Tuesday" maxlength="500" required/><x-button type="submit" variant="secondary" icon="sparkles">Revise with AI</x-button></form>
 @elseif($aiRun->feature==='seating')
-<div class="card-body"><p>{{ count($res['proposal']['assignments']??[]) }} students seated. Fine-tune by dragging seats on the room map after approval.</p></div>
+@php
+$cmpEntry=\App\Models\ScheduleEntry::find($aiRun->input['entry_id']??0);
+$cmpSvc=app(\App\Services\SeatMapService::class);
+$cmpBefore=$cmpEntry?$cmpSvc->data(auth()->user(),$cmpEntry):null;
+$cmpAfter=$cmpEntry?$cmpSvc->data(auth()->user(),$cmpEntry,$res['proposal']['assignments']??[]):null;
+@endphp
+<div class="card-body"><p>{{ count($res['proposal']['assignments']??[]) }} students seated across {{ count($cmpAfter['papers']??[]) }} paper(s). Compare before and after, then approve.</p>
+@if($cmpAfter)<link rel="stylesheet" href="/css/seat-map.css?v={{ filemtime(public_path('css/seat-map.css')) }}">
+<div class="sm2-compare"><div><h3>Before{{ count($cmpBefore['seats'])?'':' (no seats yet)' }}</h3><div id="cmp-before"></div></div><div><h3>After (AI proposal)</h3><div id="cmp-after"></div></div></div>
+<script src="/js/seat-map.js?v={{ filemtime(public_path('js/seat-map.js')) }}"></script>
+<script>SeatMap.mount(document.getElementById('cmp-before'), @json($cmpBefore), {static:true});SeatMap.mount(document.getElementById('cmp-after'), @json($cmpAfter), {static:true});</script>
+@endif</div>
 @elseif($aiRun->feature==='duties')
 <x-data-table :enhanced="false"><table class="data-table"><thead><tr><th>Teacher</th><th>Entry</th><th>Room</th></tr></thead><tbody>
 @foreach($res['proposal']['duties']??[] as $d)<tr><td>{{ \App\Models\User::find($d['teacher_id'])?->name }}</td><td>#{{ $d['schedule_entry_id'] }}</td><td>{{ \App\Models\Room::find($d['room_id'])?->name }}</td></tr>

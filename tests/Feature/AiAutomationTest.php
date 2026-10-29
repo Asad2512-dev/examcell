@@ -146,8 +146,8 @@ class AiAutomationTest extends TestCase
         $this->postJson('/workflow/seat-map/'.$entry->id.'/swap', ['student_id' => $s2, 'room_id' => $f['room2']->id, 'seat' => 2])->assertStatus(422)->assertJsonPath('ok', false);
         $this->assertSame([1, 3], M\SeatAssignment::orderBy('seat_number')->pluck('seat_number')->all());
         $this->postJson('/workflow/seat-map/'.$entry->id.'/swap', ['student_id' => $s2, 'room_id' => $f['room2']->id, 'seat' => 5])->assertOk()->assertJsonPath('ok', true);
-        $this->get('/admin/seating-plan-overview?entry='.$entry->id)->assertOk()->assertSee('Room map')->assertSee('Print A4');
-        $this->get('/seat-map/'.$entry->id.'/room/'.$f['room2']->id.'/print')->assertOk()->assertSee('FRONT');
+        $this->get('/admin/seating-plan-overview?entry='.$entry->id)->assertOk()->assertSee('Seating plan')->assertSee('Room plan (A4)')->assertSee('Door notice')->assertSee('Attendance sheet');
+        $this->get('/seat-map/'.$entry->id.'/room/'.$f['room2']->id.'/print')->assertOk()->assertSee('Seat list');
     }
 
     public function test_students_see_own_seat_but_not_classmate_names_and_cannot_move_seats(): void
@@ -160,7 +160,7 @@ class AiAutomationTest extends TestCase
         $mine = collect($data['seats'])->firstWhere('mine', true);
         $this->assertSame('Student One', $mine['name']);
         $this->assertArrayNotHasKey('name', collect($data['seats'])->firstWhere('mine', false));
-        $this->actingAs($f['student'])->get('/student/seating-plan')->assertOk()->assertSee('Room map')->assertSee('Your seat is outlined');
+        $this->actingAs($f['student'])->get('/student/seating-plan')->assertOk()->assertSee('Your seat:')->assertSee('row from the front');
         $this->actingAs($f['student'])->postJson('/workflow/seat-map/'.$entry->id.'/swap', ['student_id' => $f['student']->id, 'room_id' => $f['room']->id, 'seat' => 2])->assertForbidden();
     }
 

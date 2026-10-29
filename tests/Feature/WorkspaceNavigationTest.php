@@ -94,7 +94,7 @@ class WorkspaceNavigationTest extends TestCase
         $this->get('/admin/exams?exam='.$f['exam']->id.'&tab=datesheet')->assertOk()->assertSee('Approve and publish')->assertSee('Versions');
         $this->get('/admin/exams?exam='.$f['exam']->id.'&tab=overview')->assertOk()->assertSee('All examinations');
         $this->get('/admin/exams?exam='.$f['exam']->id.'&tab=admit')->assertOk()->assertSee('Generate all admit cards');
-        $this->get('/admin/seating')->assertOk()->assertSee('AI Generate');
+        $this->get('/admin/seating')->assertOk()->assertSee('AI Regenerate');
         $this->get('/admin/invigilation')->assertOk()->assertSee('AI Assign');
         $this->get('/admin/marks?tab=rechecking')->assertOk()->assertSee('Triage requests');
         $this->get('/admin/marks?tab=processing')->assertOk()->assertSee('Check anomalies');

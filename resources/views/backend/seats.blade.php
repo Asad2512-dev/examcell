@@ -1,9 +1,11 @@
+@include('ai.seat-map')
 
 @if($role==='admin')
 @php
     $seatingEntries = app(\App\Services\AcademicContext::class)->apply(\App\Models\ScheduleEntry::query())->with('examCourse.course','examCourse.examination','room','rooms')->orderBy('starts_at')->get();
     $firstLocked = !$seatingEntries->count() || in_array($seatingEntries->first()->examCourse->examination->status,['published','archived']);
 @endphp
+<details class="card seating-manual"><summary class="card-link" style="padding:16px 20px;cursor:pointer">Manual seating without AI (sequential)</summary>
 <x-card class="seating-setup">
     <div class="card-heading"><div class="heading-with-icon"><span class="heading-icon"><x-icon name="grid"/></span><div><h2>Allocate or regenerate seating</h2><p>Review a proposed plan, then save when you’re ready.</p></div></div></div>
     <form method="POST" action="/workflow/seating/{{ $seatingEntries->first()?->id }}" data-route-form="/workflow/seating/" class="seating-setup-form">
@@ -38,10 +40,10 @@ $preview=session('seating_preview');
 @endforelse</tbody></table></x-data-table>
 </x-card>
 @endif
+</details>
 @endif
 <x-card class="table-card"><x-data-table><table class="data-table"><thead><tr><th>Student</th><th>Course</th><th>Room</th><th>Seat</th><th>Date / Time</th></tr></thead><tbody>
-@forelse($records as $s)<tr><td>{{ $s->student->profile?->roll_number }} · {{ $s->student->name }}</td><td>{{ $s->seatingPlan->scheduleEntry->examCourse->course->code }}</td><td>{{ $s->room?->name??$s->seatingPlan->scheduleEntry->room->name }}</td><td>{{ $s->seat_number }}</td><td>{{ $s->seatingPlan->scheduleEntry->starts_at }}</td></tr>
+@forelse($records as $s)<tr><td>{{ $s->student->profile?->roll_number }} · {{ $s->student->name }}</td><td>{{ $s->seatingPlan->scheduleEntry->examCourse->course->code }}</td><td>{{ $s->room?->name??$s->seatingPlan->scheduleEntry->room->name }}</td><td>@php $uiRoom=$s->room??$s->seatingPlan->scheduleEntry->room; $uiLayouts[$uiRoom->id]??=$uiRoom->layout(); @endphp{{ $uiLayouts[$uiRoom->id]->labelOf($s->seat_number) }}</td><td>{{ $s->seatingPlan->scheduleEntry->starts_at }}</td></tr>
 @empty<tr><td colspan="5">No allocated seats are available to your account.</td></tr>
 @endforelse</tbody></table></x-data-table>
 @include('backend.pagination')</x-card>
-@include('ai.seat-map')

@@ -49,6 +49,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::post('/workflow/analysis/{exam}', [W::class, 'analysis']);
         Route::post('/workflow/flag/{flag}/review', [W::class, 'reviewFlag']);
         Route::post('/workflow/admit/{exam}', [W::class, 'admit']);
+        Route::post('/admin/rooms/{room}/layout', [\App\Http\Controllers\RoomLayoutController::class, 'update']);
         Route::post('/admin/settings/notifications', [\App\Http\Controllers\AdminSettingsController::class, 'notifications']);
         Route::post('/admin/settings/grading-rules', [\App\Http\Controllers\AdminSettingsController::class, 'gradingRules']);
         Route::post('/admin/settings/accounts/{user}', [\App\Http\Controllers\AdminSettingsController::class, 'account']);

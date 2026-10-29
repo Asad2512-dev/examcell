@@ -7,10 +7,7 @@ $tbEntries=app(\App\Services\AcademicContext::class)->apply(\App\Models\Schedule
 @if(in_array($tbKey,['seating','invigilation','people'])||($tbKey==='marks'&&in_array($tbTab,['processing','rechecking']))||$tbKey==='reports')@include('ai.run-panel')
 @include('ai.outputs')
 @endif
-@if($tbKey==='seating')
-<x-card title="AI seating" description="Mixes classes so classmates never sit side by side, within room capacity and accessible seats."><form method="POST" action="/ai/start" class="form-grid card-body">@csrf<input type="hidden" name="feature" value="seating">
-<x-select name="entry_id" label="Scheduled paper">@foreach($tbEntries as $e)<option value="{{ $e->id }}">{{ $e->examCourse->course->code }} · {{ $e->starts_at->format('d M H:i') }}</option>
-@endforeach</x-select><x-button type="submit" icon="sparkles" :disabled="!$tbConfigured||$tbEntries->isEmpty()">AI Generate</x-button></form></x-card>
+@if(false)
 @elseif($tbKey==='invigilation')
 <x-card title="AI duty assignment" description="Fair assignment by availability and workload. Replacements below can ask AI for the best cover."><form method="POST" action="/ai/start" class="form-grid card-body">@csrf<input type="hidden" name="feature" value="duties">
 <x-select name="exam_id" label="Examination">@foreach($tbExams as $e)<option value="{{ $e->id }}">{{ $e->name }}</option>

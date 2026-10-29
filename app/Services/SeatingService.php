@@ -21,8 +21,12 @@ class SeatingService
         $students = $entry->examCourse->eligible()->with('student.profile')->orderBy('student_id')->get()->values();
         $rows = [];
         $offset = 0;
+        $taken = $this->takenByOthers($entry);
         foreach ($entry->allocatedRooms()->sortBy('id') as $room) {
             for ($seat = 1; $seat <= $room->capacity && $offset < $students->count(); $seat++) {
+                if (isset($taken[$room->id.':'.$seat])) {
+                    continue;
+                }
                 $en = $students[$offset++];
                 $rows[] = ['student_id' => $en->student_id, 'student' => $en->student->name, 'roll' => $en->student->profile?->roll_number, 'room_id' => $room->id, 'room' => $room->name, 'seat_number' => $seat];
             }
@@ -78,5 +82,37 @@ class SeatingService
         if ($given !== $expected || $taken->unique()->count() !== $taken->count() || $bad) {
             throw V::withMessages(['seats' => 'The seat layout is incomplete, duplicates a seat, or exceeds room capacity.']);
         }
+        $others = $this->takenByOthers($entry);
+        if ($taken->contains(fn ($k) => isset($others[$k]))) {
+            throw V::withMessages(['seats' => 'A seat is already used by another paper sharing this room in the same slot.']);
+        }
+    }
+
+    /** Papers in the same slot (same start time) connected by shared rooms, including $entry itself. */
+    public function slotGroup(M\ScheduleEntry $entry): \Illuminate\Support\Collection
+    {
+        $slot = M\ScheduleEntry::with('rooms', 'room', 'examCourse.course', 'examCourse.section', 'examCourse.examination')->where('starts_at', $entry->starts_at)->whereHas('examCourse.examination', fn ($q) => $q->where('status', '!=', 'archived'))->get()->keyBy('id');
+        $group = collect([$entry->id => $slot[$entry->id] ?? $entry]);
+        $rooms = $group->first()->allocatedRooms()->pluck('id');
+        do {
+            $added = false;
+            foreach ($slot as $id => $e) {
+                if (! $group->has($id) && $e->allocatedRooms()->pluck('id')->intersect($rooms)->isNotEmpty()) {
+                    $group->put($id, $e);
+                    $rooms = $rooms->merge($e->allocatedRooms()->pluck('id'))->unique();
+                    $added = true;
+                }
+            }
+        } while ($added);
+
+        return $group->sortBy('id')->values();
+    }
+
+    /** "room:seat" keys occupied by other plans of the slot group. */
+    public function takenByOthers(M\ScheduleEntry $entry): array
+    {
+        $ids = $this->slotGroup($entry)->pluck('id')->reject(fn ($id) => $id === $entry->id);
+
+        return M\SeatAssignment::whereHas('seatingPlan', fn ($q) => $q->whereIn('schedule_entry_id', $ids))->get()->mapWithKeys(fn ($s) => [$s->room_id.':'.$s->seat_number => true])->all();
     }
 }

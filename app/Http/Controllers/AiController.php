@@ -280,23 +280,10 @@ class AiController
         return redirect('/admin/reports?tab=reports')->with('ai_report', $svc->run(['title' => $title, 'metric' => $metric, 'group_by' => $group, 'chart' => $chart, 'examination_id' => null, 'department_code' => null, 'course_code' => null, 'summary' => 'Saved quick report from live records.'], $r->user()));
     }
 
-    /** Seat map data for a schedule entry; students see only their own identity, others as anonymous colours. */
-    public function seatData(M\User $u, M\ScheduleEntry $entry): array
+    /** Seat map data for a schedule entry's slot, scoped to what this user may see. */
+    public function seatData(M\User $u, M\ScheduleEntry $entry, ?array $rows = null): array
     {
-        $scope = app(ScopedQueries::class);
-        abort_unless($scope->schedules($u)->whereKey($entry->id)->exists(), 404);
-        $plan = $entry->seatingPlan;
-        $seats = $plan ? $plan->seats()->with('student.profile.section', 'room')->get() : collect();
-        $admin = $u->role !== 'student';
-        $locked = in_array($entry->examCourse->examination->status, ['published', 'archived']);
-
-        return [
-            'entry' => $entry->id,
-            'title' => $entry->examCourse->course->code.' · '.$entry->starts_at->format('d M Y H:i'),
-            'locked' => $locked || $u->role !== 'admin',
-            'rooms' => $entry->allocatedRooms()->map(fn ($r) => ['id' => $r->id, 'name' => $r->name, 'capacity' => $r->capacity, 'cols' => $r->columns(), 'accessible' => $r->accessible_seats ?? []])->values()->all(),
-            'seats' => $seats->map(fn ($s) => ['seat' => $s->seat_number, 'room' => $s->room_id, 'student' => $s->student_id, 'section' => $s->student->profile?->section?->name ?? '—', 'mine' => $s->student_id === $u->id] + ($admin || $s->student_id === $u->id ? ['name' => $s->student->name, 'roll' => $s->student->profile?->roll_number, 'course' => $entry->examCourse->course->code] : []))->values()->all(),
-        ];
+        return app(\App\Services\SeatMapService::class)->data($u, $entry, $rows);
     }
 
     public function seatSwap(Request $r, M\ScheduleEntry $entry, AI\SeatingAiService $svc)
@@ -307,11 +294,17 @@ class AiController
         return response()->json(['ok' => ! $errors, 'errors' => $errors, 'data' => $this->seatData($r->user(), $entry->fresh())], $errors ? 422 : 200);
     }
 
+    /** A4 room plan (map + seat list), door notice, or attendance sheet. Staff only. */
     public function seatPrint(Request $r, M\ScheduleEntry $entry, M\Room $room)
     {
+        abort_if($r->user()->role === 'student', 403);
+        $type = $r->query('type', 'map');
+        abort_unless(in_array($type, ['map', 'door', 'attendance'], true), 404);
         $data = $this->seatData($r->user(), $entry);
-        abort_unless(collect($data['rooms'])->contains('id', $room->id), 404);
+        $roomData = collect($data['rooms'])->firstWhere('id', $room->id);
+        abort_unless($roomData, 404);
+        $seats = collect($data['seats'])->where('room', $room->id)->sortBy('seat')->values();
 
-        return view('ai.seat-print', ['data' => $data, 'room' => collect($data['rooms'])->firstWhere('id', $room->id)]);
+        return view('ai.seat-print', ['data' => $data, 'room' => $roomData, 'seats' => $seats, 'type' => $type]);
     }
 }

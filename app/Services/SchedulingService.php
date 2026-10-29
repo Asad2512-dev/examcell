@@ -31,11 +31,25 @@ class SchedulingService
             }
         }
         $overlaps = M\ScheduleEntry::with('examCourse', 'rooms')->where('exam_course_id', '!=', $c->id)->whereHas('examCourse.examination', fn ($q) => $q->where('status', '!=', 'archived')->when($c->examination->supersedes_id, fn ($q) => $q->where('id', '!=', $c->examination->supersedes_id)))->where('starts_at', '<', $end)->where('ends_at', '>', $start)->get();
+        $sharers = collect();
         foreach ($overlaps as $other) {
             if ($other->allocatedRooms()->pluck('id')->intersect($rooms->pluck('id'))->isNotEmpty()) {
-                $errors[] = 'Room overlaps schedule #'.$other->id;
+                // Papers that start together may share a room (classes are mixed in the seating plan).
+                if ($other->starts_at->equalTo($start)) {
+                    $sharers->push($other);
+                } else {
+                    $errors[] = 'Room overlaps schedule #'.$other->id;
+                }
             }if ($other->examCourse->eligible()->whereIn('student_id', $students)->exists()) {
                 $errors[] = 'Shared students overlap schedule #'.$other->id;
+            }
+        }
+
+        if ($sharers->isNotEmpty()) {
+            $union = $rooms->concat($sharers->flatMap(fn ($o) => $o->allocatedRooms()))->unique('id');
+            $needed = $students->count() + $sharers->sum(fn ($o) => $o->examCourse->eligible()->count());
+            if ($union->sum('capacity') < $needed) {
+                $errors[] = 'Shared rooms cannot seat every student of the papers in this slot ('.$needed.' students, '.$union->sum('capacity').' seats).';
             }
         }
 

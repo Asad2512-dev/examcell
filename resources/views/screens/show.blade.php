@@ -29,6 +29,8 @@ $wsTab=$wsDef?collect($wsDef['tabs'])->firstWhere('key',$wsState['tab']):null;
 @endif
 @if($role==='admin'&&($wsState['key']??null)==='exams')@include('backend.exam-hub')
 @endif
+@if($role==='admin'&&$page['slug']==='room-directory')@include('ai.room-layout-editor')
+@endif
 @if(in_array($page['slug'],['grading-scheme-list','gpa-and-cgpa-rules']))@include('backend.grading-rules')
 @endif
 @if(!($role==='admin'&&($wsState['key']??null)==='exams'&&request('exam')&&in_array(request('tab','overview'),['overview','admit'])&&!request('view')))@include('backend.'.$module)
