@@ -122,7 +122,7 @@ class SeatingGraphicsTest extends TestCase
         $this->assertSame(2, $x['a']->fresh()->seatingPlan->seats()->count());
         $this->assertSame(2, $x['b']->fresh()->seatingPlan->seats()->count());
         $data = app(SeatMapService::class)->data($f['admin'], $x['a']->fresh());
-        $this->assertSame(['students' => 4, 'seats_used' => 4, 'seats_total' => 8, 'rooms_used' => 1, 'classes' => 2, 'mixed_rooms' => 1, 'clashes' => 0, 'front_back' => 0, 'unseated' => 0], $data['summary']);
+        $this->assertSame(['students' => 4, 'seats_used' => 4, 'seats_total' => 8, 'rooms_used' => 1, 'classes' => 2, 'mixed_rooms' => 1, 'clashes' => 0, 'front_back' => 0, 'unseated' => 0, 'not_eligible' => 0], $data['summary']);
         $this->assertSame(['A1', 'A2', 'A3', 'A4'], collect($data['seats'])->sortBy('seat')->pluck('label')->all());
         // Swap across papers: A1 ↔ B1 is still mixed → allowed
         $this->postJson('/workflow/seat-map/'.$x['a']->id.'/swap', ['student_id' => $a1, 'room_id' => $r, 'seat' => 2])->assertOk();
