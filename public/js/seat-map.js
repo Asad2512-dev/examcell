@@ -90,6 +90,7 @@
     (data.papers || []).forEach(function (p) { papersById[p.id] = p; });
 
     root.classList.add('sm2');
+    root.classList.toggle('sm2-editable', S.editable);
     root.innerHTML = '';
     var top = h('div', 'sm2-toolbar', root), legend = h('div', 'sm2-legend', root);
     var summary = h('div', 'sm2-summary', root), thumbs = h('div', 'sm2-thumbs', root);
@@ -128,9 +129,6 @@
         ov.appendChild(document.createTextNode(' Adjacency check'));
         cb.addEventListener('change', function () { S.overlay = cb.checked; draw(); });
       }
-      button('−', 'Zoom out', function () { zoom(1.25); });
-      button('+', 'Zoom in', function () { zoom(0.8); });
-      button('Fit', 'Fit to screen', fit);
     } else top.hidden = true;
 
     function setView(v) {
@@ -231,13 +229,6 @@
     function fit() { if (!S.geo) return; size(); S.vb = { x: 0, y: 0, w: S.geo.W, h: S.geo.H }; applyVb(); draw(); }
     window.addEventListener('resize', function () { size(); });
     function applyVb() { svg.setAttribute('viewBox', [S.vb.x, S.vb.y, S.vb.w, S.vb.h].join(' ')); }
-    function zoom(f, cx, cy) {
-      if (!S.vb) return;
-      cx = cx == null ? S.vb.x + S.vb.w / 2 : cx; cy = cy == null ? S.vb.y + S.vb.h / 2 : cy;
-      var w = Math.min(Math.max(S.vb.w * f, S.geo.W / 8), S.geo.W * 3), k = w / S.vb.w;
-      S.vb = { x: cx - (cx - S.vb.x) * k, y: cy - (cy - S.vb.y) * k, w: w, h: S.vb.h * k };
-      applyVb();
-    }
     function toSvg(e) {
       var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
       return pt.matrixTransform(svg.getScreenCTM().inverse());
@@ -343,9 +334,8 @@
       if (!hit) { msg.textContent = 'No seat found for “' + q + '”.'; return; }
       if (S.room !== hit.room) openRoom(hit.room);
       setView('room');
-      var c = S.geo.center(hit.seat), w = Math.max(S.geo.W / 3, 280);
-      S.vb = { x: c.x - w / 2, y: c.y - w * (S.geo.H / S.geo.W) / 2, w: w, h: w * (S.geo.H / S.geo.W) };
-      applyVb(); draw();
+      draw();
+      stage.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       var node = svg.querySelector('.sm2-desk[data-n="' + hit.seat + '"]');
       if (node) { node.classList.add('sm2-pulse'); setTimeout(function () { node.classList.remove('sm2-pulse'); }, 3200); }
       msg.textContent = 'Seat ' + hit.label + ' in ' + roomById(hit.room).name + (hit.name ? ' — ' + hit.name : '') + '.';
@@ -374,33 +364,22 @@
 
     var pointers = {}, gesture = null;
     if (!S.static) {
-      svg.addEventListener('wheel', function (e) { e.preventDefault(); var p = toSvg(e); zoom(e.deltaY > 0 ? 1.12 : 0.89, p.x, p.y); }, { passive: false });
       svg.addEventListener('pointerdown', function (e) {
         pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
-        svg.setPointerCapture(e.pointerId);
         var ids = Object.keys(pointers);
-        if (ids.length === 2) {
-          var a = pointers[ids[0]], b = pointers[ids[1]];
-          gesture = { type: 'pinch', d: Math.hypot(a.x - b.x, a.y - b.y), vb: Object.assign({}, S.vb) };
-          return;
-        }
+        if (ids.length > 1) { gesture = null; return; }
         var desk = e.target.closest && e.target.closest('.sm2-desk'), n = desk ? +desk.getAttribute('data-n') : null, s = n ? seatAt(S.room, n) : null;
         if (S.editable && s && s.student) {
           gesture = { type: 'drag', from: s, sx: e.clientX, sy: e.clientY, moved: false, target: null, reasons: [] };
+          svg.setPointerCapture(e.pointerId);
           S.drag = true; card.hidden = true;
-        } else gesture = { type: 'pan', sx: e.clientX, sy: e.clientY, vb: Object.assign({}, S.vb), moved: false, n: n };
+        } else gesture = { type: 'tap', sx: e.clientX, sy: e.clientY, moved: false, n: n };
       });
       svg.addEventListener('pointermove', function (e) {
         if (!gesture || !pointers[e.pointerId]) return;
         pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
-        if (gesture.type === 'pinch') {
-          var ids = Object.keys(pointers); if (ids.length < 2) return;
-          var a = pointers[ids[0]], b = pointers[ids[1]], d = Math.hypot(a.x - b.x, a.y - b.y);
-          S.vb = Object.assign({}, gesture.vb); zoom(gesture.d / Math.max(d, 1)); return;
-        }
         var k = S.vb.w / svg.getBoundingClientRect().width, dx = e.clientX - gesture.sx, dy = e.clientY - gesture.sy;
         if (Math.abs(dx) + Math.abs(dy) > 5) gesture.moved = true;
-        if (gesture.type === 'pan' && gesture.moved) { S.vb.x = gesture.vb.x - dx * k; S.vb.y = gesture.vb.y - dy * k; applyVb(); }
         if (gesture.type === 'drag' && gesture.moved) {
           var p = toSvg(e), t = S.geo.hit(p);
           var ghost = svg.querySelector('.sm2-ghost') || el('rect', { width: DW, height: DH, rx: 6, class: 'sm2-ghost' }, svg);
@@ -420,7 +399,7 @@
         delete pointers[e.pointerId];
         if (!gesture) return;
         var g = gesture; gesture = Object.keys(pointers).length ? gesture : null;
-        if (g.type === 'pan' && !g.moved && g.n) { var s = seatAt(S.room, g.n), p = S.geo.byN[g.n]; showCard(roomById(S.room), p, s, S.geo.x(p.c), S.geo.y(p.r)); }
+        if (g.type === 'tap' && !g.moved && g.n) { var s = seatAt(S.room, g.n), p = S.geo.byN[g.n]; showCard(roomById(S.room), p, s, S.geo.x(p.c), S.geo.y(p.r)); }
         if (g.type === 'drag') {
           S.drag = false;
           var ghost = svg.querySelector('.sm2-ghost'); if (ghost) ghost.remove();
