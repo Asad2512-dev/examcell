@@ -103,3 +103,10 @@ select:dir(rtl):not([multiple]):is(:not([size]), [size="1"]) {
   }
   select:focus { outline: 2px solid Highlight; outline-offset: 2px; }
 }
+
+/* Overflow guards: rows of controls wrap instead of pushing out of their card. */
+.calendar-toolbar{flex-wrap:wrap}
+.calendar-toolbar .page-actions{width:auto;max-width:100%}
+.page-actions>*{min-width:0;max-width:100%}
+.page-actions .btn{white-space:normal;text-align:center}
+@media(max-width:768px){.calendar-toolbar{padding:14px 16px}.calendar-toolbar .page-actions{flex:1 1 auto}}

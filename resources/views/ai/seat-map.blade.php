@@ -12,7 +12,8 @@ $smQuery=collect(request()->query())->except(['entry','run'])->all();
 <link rel="stylesheet" href="/css/seat-map.css?v={{ filemtime(public_path('css/seat-map.css')) }}">
 @if($smData)
 <x-card :title="$smUser->role==='student'?'Your seat':($smUser->role==='teacher'?'Rooms you invigilate or teach':'Seating plan')" :description="$smData['title'].' · '.collect($smData['papers'])->map(fn($p)=>$p['course'].' ('.$p['section'].')')->implode(', ')">
-<div class="card-body">
+<div class="card-body sm2-panel">
+<div class="sm2-head">
 @if(count($smSlots)>1)<form method="GET" class="sm2-picker" aria-label="Choose exam slot">@foreach($smQuery as $k=>$v)@if(is_string($v))<input type="hidden" name="{{ $k }}" value="{{ $v }}">@endif
 @endforeach
 <label class="field"><span>Exam slot (date · time · papers)</span><select name="entry" onchange="this.form.submit()">
@@ -22,10 +23,11 @@ $smQuery=collect(request()->query())->except(['entry','run'])->all();
 @endif
 @if($smUser->role==='student'&&$smData['directions'])<p class="sm2-directions" role="note"><x-icon name="home" :size="18"/><span><strong>Your seat:</strong> {{ $smData['directions'] }}</span></p>@endif
 @if($smUser->role==='admin')
-<div class="page-actions">
-<form method="POST" action="/ai/start">@csrf<input type="hidden" name="feature" value="seating"><input type="hidden" name="entry_id" value="{{ $smEntry->id }}">
+<form method="POST" action="/ai/start" class="sm2-ai">@csrf<input type="hidden" name="feature" value="seating"><input type="hidden" name="entry_id" value="{{ $smEntry->id }}">
 <x-button type="submit" icon="sparkles" :disabled="$smData['locked']||!app(\App\Services\AI\AiSettings::class)->keyConfigured()">{{ $smHasSeats?'AI Regenerate':'AI Generate' }}</x-button></form>
-@if($smData['locked'])<span class="muted text-xs">A paper in this slot is published — seating is locked. Create a revision to change it.</span>@else<span class="muted text-xs">You will see a before/after preview and approve it.</span>@endif
+</div>
+@if($smData['locked'])<p class="sm2-note" role="note"><x-icon name="lock" :size="15"/> A paper in this slot is published, so seating is locked. Create a revision to change it.</p>@else<p class="sm2-note"><x-icon name="sparkles" :size="15"/> AI shows a before/after preview; nothing changes until you approve.</p>@endif
+@else
 </div>
 @endif
 @if($smUser->role!=='student'&&$smHasSeats)<details class="sm2-prints"><summary class="card-link">Print room plans, door notices and attendance sheets</summary><table class="data-table"><tbody>
