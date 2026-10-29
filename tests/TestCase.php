@@ -27,4 +27,15 @@ abstract class TestCase extends BaseTestCase
 
         return $app;
     }
+
+    /** Legacy screen URLs now redirect into workspaces; follow that one hop so older assertions still read the page. */
+    public function get($uri, array $headers = [])
+    {
+        $response = parent::get($uri, $headers);
+        if ($response->isRedirect() && preg_match('#^/(admin|teacher|student)/[a-z0-9-]+#', (string) $uri, $m) && str_contains((string) $response->headers->get('Location'), '/'.$m[1].'/')) {
+            return parent::get($response->headers->get('Location'), $headers);
+        }
+
+        return $response;
+    }
 }

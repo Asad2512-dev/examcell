@@ -17,6 +17,22 @@ class ScreenController
     {
         abort_unless($r->user()->role === $role, 403);
         $screen ??= $role.'-dashboard';
+        if ($w = \App\Support\Workspaces::workspace($role, $screen)) {
+            $tabs = collect($w['tabs']);
+            $tab = $tabs->firstWhere('key', $r->input('tab')) ?? $tabs->first();
+            $screen = $tab['slug'];
+            $view = (string) $r->input('view');
+            if ($view !== '' && (\App\Support\Workspaces::legacy($role)[$view][0] ?? null) === $w['key']) {
+                $screen = $view;
+                $tab = $tabs->firstWhere('key', \App\Support\Workspaces::legacy($role)[$view][1]) ?? $tab;
+            }
+            $r->attributes->set('ws', ['key' => $w['key'], 'tab' => $tab['key'], 'primary' => $tab['slug']]);
+        } elseif ($to = \App\Support\Workspaces::urlFor($role, $screen, $r->query())) {
+            return redirect($to);
+        } else {
+            [$k, $t] = \App\Support\Workspaces::locate($role, $screen, $r->input('resource'));
+            $r->attributes->set('ws', ['key' => $k, 'tab' => $t, 'primary' => $screen]);
+        }
         $catalog = new ScreenCatalog;
         $page = $catalog->find($role, $screen);
         if (! $page && in_array($screen, ['records', 'duty-replacements', 'exam-schedule', 'my-duties', 'recheck-requests', 'forecast', 'backup-status'])) {

@@ -11,14 +11,14 @@
 @endforeach</ul></div>
 @endif
 @php
-$presentationGroups=\App\View\WorkspaceNavigation::groups($role);
+$wsState=request()->attributes->get('ws');
+$wsDef=$wsState?collect(\App\Support\Workspaces::definition($role))->firstWhere('key',$wsState['key']):null;
+$wsTab=$wsDef?collect($wsDef['tabs'])->firstWhere('key',$wsState['tab']):null;
 @endphp
-
-@php
-$section=collect($presentationGroups)->first(fn($g)=>\App\View\WorkspaceNavigation::active($g,$page['slug'],$resource));
-@endphp
-
-@if($section&&count($section['children'])>1&&count($section['children'])<=8)<x-tabs :items="collect($section['children'])->map(fn($s)=>['key'=>$s['slug'],'label'=>$s['title'],'href'=>'/'.$role.'/'.$s['slug']])->all()" :active="$page['slug']"/>
+@if($wsDef&&count($wsDef['tabs'])>1)<x-tabs :items="collect($wsDef['tabs'])->map(fn($t)=>['key'=>$t['key'],'label'=>$t['label'],'href'=>'/'.$role.'/'.$wsDef['slug'].'?tab='.$t['key']])->all()" :active="$wsState['tab']"/>
+@endif
+@if($wsTab&&!empty($wsTab['pills']))<div class="page-actions" role="navigation" aria-label="Sections">@foreach($wsTab['pills'] as $pill)<a class="btn btn-secondary btn-small" href="/{{ $role }}/{{ $wsDef['slug'] }}?tab={{ $wsTab['key'] }}&view={{ $pill[1] }}" @if($page['slug']===$pill[1]) aria-current="page" @endif>{{ $pill[0] }}</a>
+@endforeach</div>
 @endif
 @if($role==='student'&&$page['slug']==='updated-examination-schedule')<div class="callout" role="status"><strong><x-icon name="calendar" :size="18"/> Your examination schedule has been updated.</strong><p>Review the latest dates, times and room assignments below before your next examination.</p></div>
 @endif
