@@ -218,10 +218,15 @@
     function openRoom(id) {
       S.room = id; S.geo = new Geometry(roomById(id)); fit(); renderThumbs();
     }
+    /** Largest size that shows the whole room: fill the available width, unless that makes it taller than the screen allows. The frame then hugs the map. */
     function size() {
       if (!S.geo || opts.print) return;
-      var w = svg.clientWidth || stage.clientWidth || 800;
-      svg.style.height = Math.round(Math.min(window.innerHeight * (S.static ? 0.5 : 0.72), Math.max(220, w * S.geo.H / S.geo.W))) + 'px';
+      var avail = Math.max(240, (root.clientWidth || 800) - 2);
+      var maxH = Math.max(320, window.innerHeight * (S.static ? 0.55 : 0.82));
+      var ratio = S.geo.H / S.geo.W, w = avail, hgt = avail * ratio;
+      if (hgt > maxH) { hgt = maxH; w = hgt / ratio; }
+      svg.style.width = Math.round(w) + 'px';
+      svg.style.height = Math.round(hgt) + 'px';
     }
     function fit() { if (!S.geo) return; size(); S.vb = { x: 0, y: 0, w: S.geo.W, h: S.geo.H }; applyVb(); draw(); }
     window.addEventListener('resize', function () { size(); });
