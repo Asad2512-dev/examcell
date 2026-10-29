@@ -74,7 +74,15 @@ class SeatMapService
         $ctx = $ai->context($entry);
         $rows ??= $ai->currentRows($entry);
         $rows = array_values(array_filter($rows, fn ($r) => isset($ctx['layouts'][$r['room_id']]) && $ctx['layouts'][$r['room_id']]->position((int) $r['seat_number'])));
-        $entryOf = collect($ctx['students'])->pluck('entry_id', 'id');
+        // Each seat belongs to the paper of its own plan (students may have lost eligibility after seating).
+        $entryOf = collect($ctx['students'])->pluck('entry_id', 'id')->all();
+        foreach ($rows as $r) {
+            if (isset($r['entry_id'])) {
+                $entryOf[$r['student_id']] = $r['entry_id'];
+            }
+        }
+        $entryOf = collect($entryOf);
+        $eligibleIds = collect($ctx['students'])->pluck('id')->flip();
         $entriesById = $group->keyBy('id');
         $users = M\User::with('profile')->whereIn('id', collect($rows)->pluck('student_id'))->get()->keyBy('id');
 
@@ -118,7 +126,7 @@ class SeatMapService
             return ['id' => $r['id'], 'name' => $roomModels[$r['id']]->name, 'capacity' => $layout->capacity(), 'used' => $in->count(), 'accessible' => $r['accessible_seats'], 'by_section' => $in->groupBy(fn ($x) => ($entriesById[$entryOf[$x['student_id']] ?? 0] ?? null)?->examCourse->section_id)->map->count()->all()] + $layout->toArray();
         })->values()->all();
 
-        $seats = collect($rows)->filter(fn ($r) => $visibleRooms->contains($r['room_id']))->map(function ($r) use ($u, $full, $entryOf, $entriesById, $users, $ctx) {
+        $seats = collect($rows)->filter(fn ($r) => $visibleRooms->contains($r['room_id']))->map(function ($r) use ($u, $full, $entryOf, $entriesById, $users, $ctx, $eligibleIds) {
             $e = $entriesById[$entryOf[$r['student_id']] ?? 0] ?? null;
             $label = $ctx['layouts'][$r['room_id']]->labelOf($r['seat_number']);
             $isMine = $r['student_id'] === $u->id;
@@ -131,7 +139,7 @@ class SeatMapService
             }
             $s = $users[$r['student_id']] ?? null;
 
-            return $base + ['student' => $r['student_id'], 'section' => $e?->examCourse->section_id, 'name' => $s?->name, 'roll' => $s?->profile?->roll_number, 'course' => $e ? $e->examCourse->course->code.' · '.$e->examCourse->course->name : null, 'special' => (bool) $s?->profile?->special_needs];
+            return $base + ['student' => $r['student_id'], 'section' => $e?->examCourse->section_id, 'name' => $s?->name, 'roll' => $s?->profile?->roll_number, 'course' => $e ? $e->examCourse->course->code.' · '.$e->examCourse->course->name : null, 'special' => (bool) $s?->profile?->special_needs, 'ineligible' => ! $eligibleIds->has($r['student_id'])];
         })->values()->all();
 
         $pairs = $full ? array_values(array_filter($ai->adjacency($rows, $ctx), fn ($p) => $visibleRooms->contains($p['room']))) : [];
@@ -164,7 +172,8 @@ class SeatMapService
                 'mixed_rooms' => collect($rooms)->filter(fn ($r) => count(array_filter($r['by_section'])) > 1)->count(),
                 'clashes' => count(array_filter($pairs, fn ($p) => $p['kind'] === 'side')),
                 'front_back' => count(array_filter($pairs, fn ($p) => $p['kind'] === 'front_back')),
-                'unseated' => count($ctx['students']) - count($rows),
+                'unseated' => collect($ctx['students'])->pluck('id')->diff(collect($rows)->pluck('student_id'))->count(),
+                'not_eligible' => collect($rows)->filter(fn ($r) => ! $eligibleIds->has($r['student_id']))->count(),
             ],
         ];
     }

@@ -177,4 +177,18 @@ class SeatingGraphicsTest extends TestCase
         $this->actingAs($f['teacher'])->get($base.'?type=attendance')->assertOk();
         $this->actingAs($f['student'])->get($base.'?type=door')->assertForbidden();
     }
+
+    public function test_map_survives_students_who_lost_eligibility_after_seating(): void
+    {
+        $f = $this->fixture();
+        $this->publish($f);
+        $entry = $f['ec']->fresh()->schedule;
+        M\Enrollment::where('student_id', $f['other']->id)->update(['eligible' => false]);
+        $data = app(SeatMapService::class)->data($f['admin'], $entry);
+        $this->assertCount(2, $data['seats'], 'still shown on the map');
+        $this->assertSame(1, $data['summary']['not_eligible']);
+        $this->assertTrue(collect($data['seats'])->firstWhere('student', $f['other']->id)['ineligible']);
+        $this->assertSame(1, $data['summary']['clashes'], 'class still comes from the seat\'s own paper');
+        $this->actingAs($f['admin'])->get('/admin/seating')->assertOk()->assertSee('Seating plan');
+    }
 }

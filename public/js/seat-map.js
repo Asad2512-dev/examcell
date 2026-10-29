@@ -160,8 +160,8 @@
       var m = S.data.summary;
       if (!m || opts.print) { summary.hidden = true; return; }
       summary.innerHTML = '';
-      [['Students', m.students], ['Seats used', m.seats_used + ' / ' + m.seats_total], ['Rooms used', m.rooms_used], ['Classes', m.classes + (m.mixed_rooms ? ' · mixed in ' + m.mixed_rooms + ' room' + (m.mixed_rooms > 1 ? 's' : '') : '')], ['Side-by-side clashes', m.clashes], ['Unseated', m.unseated]].forEach(function (k) {
-        var d = h('div', 'sm2-stat' + ((k[0] === 'Side-by-side clashes' || k[0] === 'Unseated') && k[1] ? ' is-bad' : ''), summary);
+      [['Students', m.students], ['Seats used', m.seats_used + ' / ' + m.seats_total], ['Rooms used', m.rooms_used], ['Classes', m.classes + (m.mixed_rooms ? ' · mixed in ' + m.mixed_rooms + ' room' + (m.mixed_rooms > 1 ? 's' : '') : '')], ['Side-by-side clashes', m.clashes], ['Unseated', m.unseated]].concat(m.not_eligible ? [['Seated but no longer eligible', m.not_eligible]] : []).forEach(function (k) {
+        var d = h('div', 'sm2-stat' + (k[0] !== 'Students' && k[0] !== 'Seats used' && k[0] !== 'Rooms used' && k[0] !== 'Classes' && k[1] ? ' is-bad' : ''), summary);
         h('span', null, d, k[0]); h('strong', null, d, String(k[1]));
       });
     }
@@ -318,7 +318,7 @@
       h('strong', null, card, (s && s.mine && S.data.mode === 'student' ? 'Your seat ' : 'Seat ') + p.label + ' · ' + room.name);
       if (s && s.name) {
         var sec = sectionByKey[s.section];
-        [s.name, 'Roll ' + s.roll, sec ? sec.name : null, s.course, s.special ? 'Needs an accessible seat' : null].forEach(function (t) { if (t) h('span', null, card, t); });
+        [s.name, 'Roll ' + s.roll, sec ? sec.name : null, s.course, s.special ? 'Needs an accessible seat' : null, s.ineligible ? '⚠ No longer eligible for this paper' : null].forEach(function (t) { if (t) h('span', null, card, t); });
       } else h('span', null, card, s ? 'Occupied' : 'Empty seat');
       var box = svg.getBoundingClientRect(), sb = stage.getBoundingClientRect(), k = box.width / S.vb.w;
       card.style.left = Math.max(4, Math.min(sb.width - 230, (x - S.vb.x) * k + box.left - sb.left)) + 'px';

@@ -153,7 +153,7 @@ class SeatingAiService
     {
         $ids = app(SeatingService::class)->slotGroup($entry)->pluck('id');
 
-        return M\SeatAssignment::whereHas('seatingPlan', fn ($q) => $q->whereIn('schedule_entry_id', $ids))->get()->map(fn ($s) => ['student_id' => $s->student_id, 'room_id' => $s->room_id, 'seat_number' => $s->seat_number])->values()->all();
+        return M\SeatAssignment::with('seatingPlan')->whereHas('seatingPlan', fn ($q) => $q->whereIn('schedule_entry_id', $ids))->get()->map(fn ($s) => ['student_id' => $s->student_id, 'room_id' => $s->room_id, 'seat_number' => $s->seat_number, 'entry_id' => $s->seatingPlan->schedule_entry_id])->values()->all();
     }
 
     /** Move/swap used by drag-and-drop: re-validates the whole slot immediately. */
@@ -185,17 +185,23 @@ class SeatingAiService
     /** Same-class neighbour pairs (left/right enforced; front/back reported) for the overlay and summary. */
     public function adjacency(array $rows, array $ctx): array
     {
-        $section = collect($ctx['students'])->pluck('section_id', 'id');
+        // A seat's class comes from the paper its plan belongs to; fall back to eligibility for unsaved proposals.
+        $entrySection = collect($ctx['entries'])->pluck('section_id', 'id');
+        $eligibleSection = collect($ctx['students'])->pluck('section_id', 'id');
         $at = [];
+        $sectionAt = [];
         foreach ($rows as $r) {
-            $at[$r['room_id'].':'.$r['seat_number']] = $r['student_id'];
+            $k = $r['room_id'].':'.$r['seat_number'];
+            $at[$k] = $r['student_id'];
+            $sectionAt[$k] = isset($r['entry_id']) ? ($entrySection[$r['entry_id']] ?? null) : ($eligibleSection[$r['student_id']] ?? null);
         }
         $pairs = [];
         foreach ($rows as $r) {
             $layout = $ctx['layouts'][$r['room_id']] ?? null;
             foreach (['side' => $layout?->rightOf($r['seat_number']), 'front_back' => $layout?->behind($r['seat_number'])] as $kind => $n) {
-                $o = $n ? ($at[$r['room_id'].':'.$n] ?? null) : null;
-                if ($o && $section[$o] === $section[$r['student_id']]) {
+                $mine = $sectionAt[$r['room_id'].':'.$r['seat_number']] ?? null;
+                $theirs = $n ? ($sectionAt[$r['room_id'].':'.$n] ?? null) : null;
+                if ($mine !== null && $theirs !== null && $mine === $theirs) {
                     $pairs[] = ['room' => $r['room_id'], 'a' => $r['seat_number'], 'b' => $n, 'kind' => $kind];
                 }
             }
