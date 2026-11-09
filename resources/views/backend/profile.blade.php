@@ -1,3 +1,6 @@
-<x-card class=""><h2>Account profile</h2><dl><dt>Name</dt><dd>{{ auth()->user()->name }}</dd><dt>Email</dt><dd>{{ auth()->user()->email }}</dd><dt>Role</dt><dd>{{ ucfirst($role) }}</dd>
-@if(auth()->user()->profile)<dt>Roll number</dt><dd>{{ auth()->user()->profile->roll_number }}</dd><dt>Section</dt><dd>{{ auth()->user()->profile->section->name }}</dd>
-@endif</dl><p>Academic identity updates are managed by the examination cell.</p></x-card>
+<x-card title="{{ ui_text('admin.copy.my_profile') }}" description="Check your account details. Contact the examination cell if a correction is needed."><dl class="role-profile card-body"><div><dt>{{ ui_text('admin.copy.name') }}</dt><dd>{{ auth()->user()->name }}</dd></div><div><dt>{{ ui_text('admin.copy.email') }}</dt><dd>{{ auth()->user()->email }}</dd></div><div><dt>{{ ui_text('admin.copy.role') }}</dt><dd>{{ ucfirst($role) }}</dd></div>
+@if(auth()->user()->profile)<div><dt>{{ ui_text('admin.copy.roll_number_0f8df4') }}</dt><dd>{{ auth()->user()->profile->roll_number }}</dd></div><div><dt>{{ ui_text('admin.copy.section') }}</dt><dd>{{ auth()->user()->profile->section?->name??'—' }}</dd></div>@endif
+</dl></x-card>
+@if($role==='student')
+<x-card title="{{ ui_text('admin.copy.my_courses') }}"><div class="attention-list">@forelse(auth()->user()->enrollments()->with('course','section')->get() as $enrollment)<div class="attention-item"><div><strong>{{ $enrollment->course->code }} · {{ $enrollment->course->name }}</strong><p>{{ $enrollment->section?->name }} · {{ $enrollment->course->credits }} credits · {{ $enrollment->eligible?'Eligible':'Ineligible' }}</p></div></div>@empty<x-empty-state title="{{ ui_text('admin.copy.no_enrolled_courses_yet') }}" description="Contact the examination cell to check your enrollment." icon="book"/>@endforelse</div></x-card>
+@endif

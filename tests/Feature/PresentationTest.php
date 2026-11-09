@@ -26,7 +26,7 @@ class PresentationTest extends TestCase
         $pages=(new ScreenCatalog)->all();
         $keys=array_map(fn($p)=>$p['role'].':'.$p['slug'],$pages);
         $this->assertCount(count(array_unique($keys)),$keys);
-        foreach(['admin'=>10,'teacher'=>7,'student'=>6] as $role=>$count){$this->assertCount($count,WorkspaceNavigation::groups($role));}
+        foreach(['admin'=>12,'teacher'=>7,'student'=>6] as $role=>$count){$this->assertCount($count,WorkspaceNavigation::groups($role));}
         foreach(['admin','teacher','student'] as $role){
             $map=\App\Support\Workspaces::legacy($role);
             foreach(array_filter($pages,fn($p)=>$p['role']===$role&&$p['kind']!=='auth') as $p){$this->assertArrayHasKey($p['slug'],$map,$role.':'.$p['slug']);}

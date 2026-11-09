@@ -1,6 +1,6 @@
 @props(['role','page','groups','resource'=>null,'unreadCount'=>0,'pendingCount'=>0])
-<aside class="sidebar" id="sidebar" aria-label="{{ ucfirst($role) }} navigation"><a class="brand" href="/{{ $role }}/{{ $role }}-dashboard" aria-label="ExamCell dashboard"><x-logo wordmark :size="38"/></a><div class="workspace-label"><span>{{ ucfirst($role) }} workspace</span><span class="workspace-dot"></span></div>
-<nav class="nav-items"><div class="nav-section-label">WORKSPACE</div>
+<aside class="sidebar" id="sidebar" aria-label="{{ ucfirst($role) }} navigation"><a class="brand" href="/{{ $role }}/{{ $role }}-dashboard" aria-label="{{ ui_text('common.copy.examcell_dashboard') }}"><x-logo wordmark :size="38"/></a><button type="button" class="icon-button nav-close" data-close-nav aria-label="{{ ui_text('navigation.close_navigation') }}"><x-icon name="close" :size="20"/></button><div class="workspace-label"><span>{{ ucfirst($role) }} workspace</span><span class="workspace-dot"></span></div>
+<nav class="nav-items"><div class="nav-section-label">{{ ui_text('navigation.workspace') }}</div>
 @foreach($groups as $group)
 @php
 $active=\App\View\WorkspaceNavigation::active($group,$page['slug'],$resource);
@@ -17,4 +17,4 @@ $active=\App\View\WorkspaceNavigation::active($group,$page['slug'],$resource);
 @endif</a>
 @endif
 @endforeach</nav><div class="sidebar-footer">
-<button type="button" class="collapse-button" data-collapse-nav aria-label="Collapse navigation"><x-icon name="chevron" :size="16"/><span>Collapse sidebar</span></button></div></aside>
+<button type="button" class="collapse-button" data-collapse-nav aria-label="{{ ui_text('navigation.collapse_sidebar') }}"><x-icon name="chevron" :size="16"/><span>{{ ui_text('navigation.collapse_sidebar') }}</span></button></div></aside>

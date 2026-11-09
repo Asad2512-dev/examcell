@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const qs = (s, r = document) => r.querySelector(s);
   const all = (s, r = document) => [...r.querySelectorAll(s)];
+  const uiText = (key, fallback = key, replacements = {}) => window.examcellText?.(key, fallback, replacements) || fallback;
   let lastTrigger = null;
   let pendingForm = null;
   let pendingSubmitter = null;
@@ -21,16 +22,29 @@ document.addEventListener('DOMContentLoaded', function () {
       const form = select.closest('form');
       form.querySelector('[data-seating-save]').disabled = locked;
       form.querySelector('[data-seating-status]').textContent = !select.value
-        ? 'Create an examination schedule before preparing a seating plan.'
-        : locked ? 'Published plans can be previewed. Create a new examination revision to change seating.'
-        : 'Previewing does not save changes. Published plans cannot be changed.';
+        ? uiText('common.runtime.seating.needs_schedule')
+        : locked ? uiText('common.runtime.seating.published')
+        : uiText('common.runtime.seating.preview');
     };
     select.addEventListener('change', update);
     update();
   });
   let navTrigger = null;
+  const mobileNav = window.matchMedia('(max-width:768px)');
+  const syncNavigation = () => {
+    const open = mobileNav.matches && document.body.classList.contains('nav-open');
+    if (qs('.sidebar')) qs('.sidebar').inert = mobileNav.matches && !open;
+    if (qs('.app-main')) qs('.app-main').inert = open;
+  };
+  syncNavigation();
+  mobileNav.addEventListener('change', () => {
+    document.body.classList.remove('nav-open');
+    all('[data-open-nav]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    syncNavigation();
+  });
   const closeNav = () => {
     document.body.classList.remove('nav-open');
+    syncNavigation();
     navTrigger?.setAttribute('aria-expanded', 'false');
     navTrigger?.focus();
   };
@@ -41,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
       navTrigger = b;
       document.body.classList.add('nav-open');
       b.setAttribute('aria-expanded', 'true');
+      syncNavigation();
       qs('.sidebar summary, .sidebar .nav-item[href]')?.focus();
     });
   });
@@ -49,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (innerWidth > 760 && innerWidth <= 1050) document.body.classList.toggle('nav-expanded');
     else document.body.classList.toggle('nav-collapsed');
   }));
-  all('.nav-item[href]').forEach((link) => link.addEventListener('click', () => document.body.classList.remove('nav-open')));
+  all('.nav-item[href]').forEach((link) => link.addEventListener('click', closeNav));
   document.addEventListener('click', event => {
     if (!event.target.closest('.profile-wrap')) {
       qs('.profile-menu')?.setAttribute('hidden', '');
@@ -109,9 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const config = {...form.dataset, ...submitter?.dataset};
     const variant = config.confirmVariant || 'standard';
-    qs('#confirm-title').textContent = config.confirmTitle || 'Confirm action';
-    qs('#confirm-description').textContent = config.confirmMessage || 'Please confirm that you want to continue.';
-    submit.textContent = config.confirmLabel || 'Confirm';
+    qs('#confirm-title').textContent = config.confirmTitle || uiText('common.runtime.confirmation.title');
+    qs('#confirm-description').textContent = config.confirmMessage || uiText('common.runtime.confirmation.description');
+    submit.textContent = config.confirmLabel || uiText('common.runtime.confirmation.label');
     submit.className = `btn ${['destructive', 'irreversible'].includes(variant) ? 'btn-destructive' : 'btn-primary'}`;
     const needsReason = config.confirmReason === 'true' || ['approval', 'rejection', 'publish', 'finalize'].includes(variant);
     reasonWrap.hidden = !needsReason;
@@ -122,9 +137,9 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   all('form[action$="/logout"]').forEach((form) => {
     form.dataset.confirm = 'true';
-    form.dataset.confirmTitle = 'Sign out of ExamCell?';
-    form.dataset.confirmMessage = 'Your current session will end on this device.';
-    form.dataset.confirmLabel = 'Sign out';
+    form.dataset.confirmTitle = uiText('common.runtime.confirmation.logout_title');
+    form.dataset.confirmMessage = uiText('common.runtime.confirmation.logout_message');
+    form.dataset.confirmLabel = uiText('common.runtime.confirmation.logout_label');
     form.dataset.confirmVariant = 'warning';
   });
   all('form[action]').forEach((form) => {
@@ -141,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
   confirmForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (busy || !pendingForm) return;
-    busy = true; submit.disabled = true; submit.textContent = 'Processing…';
+    busy = true; submit.disabled = true; submit.textContent = uiText('common.runtime.confirmation.processing');
     if (reason.value && !pendingForm.querySelector('[name="reason"]')) {
       const input = document.createElement('input'); input.type = 'hidden'; input.name = 'reason'; input.value = reason.value; pendingForm.appendChild(input);
     }

@@ -81,3 +81,5 @@ Artisan::command('examcell:preflight', function () {
     return in_array(false, $checks, true) ? 1 : 0;
 });
 Schedule::command('examcell:backup')->dailyAt('02:00')->withoutOverlapping();
+
+Schedule::command('auth:clear-resets')->hourly()->withoutOverlapping();

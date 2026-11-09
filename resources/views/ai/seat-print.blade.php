@@ -22,26 +22,26 @@ table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid 
 .sm2-svg{height:auto!important;max-height:170mm}
 .noprint{margin:10px auto;max-width:186mm}@media print{.noprint{display:none}}
 </style></head>
-<body><div class="noprint"><button onclick="window.print()">Print</button></div>
+<body><div class="noprint"><button onclick="window.print()">{{ ui_text('ai.copy.print') }}</button></div>
 <div class="sheet">
-<header><img src="/brand/logo-mark.svg" alt="ExamCell logo"><div><h1>{{ $titleType }} — {{ $room['name'] }}</h1><p>Examination Cell · {{ $papers->pluck('exam')->unique()->implode(', ') }}</p></div></header>
-<div class="meta"><div><b>Date &amp; time</b>{{ $data['title'] }}</div><div><b>Papers</b>{{ $papers->map(fn($p)=>$p['course'].' ('.$p['section'].')')->implode(', ') }}</div><div><b>Seats</b>{{ $seats->count() }} students · {{ $room['capacity'] }} seats</div></div>
+<header><img src="/brand/logo-mark.svg" alt="{{ ui_text('ai.copy.examcell_logo') }}"><div><h1>{{ $titleType }} — {{ $room['name'] }}</h1><p>Examination Cell · {{ $papers->pluck('exam')->unique()->implode(', ') }}</p></div></header>
+<div class="meta"><div><b>{{ ui_text('ai.copy.date_time') }}</b>{{ $data['title'] }}</div><div><b>{{ ui_text('ai.copy.papers') }}</b>{{ $papers->map(fn($p)=>$p['course'].' ('.$p['section'].')')->implode(', ') }}</div><div><b>{{ ui_text('ai.copy.seats') }}</b>{{ $seats->count() }} students · {{ $room['capacity'] }} seats</div></div>
 @if($type==='map')
 <div id="print-map"></div>
-<div class="legend">@foreach($data['sections'] as $s)<span><i style="background:{{ $s['color'] }}"></i><b>{{ $s['abbr'] }}</b> {{ $s['name'] }} ({{ collect($room['by_section'])->get($s['key'],0) }})</span>@endforeach<span>♿ accessible seat</span></div>
+<div class="legend">@foreach($data['sections'] as $s)<span><i style="background:{{ $s['color'] }}"></i><b>{{ $s['abbr'] }}</b> {{ $s['name'] }} ({{ collect($room['by_section'])->get($s['key'],0) }})</span>@endforeach<span>{{ ui_text('ai.copy.accessible_seat') }}</span></div>
 <div class="break"></div>
 <h2 style="font-size:16px">Seat list — {{ $room['name'] }}</h2>
-<table><thead><tr><th>Seat</th><th>Roll number</th><th>Name</th><th>Class</th><th>Paper</th></tr></thead><tbody>
+<table><thead><tr><th>{{ ui_text('ai.copy.seat') }}</th><th>{{ ui_text('ai.copy.roll_number') }}</th><th>{{ ui_text('ai.copy.name') }}</th><th>{{ ui_text('ai.copy.class') }}</th><th>{{ ui_text('ai.copy.paper') }}</th></tr></thead><tbody>
 @foreach($seats as $s)<tr><td>{{ $s['label'] }}</td><td>{{ $s['roll'] }}</td><td>{{ $s['name'] }}</td><td>{{ $sections[$s['section']]['abbr']??'' }}</td><td>{{ \Illuminate\Support\Str::before($s['course']??'',' ·') }}</td></tr>
 @endforeach</tbody></table>
 <script src="/js/seat-map.js?v={{ filemtime(public_path('js/seat-map.js')) }}"></script>
 <script>SeatMap.mount(document.getElementById('print-map'), @json($data), {static:true, print:true, roomId: {{ (int) $room['id'] }}});</script>
 @elseif($type==='door')
 <section class="door"><h2>{{ $room['name'] }}</h2><p style="font-size:18px">{{ $data['title'] }} · {{ $papers->pluck('course')->implode(', ') }}</p>
-<p style="font-size:16px">Roll numbers seated in this room:</p>
+<p style="font-size:16px">{{ ui_text('ai.copy.roll_numbers_seated_in_this_room') }}</p>
 <ul>@foreach($seats->sortBy('roll') as $s)<li>{{ $s['roll'] }}</li>@endforeach</ul></section>
 @else
-<table><thead><tr><th style="width:12%">Seat</th><th style="width:20%">Roll number</th><th>Name</th><th style="width:10%">Class</th><th style="width:28%">Signature</th></tr></thead><tbody>
+<table><thead><tr><th style="width:12%">{{ ui_text('ai.copy.seat') }}</th><th style="width:20%">{{ ui_text('ai.copy.roll_number') }}</th><th>{{ ui_text('ai.copy.name') }}</th><th style="width:10%">{{ ui_text('ai.copy.class') }}</th><th style="width:28%">{{ ui_text('ai.copy.signature') }}</th></tr></thead><tbody>
 @foreach($seats as $s)<tr><td>{{ $s['label'] }}</td><td>{{ $s['roll'] }}</td><td>{{ $s['name'] }}</td><td>{{ $sections[$s['section']]['abbr']??'' }}</td><td class="sign"></td></tr>
 @endforeach</tbody></table>
 <p style="font-size:12px;margin-top:16px">Invigilator name &amp; signature: ______________________ &nbsp; Present: ____ / {{ $seats->count() }}</p>

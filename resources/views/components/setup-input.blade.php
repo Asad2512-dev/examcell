@@ -1,0 +1,2 @@
+@props(['name', 'label', 'type'=>'text', 'hint'=>null, 'value'=>'', 'required'=>false])
+<x-form-field :label="$label" :hint="$hint" :error="$errors->first($name)"><input name="{{ $name }}" type="{{ $type }}" value="{{ $type==='password'?'':old($name,$value) }}" @required($required) @if($type==='password') autocomplete="new-password" minlength="12" @endif @if($errors->has($name)) aria-invalid="true" @endif {{ $attributes }}></x-form-field>

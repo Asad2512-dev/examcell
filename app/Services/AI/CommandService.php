@@ -4,11 +4,12 @@ namespace App\Services\AI;
 
 use App\Models as M;
 use App\Services\AcademicContext;
+use App\Services\ScopedQueries;
 
 /** Turns one sentence ("Generate date sheet for Fall 2026") into a routed action. Never writes data itself. */
 class CommandService
 {
-    public const NAV = ['exams', 'seating', 'invigilation', 'marks', 'reports', 'people', 'rooms', 'settings'];
+    public const NAV = ['exams', 'seating', 'invigilation', 'marks', 'reports', 'teachers', 'students', 'academic-setup', 'rooms', 'settings'];
 
     public function __construct(private AiClient $ai) {}
 
@@ -43,7 +44,7 @@ class CommandService
     /** Deterministic answer for "who has missing marks?" */
     public function missingMarks(M\User $u): array
     {
-        $rows = app(\App\Services\ScopedQueries::class)->courses($u)->with('course', 'section', 'submission')->get()
+        $rows = app(ScopedQueries::class)->courses($u)->with('course', 'section', 'submission')->get()
             ->filter(fn ($c) => ! $c->submission || ! in_array($c->submission->status, ['submitted', 'locked']))
             ->map(fn ($c) => $c->course->code.' ('.$c->section->name.')'.($c->submission ? ' — '.$c->submission->status : ' — not started'))->values()->all();
 

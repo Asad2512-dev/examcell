@@ -1,0 +1,6 @@
+/* Existing Inter assets and workspace typography values. */
+@font-face{font-family:Inter;src:url('/assets/fonts/Inter-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:Inter;src:url('/assets/fonts/Inter-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:Inter;src:url('/assets/fonts/Inter-SemiBold.ttf') format('truetype');font-weight:600;font-display:swap}
+@font-face{font-family:Inter;src:url('/assets/fonts/Inter-Bold.ttf') format('truetype');font-weight:700 900;font-display:swap}
+:root{--font-family-ui:Inter,system-ui,sans-serif;--type-body-size:14px;--type-body-line:1.55;--type-paragraph-line:1.65;--type-h1-size:28px;--type-h1-weight:700;--type-h1-line:1.25;--type-h1-spacing:-1px;--type-h2-size:16px;--type-h2-weight:650;--type-h2-line:1.5;--type-h2-spacing:-.3px;--type-h3-size:14px;--type-h3-weight:600;--type-small-size:12px}

@@ -1,0 +1,7 @@
+@php $deadline=$d->scheduleEntry->starts_at->copy()->subHours(48);$pending=\App\Models\DutyRequest::where('duty_assignment_id',$d->id)->where('status','pending')->exists(); @endphp
+<article class="role-task"><div class="role-task-heading"><div><h2>{{ $d->scheduleEntry->examCourse->course->code }} · {{ $d->scheduleEntry->examCourse->course->name }}</h2><p>{{ $d->scheduleEntry->starts_at->format('D, d M Y · H:i') }} · {{ $d->room?->name??$d->scheduleEntry->room->name }}</p><small>{{ $d->reserve?'Standby duty':'Primary invigilation cover' }}</small></div><x-badge :status="ucfirst($d->status)"/></div>
+@if($d->status==='assigned'&&!$pending&&now()->lte($deadline))
+<details class="role-inline-details" @if($errors->has('reason')&&str_contains(url()->previous(),'/duties')) open @endif><summary>{{ ui_text('examinations.copy.cannot_attend_request_cover') }}</summary>
+<form method="POST" action="/workflow/duty/{{ $d->id }}/request" class="role-inline-form">@csrf<p>Request by {{ $deadline->format('d M Y · H:i') }} PKT.</p><x-form-field label="Why are you unavailable?"><textarea name="reason" required minlength="10" maxlength="2000" rows="3">{{ old('reason') }}</textarea></x-form-field><x-button type="submit">{{ ui_text('examinations.copy.request_reserve_cover') }}</x-button></form></details>
+@else<p class="role-subline">{{ $pending?'Awaiting review. Your duty remains assigned.':($d->status==='replaced'?'Replacement approved.':'Cover requests are closed for this duty.') }}</p>@endif
+</article>

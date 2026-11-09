@@ -1,0 +1,178 @@
+{
+  "workspace": "WORKSPACE",
+  "collapse_sidebar": "Collapse sidebar",
+  "close_navigation": "Close navigation",
+  "roles": {
+    "admin": {
+      "groups": {
+        "dashboard": {
+          "label": "Dashboard"
+        },
+        "setup": {
+          "label": "Academic Setup"
+        },
+        "teachers": {
+          "label": "Teachers"
+        },
+        "students": {
+          "label": "Students"
+        },
+        "assistant": {
+          "label": "AI Assistant"
+        },
+        "exams": {
+          "label": "Exams & Date Sheets"
+        },
+        "seating": {
+          "label": "Seating"
+        },
+        "invigilation": {
+          "label": "Invigilation"
+        },
+        "marks": {
+          "label": "Marks & Results"
+        },
+        "reports": {
+          "label": "Reports & Analytics"
+        },
+        "rooms": {
+          "label": "Rooms"
+        },
+        "settings": {
+          "label": "Settings"
+        },
+        "appearance": {
+          "label": "Appearance & content"
+        }
+      },
+      "tabs": {
+        "dashboard": {
+          "main": "Dashboard"
+        },
+        "setup": {
+          "main": "Academic Setup"
+        },
+        "teachers": {
+          "main": "Teachers"
+        },
+        "students": {
+          "main": "Students"
+        },
+        "assistant": {
+          "chat": "Chat",
+          "actions": "AI tools"
+        },
+        "exams": {
+          "overview": "Overview",
+          "datesheet": "Date Sheet",
+          "admit": "Admit Cards"
+        },
+        "seating": {
+          "main": "Seating"
+        },
+        "invigilation": {
+          "main": "Invigilation"
+        },
+        "marks": {
+          "submissions": "Submissions & deadlines",
+          "processing": "Result processing",
+          "corrections": "Corrections",
+          "rechecking": "Rechecking"
+        },
+        "reports": {
+          "reports": "Reports",
+          "analytics": "Analytics & findings"
+        },
+        "rooms": {
+          "main": "Rooms"
+        },
+        "settings": {
+          "ai": "AI Settings",
+          "grading": "Grading schemes",
+          "notifications": "Notifications",
+          "email": "Email & recovery",
+          "audit": "Audit log",
+          "backups": "Backups",
+          "accounts": "Accounts & permissions"
+        },
+        "appearance": {
+          "main": "Appearance & content"
+        }
+      }
+    },
+    "teacher": {
+      "groups": {
+        "dashboard": {
+          "label": "Dashboard"
+        },
+        "assistant": {
+          "label": "AI Assistant"
+        },
+        "courses": {
+          "label": "My Courses & Marks"
+        },
+        "schedule": {
+          "label": "Exam Schedule"
+        },
+        "duties": {
+          "label": "Duties"
+        },
+        "analytics": {
+          "label": "Analytics"
+        },
+        "profile": {
+          "label": "Profile"
+        },
+        "exams": {
+          "label": "Exams"
+        },
+        "results": {
+          "label": "Results"
+        },
+        "rechecking": {
+          "label": "Rechecking"
+        }
+      },
+      "tabs": {
+        "dashboard": {
+          "main": "Dashboard"
+        },
+        "assistant": {
+          "main": "AI Assistant"
+        },
+        "courses": {
+          "courses": "Courses",
+          "marks": "Marks entry",
+          "submissions": "Submissions",
+          "import": "AI import",
+          "students": "Students"
+        },
+        "schedule": {
+          "schedule": "Schedule",
+          "seating": "Seating"
+        },
+        "duties": {
+          "main": "Duties"
+        },
+        "analytics": {
+          "main": "Analytics"
+        },
+        "profile": {
+          "main": "Profile"
+        },
+        "exams": {
+          "schedule": "Schedule",
+          "admit": "Admit card",
+          "seat": "My seat"
+        },
+        "results": {
+          "results": "Results",
+          "performance": "Performance"
+        },
+        "rechecking": {
+          "main": "Rechecking"
+        }
+      }
+    }
+  }
+}

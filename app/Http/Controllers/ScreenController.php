@@ -7,6 +7,7 @@ use App\Services as S;
 use App\Support\Resources;
 use App\Support\ScreenBindings;
 use App\Support\ScreenCatalog;
+use App\Support\Workspaces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
@@ -17,31 +18,40 @@ class ScreenController
     {
         abort_unless($r->user()->role === $role, 403);
         $screen ??= $role.'-dashboard';
-        if ($w = \App\Support\Workspaces::workspace($role, $screen)) {
+        if ($w = Workspaces::workspace($role, $screen)) {
             $tabs = collect($w['tabs']);
             $tab = $tabs->firstWhere('key', $r->input('tab')) ?? $tabs->first();
             $screen = $tab['slug'];
             $view = (string) $r->input('view');
-            if ($view !== '' && (\App\Support\Workspaces::legacy($role)[$view][0] ?? null) === $w['key']) {
+            if ($view !== '' && (Workspaces::legacy($role)[$view][0] ?? null) === $w['key']) {
                 $screen = $view;
-                $tab = $tabs->firstWhere('key', \App\Support\Workspaces::legacy($role)[$view][1]) ?? $tab;
+                $tab = $tabs->firstWhere('key', Workspaces::legacy($role)[$view][1]) ?? $tab;
             }
             $r->attributes->set('ws', ['key' => $w['key'], 'tab' => $tab['key'], 'primary' => $tab['slug']]);
-        } elseif ($to = \App\Support\Workspaces::urlFor($role, $screen, $r->query())) {
+        } elseif ($to = Workspaces::urlFor($role, $screen, $r->query())) {
             return redirect($to);
         } else {
-            [$k, $t] = \App\Support\Workspaces::locate($role, $screen, $r->input('resource'));
+            [$k, $t] = Workspaces::locate($role, $screen, $r->input('resource'));
             $r->attributes->set('ws', ['key' => $k, 'tab' => $t, 'primary' => $screen]);
         }
         $catalog = new ScreenCatalog;
         $page = $catalog->find($role, $screen);
-        if (! $page && in_array($screen, ['records', 'duty-replacements', 'exam-schedule', 'my-duties', 'recheck-requests', 'forecast', 'backup-status'])) {
-            $page = ['slug' => $screen, 'title' => ucwords(str_replace('-', ' ', $screen)), 'module' => 'Workspace', 'kind' => 'table', 'role' => $role, 'description' => 'Authoritative academic records.'];
+        if (! $page && in_array($screen, ['records', 'duty-replacements', 'exam-schedule', 'my-duties', 'recheck-requests', 'forecast', 'backup-status', 'email-settings'])) {
+            $page = ['slug' => $screen, 'title' => ui_text('screens.fallback.title', ['name' => ucwords(str_replace('-', ' ', $screen))], 'Workspace'), 'kind' => 'table', 'role' => $role, 'description' => ui_text('screens.fallback.description')];
         }abort_unless($page, 404);
         if ($page['kind'] === 'auth') {
             return redirect('/sign-in');
         }
         $module = ScreenBindings::module($page);
+        if ($role === 'teacher' && $screen === 'returned-marks-correction') {
+            $module = 'marks';
+        }
+        if ($screen === 'email-settings') {
+            abort_unless($role === 'admin', 403);
+            $module = 'email-settings';
+            $page['description'] = ui_text('screens.email_settings.description');
+            $page['module'] = 'Settings';
+        }
         if ($screen === 'backup-status') {
             $module = 'backups';
             abort_unless($role === 'admin', 403);
@@ -54,9 +64,15 @@ class ScreenController
         $u = $r->user();
         $scope = app(S\ScopedQueries::class);
         $context = app(S\AcademicContext::class);
-        $r->validate(['q' => 'nullable|string|max:100', 'status' => 'nullable|string|max:40', 'sort' => 'nullable|in:id,name,created_at', 'direction' => 'nullable|in:asc,desc', 'course_id' => 'nullable|integer', 'id' => 'nullable|integer', 'resource' => 'nullable|string', 'conversation_id' => 'nullable|integer']);
+        $r->validate(['q' => 'nullable|string|max:100', 'status' => 'nullable|string|max:40', 'sort' => 'nullable|in:id,name,created_at', 'direction' => 'nullable|in:asc,desc', 'course_id' => 'nullable|integer', 'semester_id' => 'nullable|integer', 'id' => 'nullable|integer', 'resource' => 'nullable|string', 'conversation_id' => 'nullable|integer']);
         $courses = $scope->courses($u)->with(['course', 'components', 'submission', 'examination', 'submissionDeadlines' => fn ($q) => $q->when($role === 'teacher', fn ($t) => $t->where('teacher_id', $u->id))])->orderBy('id')->get();
         $selected = $r->filled('course_id') ? $courses->firstWhere('id', $r->integer('course_id')) : $courses->first();
+        if ($role === 'teacher' && ! $r->filled('course_id')) {
+            $selected = $courses->sortBy(fn ($course) => [
+                $course->submission?->status === 'returned' ? 0 : ($course->submission?->status === 'submitted' ? 2 : 1),
+                $course->submissionDeadlineFor($u)?->timestamp ?? PHP_INT_MAX,
+            ])->first();
+        }
         if ($r->filled('course_id') && ! $selected) {
             abort(404);
         }
@@ -76,6 +92,12 @@ class ScreenController
         if ($query) {
             $query = $context->apply($query, $u);
             $table = $query->getModel()->getTable();
+            if ($module === 'roster' && $role === 'teacher' && $r->filled('course_id') && $selected) {
+                $query->where('course_id', $selected->course_id)->where('section_id', $selected->section_id);
+            }
+            if ($module === 'results' && $role === 'student' && $r->filled('semester_id')) {
+                $query->whereHas('examCourse.section', fn ($q) => $q->where('semester_id', $r->integer('semester_id')));
+            }
             if ($r->filled('q')) {
                 $q = $r->input('q');
                 $fields = array_intersect(['name', 'code', 'email', 'roll_number', 'action', 'type'], Schema::getColumnListing($table));
@@ -95,6 +117,9 @@ class ScreenController
             $sort = $r->input('sort', 'id');
             if (! Schema::hasColumn($table, $sort)) {
                 $sort = 'id';
+            }
+            if ($module === 'schedule' && $role !== 'admin' && ! $r->filled('sort')) {
+                $query->orderByRaw('starts_at < ?', [now()])->orderBy('starts_at');
             }
             $records = $query->orderBy($table.'.'.$sort, $r->input('direction', 'desc'))->paginate(20)->withQueryString();
             if ($module === 'academic' && $r->filled('id')) {

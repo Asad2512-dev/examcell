@@ -1,5 +1,0 @@
-{
-    "concurrent_duty_requests": "one saved, duplicate rejected",
-    "concurrent_seating": "two serialized revisions, exactly two unique seats",
-    "processes_per_check": 2
-}

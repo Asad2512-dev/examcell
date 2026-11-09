@@ -1,0 +1,23 @@
+/* One focus treatment per control. Composite fields paint it around their full
+   border; their inner input must never draw a second, offset ring. */
+body{--control-focus:var(--primary);--control-focus-halo:color-mix(in srgb,var(--control-focus) 15%,transparent)}
+.landing-story{--control-focus:var(--ls-blue)}
+body :is(input,select,textarea):where(:not([type="checkbox"]):not([type="radio"])):is(:focus,:focus-visible){border-color:var(--control-focus);outline:none;box-shadow:0 0 0 3px var(--control-focus-halo)}
+body :is(input,select,textarea)[aria-invalid="true"]:is(:focus,:focus-visible){border-color:var(--danger);box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 16%,transparent)}
+body :is(.ex-auth-control,.password-input,.password-field,.table-search,.ls-room-search):focus-within{border-color:var(--control-focus);outline:none;box-shadow:0 0 0 3px var(--control-focus-halo)}
+body :is(.ex-auth-control,.password-input,.password-field,.table-search,.ls-room-search) :is(input,select,textarea):is(:focus,:focus-visible){outline:none;box-shadow:none}
+body .password-field:focus-within>input{border-color:var(--control-focus)}
+body :is(.password-field,.table-search){border-radius:var(--radius-sm,8px)}
+body .table-search{border:1px solid transparent;padding:4px 8px}
+body :is(.ex-auth-control,.password-input,.table-search,.ls-room-search):has([aria-invalid="true"]):focus-within{--control-focus:var(--danger);--control-focus-halo:color-mix(in srgb,var(--danger) 16%,transparent)}
+/* Visibility toggles / search actions retain an inset keyboard indicator,
+   distinct from the surrounding field without another outer outline. */
+body :is(.ex-auth-control,.password-input,.password-field,.ls-room-search) button:focus-visible{outline:2px solid var(--control-focus);outline-offset:-6px;box-shadow:none}
+body :is(input[type="checkbox"],input[type="radio"]):focus-visible{outline:2px solid var(--control-focus);outline-offset:2px;box-shadow:none}
+body .catalog-head input{border:1px solid transparent;border-radius:8px;padding:8px 10px}
+body .catalog-head input:focus{border-color:var(--control-focus)}
+@media(forced-colors:active){
+ body :is(input,select,textarea):where(:not([type="checkbox"]):not([type="radio"])):focus,
+ body :is(.ex-auth-control,.password-input,.password-field,.table-search,.ls-room-search):focus-within{outline:2px solid Highlight;outline-offset:2px;box-shadow:none}
+ body :is(.ex-auth-control,.password-input,.password-field,.table-search,.ls-room-search) :is(input,select,textarea):focus{outline:none;box-shadow:none}
+}

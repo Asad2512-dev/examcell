@@ -6,20 +6,20 @@ $rlAcc=$rlRoom?collect($rlRoom->accessible_seats??[])->map(fn($n)=>$rlLayout->la
 @endphp
 @if($rlRoom)
 <link rel="stylesheet" href="/css/seat-map.css?v={{ filemtime(public_path('css/seat-map.css')) }}">
-<x-card title="Room layout" description="Set the real rows, columns, aisles and unusable seats. Capacity is calculated from the usable seats.">
+<x-card title="{{ ui_text('ai.copy.room_layout') }}" description="Set the real rows, columns, aisles and unusable seats. Capacity is calculated from the usable seats.">
 <div class="card-body">
 <form method="GET" class="sm2-picker">@foreach(collect(request()->query())->except('layout_room') as $k=>$v)@if(is_string($v))<input type="hidden" name="{{ $k }}" value="{{ $v }}">@endif
-@endforeach<label class="field"><span>Room</span><select name="layout_room" onchange="this.form.submit()">@foreach($rlRooms as $r)<option value="{{ $r->id }}" @selected($r->id===$rlRoom->id)>{{ $r->name }} ({{ $r->capacity }} seats)</option>
+@endforeach<label class="field"><span>{{ ui_text('ai.copy.room') }}</span><select name="layout_room" onchange="this.form.submit()">@foreach($rlRooms as $r)<option value="{{ $r->id }}" @selected($r->id===$rlRoom->id)>{{ $r->name }} ({{ $r->capacity }} seats)</option>
 @endforeach</select></label></form>
 <form method="POST" action="/admin/rooms/{{ $rlRoom->id }}/layout" class="form-grid" id="room-layout-form">@csrf
 <x-input name="rows" type="number" label="Rows (front to back)" min="1" max="40" :value="old('rows',$rlLayout->rows)" required/>
 <x-input name="cols" type="number" label="Seats per row" min="1" max="30" :value="old('cols',$rlLayout->cols)" required/>
-<x-input name="aisles" label="Aisle after column(s)" :value="old('aisles',implode(', ',$rlLayout->aisles))" placeholder="e.g. 3, 6" hint="An aisle separates neighbours: seats across it are not side by side."/>
-<x-input name="disabled" label="Broken / unusable seats" :value="old('disabled',implode(', ',$rlRoom->disabled_seats??[]))" placeholder="e.g. A1, C4"/>
-<x-input name="accessible" label="Accessible seats" :value="old('accessible',$rlAcc)" placeholder="e.g. A1, A2" hint="Students marked special-needs are only placed here."/>
-<x-select name="door_side" label="Door on"><option value="right" @selected(($rlRoom->door_side??'right')==='right')>Right wall</option><option value="left" @selected($rlRoom->door_side==='left')>Left wall</option></x-select>
+<x-input name="aisles" label="Aisle after column(s)" :value="old('aisles',implode(', ',$rlLayout->aisles))" placeholder="{{ ui_text('ai.copy.e_g_3_6') }}" hint="An aisle separates neighbours: seats across it are not side by side."/>
+<x-input name="disabled" label="Broken / unusable seats" :value="old('disabled',implode(', ',$rlRoom->disabled_seats??[]))" placeholder="{{ ui_text('ai.copy.e_g_a1_c4') }}"/>
+<x-input name="accessible" label="Accessible seats" :value="old('accessible',$rlAcc)" placeholder="{{ ui_text('ai.copy.e_g_a1_a2') }}" hint="Students marked special-needs are only placed here."/>
+<x-select name="door_side" label="Door on"><option value="right" @selected(($rlRoom->door_side??'right')==='right')>{{ ui_text('ai.copy.right_wall') }}</option><option value="left" @selected($rlRoom->door_side==='left')>{{ ui_text('ai.copy.left_wall') }}</option></x-select>
 <p class="muted text-xs" data-layout-capacity aria-live="polite"></p>
-<x-button type="submit" icon="check" data-confirm="true" data-confirm-title="Save room layout?" data-confirm-message="Capacity becomes the number of usable seats. Existing seat numbers in saved plans follow the new layout." data-confirm-label="Save layout">Save layout</x-button></form>
+<x-button type="submit" icon="check" data-confirm="true" data-confirm-title="{{ ui_text('ai.copy.save_room_layout') }}" data-confirm-message="{{ ui_text('ai.copy.capacity_becomes_the_number_of_usable_seats_existing_sea') }}" data-confirm-label="{{ ui_text('ai.copy.save_layout') }}">{{ ui_text('ai.copy.save_layout') }}</x-button></form>
 <div id="room-layout-preview"></div>
 </div></x-card>
 <script src="/js/seat-map.js?v={{ filemtime(public_path('js/seat-map.js')) }}"></script>

@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Services\AuditService;
-use Illuminate\Auth\Events\PasswordReset;
+use App\Services\PasswordRecovery;
+use App\Services\RecoveryMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 
 class AuthController
 {
@@ -20,7 +20,12 @@ class AuthController
             return redirect('/workspace');
         }
 
-        return view('backend.auth', ['mode' => $mode]);
+        $state = request()->session()->get('password_recovery', []);
+        if ($mode === 'forgot' && request()->boolean('sent') && ! empty($state['email']) && ($state['sent_at'] ?? 0) > now()->subMinutes(15)->timestamp) {
+            $mode = 'sent';
+        }
+
+        return $this->authView(['mode' => $mode, 'recoveryEmail' => $state['email'] ?? '', 'resendAfter' => max(0, 60 - (now()->timestamp - ($state['sent_at'] ?? 0)))]);
     }
 
     public function login(LoginRequest $r, UserRepositoryInterface $users)
@@ -31,6 +36,8 @@ class AuthController
         }
         Auth::login($user, $r->boolean('remember'));
         $r->session()->regenerate();
+        $r->session()->put('password_hash_web', $user->getAuthPassword());
+        $r->session()->forget('password_recovery');
         app(AuditService::class)->record('auth.login', $r->user());
 
         return redirect('/'.$r->user()->role.'/'.$r->user()->role.'-dashboard');
@@ -48,25 +55,43 @@ class AuthController
 
     public function forgot(Request $r)
     {
-        $r->validate(['email' => 'required|email']);
-        Password::sendResetLink($r->only('email'));
+        $data = $r->validate(['email' => 'required|email|max:254']);
+        if (! app(RecoveryMail::class)->ready()) {
+            return redirect()->route('password.request')->withErrors(['delivery' => 'Password recovery is temporarily unavailable. Please contact your examination cell administrator.'])->onlyInput('email');
+        }
+        app(PasswordRecovery::class)->send($data['email']);
+        $r->session()->put('password_recovery', ['email' => $data['email'], 'sent_at' => now()->timestamp]);
 
-        return back()->with('status', 'If this account exists, a reset link has been sent through the configured mail transport.');
+        return redirect()->route('password.request', ['sent' => 1])->with('status', 'If an active account matches that email, a password-reset link will arrive shortly.');
     }
 
     public function resetForm(Request $r, string $token)
     {
-        return view('backend.auth', ['mode' => 'reset', 'token' => $token, 'email' => $r->email]);
+        $email = $r->input('email');
+        $valid = is_string($email) && app(PasswordRecovery::class)->valid($email, $token);
+
+        return $this->authView(['mode' => $valid ? 'reset' : 'reset-invalid', 'token' => $valid ? $token : null, 'email' => $valid ? $email : '']);
     }
 
     public function reset(Request $r)
     {
-        $r->validate(['token' => 'required', 'email' => 'required|email', 'password' => 'required|confirmed|min:12|max:255']);
-        $s = Password::reset($r->only('email', 'password', 'password_confirmation', 'token'), function ($u, $p) {
-            $u->forceFill(['password' => Hash::make($p), 'remember_token' => Str::random(60)])->save();
-            event(new PasswordReset($u));
-        });
+        $data = $r->validate(['token' => 'required|string|max:255', 'email' => 'required|email|max:254', 'password' => 'required|string|confirmed|min:12|max:255']);
+        $status = app(PasswordRecovery::class)->reset(collect($data)->only(['token', 'email', 'password'])->all());
+        if ($status !== Password::PASSWORD_RESET) {
+            return redirect()->route('password.reset', ['token' => $data['token'], 'email' => $data['email']])
+                ->withErrors(['email' => 'This reset link is invalid, expired or already used. Request a new link to continue.']);
+        }
+        $r->session()->invalidate();
+        $r->session()->regenerateToken();
 
-        return $s === Password::PASSWORD_RESET ? redirect('/sign-in')->with('status', __($s)) : back()->withErrors(['email' => __($s)]);
+        return redirect()->route('login')->with('status', 'Password updated successfully. Sign in with your new password.');
+    }
+
+    private function authView(array $data)
+    {
+        return response()->view('backend.auth', $data)
+            ->header('Cache-Control', 'private, no-store, max-age=0')
+            ->header('Referrer-Policy', 'no-referrer')
+            ->header('X-Robots-Tag', 'noindex, nofollow');
     }
 }

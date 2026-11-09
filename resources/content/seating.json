@@ -1,0 +1,27 @@
+{
+  "copy": {
+    "choose_your_exam_slot_to_locate_your_seat": "Choose your exam slot to locate your seat.",
+    "your_room_and_seat_appear_above_the_map_your_own_seat_is": "Your room and seat appear above the map. Your own seat is highlighted; other students' personal details remain private.",
+    "manual_seating_without_ai_sequential": "Manual seating without AI (sequential)",
+    "allocate_or_regenerate_seating": "Allocate or regenerate seating",
+    "review_a_proposed_plan_then_save_when_youre_ready": "Review a proposed plan, then save when you’re ready.",
+    "scheduled_course": "Scheduled course",
+    "no_scheduled_courses_available": "No scheduled courses available",
+    "eligible_students_receive_unique_numbered_seats_changes": "Eligible students receive unique numbered seats. Changes to existing plans are recorded in the audit history.",
+    "preview_plan": "Preview plan",
+    "save_seating_plan": "Save seating plan",
+    "seating_preview": "Seating preview",
+    "proposed_assignments_only_no_changes_have_been_saved": "Proposed assignments only. No changes have been saved.",
+    "resolve_these_conflicts_before_saving": "Resolve these conflicts before saving.",
+    "student": "Student",
+    "roll_number": "Roll number",
+    "room": "Room",
+    "seat": "Seat",
+    "no_eligible_seat_assignments_for_this_schedule": "No eligible seat assignments for this schedule.",
+    "course": "Course",
+    "date_time": "Date / Time",
+    "no_allocated_seats_are_available_to_your_account": "No allocated seats are available to your account.",
+    "save_this_seating_plan": "Save this seating plan?",
+    "save_seat_assignments_for_the_selected_schedule_if_a_pla": "Save seat assignments for the selected schedule. If a plan already exists, its seats will be regenerated and the previous assignments recorded in the audit history."
+  }
+}

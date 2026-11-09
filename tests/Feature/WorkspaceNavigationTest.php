@@ -31,7 +31,7 @@ class WorkspaceNavigationTest extends TestCase
     public function test_sidebars_are_exactly_the_short_flat_lists(): void
     {
         $f = $this->fixture();
-        $expected = ['admin' => ['Dashboard', 'AI Assistant', 'Exams & Date Sheets', 'Seating', 'Invigilation', 'Marks & Results', 'Reports & Analytics', 'People & Academics', 'Rooms', 'Settings'], 'teacher' => ['Dashboard', 'AI Assistant', 'My Courses & Marks', 'Exam Schedule', 'Duties', 'Analytics', 'Profile & Availability'], 'student' => ['Dashboard', 'AI Assistant', 'Exams', 'Results', 'Rechecking', 'Profile']];
+        $expected = ['admin' => ['Dashboard', 'Academic Setup', 'Teachers', 'Students', 'AI Assistant', 'Exams & Date Sheets', 'Seating', 'Invigilation', 'Marks & Results', 'Reports & Analytics', 'Rooms', 'Settings'], 'teacher' => ['Dashboard', 'AI Assistant', 'My Courses & Marks', 'Exam Schedule', 'Duties', 'Analytics', 'Profile & Availability'], 'student' => ['Dashboard', 'AI Assistant', 'Exams', 'Results', 'Rechecking', 'Profile']];
         foreach ($expected as $role => $labels) {
             $this->assertSame($labels, array_column(Workspaces::definition($role), 'label'));
             $html = $this->actingAs($f[$role])->get('/'.$role.'/'.$role.'-dashboard')->assertOk()->getContent();
@@ -66,10 +66,10 @@ class WorkspaceNavigationTest extends TestCase
     {
         $f = $this->fixture();
         $this->actingAs($f['admin']);
-        foreach (['date-sheet-list' => '/admin/exams?tab=datesheet', 'teacher-directory' => '/admin/people?tab=teachers', 'rechecking-request-queue' => '/admin/marks?tab=rechecking', 'backup-status' => '/admin/settings?tab=backups', 'account-and-permissions' => '/admin/settings?tab=accounts', 'gpa-and-cgpa-rules' => '/admin/settings?tab=grading&view=gpa-and-cgpa-rules', 'room-directory' => '/admin/rooms', 'seating-plan-overview' => '/admin/seating', 'session-expired' => '/admin/admin-dashboard'] as $old => $new) {
+        foreach (['date-sheet-list' => '/admin/exams?tab=datesheet', 'teacher-directory' => '/admin/teachers', 'rechecking-request-queue' => '/admin/marks?tab=rechecking', 'backup-status' => '/admin/settings?tab=backups', 'account-and-permissions' => '/admin/settings?tab=accounts', 'gpa-and-cgpa-rules' => '/admin/settings?tab=grading&view=gpa-and-cgpa-rules', 'room-directory' => '/admin/rooms', 'seating-plan-overview' => '/admin/seating', 'session-expired' => '/admin/admin-dashboard'] as $old => $new) {
             $this->call('GET', '/admin/'.$old)->assertRedirect($new);
         }
-        $this->call('GET', '/admin/courses?q=x')->assertRedirectContains('/admin/people?');
+        $this->call('GET', '/admin/courses?q=x')->assertRedirectContains('/admin/records?');
         $this->actingAs($f['student']);
         $this->call('GET', '/student/admit-card')->assertRedirect('/student/exams?tab=admit');
         $this->actingAs($f['teacher']);
@@ -99,7 +99,7 @@ class WorkspaceNavigationTest extends TestCase
         $this->get('/admin/marks?tab=rechecking')->assertOk()->assertSee('Triage requests');
         $this->get('/admin/marks?tab=processing')->assertOk()->assertSee('Check anomalies');
         $this->get('/admin/reports?tab=reports')->assertOk()->assertSee('Quick reports');
-        $this->get('/admin/people?tab=students')->assertOk()->assertSee('AI Import');
+        $this->get('/admin/students')->assertOk()->assertSee('AI Import');
         $this->get('/admin/admin-dashboard')->assertOk()->assertSee('Tell AI what you need');
     }
 

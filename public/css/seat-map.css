@@ -1,6 +1,6 @@
 /* Graphical seat map. Tokens switch with the app's .dark theme class. */
-:root{--sm-floor:#fbfcfe;--sm-wall:#8a93a8;--sm-empty:#e3e7ee;--sm-occupied:#b9c2d3;--sm-disabled:#eef0f4;--sm-text:#1f2638;--sm-axis:#6b7489;--sm-board:#3d5a4c;--sm-invig:#d9dde6;--sm-window:#7cc4e8;--sm-ring:#0072B2;--sm-adj:#d81b36}
-.dark{--sm-floor:#141b2b;--sm-wall:#5b6680;--sm-empty:#2c3549;--sm-occupied:#4a5671;--sm-disabled:#1b2232;--sm-text:#e6ebf7;--sm-axis:#97a2ba;--sm-board:#5f8a76;--sm-invig:#2c3549;--sm-window:#3f8db6;--sm-ring:#56B4E9;--sm-adj:#ff5c75}
+:root{--sm-floor:var(--palette-fbfcfe);--sm-wall:var(--palette-8a93a8);--sm-empty:var(--palette-e3e7ee);--sm-occupied:var(--palette-b9c2d3);--sm-disabled:var(--palette-eef0f4);--sm-text:var(--palette-1f2638);--sm-axis:var(--palette-6b7489);--sm-board:var(--palette-3d5a4c);--sm-invig:var(--palette-d9dde6);--sm-window:var(--palette-7cc4e8);--sm-ring:var(--palette-0072b2);--sm-adj:var(--palette-d81b36)}
+.dark{--sm-floor:var(--palette-141b2b);--sm-wall:var(--palette-5b6680);--sm-empty:var(--palette-2c3549);--sm-occupied:var(--palette-4a5671);--sm-disabled:var(--palette-1b2232);--sm-text:var(--palette-e6ebf7);--sm-axis:var(--palette-97a2ba);--sm-board:var(--palette-5f8a76);--sm-invig:var(--palette-2c3549);--sm-window:var(--palette-3f8db6);--sm-ring:var(--palette-56b4e9);--sm-adj:var(--palette-ff5c75)}
 .sm2 [hidden]{display:none!important}
 .sm2{display:flex;flex-direction:column;gap:12px;min-width:0}
 .sm2-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -39,7 +39,7 @@
 .sm2-ring{fill:none;stroke:var(--sm-ring);stroke-width:3;animation:sm2pulse 1.6s ease-in-out infinite}
 .sm2-disabled{fill:var(--sm-disabled);stroke:var(--sm-wall);stroke-dasharray:2 2}.sm2-x{stroke:var(--sm-wall);stroke-width:2}
 .sm2-adj{stroke:var(--sm-adj);stroke-width:4;stroke-linecap:round;pointer-events:none}.sm2-adj.is-fb{stroke-dasharray:6 5;stroke-width:3}
-.sm2-desk.is-valid .sm2-deskrect{stroke:#047857;stroke-width:4}.sm2-desk.is-invalid .sm2-deskrect{stroke:var(--sm-adj);stroke-width:4}
+.sm2-desk.is-valid .sm2-deskrect{stroke:var(--palette-047857);stroke-width:4}.sm2-desk.is-invalid .sm2-deskrect{stroke:var(--sm-adj);stroke-width:4}
 .sm2-ghost{fill:var(--primary);opacity:.45;pointer-events:none}
 .sm2-pulse .sm2-deskrect{animation:sm2flash .8s ease-in-out 4}
 @keyframes sm2pulse{50%{stroke-width:7;opacity:.55}}

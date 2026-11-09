@@ -1,4 +1,8 @@
 {
+  "_content-EmTWui1A.js": {
+    "file": "assets/content-EmTWui1A.js",
+    "name": "content"
+  },
   "node_modules/chart.js/dist/chart.js": {
     "file": "assets/chart-CSmr0dTq.js",
     "name": "chart",
@@ -6,7 +10,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-BmqJsOLs.css",
+    "file": "assets/app-Ca0ndCAq.css",
     "name": "app",
     "names": [
       "app.css"
@@ -14,13 +18,49 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/css/auth-reference.css": {
+    "file": "assets/auth-reference-yWVI3pr0.css",
+    "name": "auth-reference",
+    "names": [
+      "auth-reference.css"
+    ],
+    "src": "resources/css/auth-reference.css",
+    "isEntry": true
+  },
+  "resources/css/landing.css": {
+    "file": "assets/landing-B4gfoQBN.css",
+    "name": "landing",
+    "names": [
+      "landing.css"
+    ],
+    "src": "resources/css/landing.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app-CJ6rnt1k.js",
+    "file": "assets/app-BQT0qAxb.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "imports": [
+      "_content-EmTWui1A.js"
+    ],
     "dynamicImports": [
       "node_modules/chart.js/dist/chart.js"
+    ]
+  },
+  "resources/js/auth-reference.js": {
+    "file": "assets/auth-reference-DID6nYjC.js",
+    "name": "auth-reference",
+    "src": "resources/js/auth-reference.js",
+    "isEntry": true
+  },
+  "resources/js/landing.js": {
+    "file": "assets/landing-Dw1ktMTR.js",
+    "name": "landing",
+    "src": "resources/js/landing.js",
+    "isEntry": true,
+    "imports": [
+      "_content-EmTWui1A.js"
     ]
   }
 }

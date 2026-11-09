@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,15 @@ abstract class TestCase extends BaseTestCase
         Carbon::setTestNow(Carbon::parse('2026-10-12 08:00:00', 'Asia/Karachi'));
 
         return $app;
+    }
+
+    /** Manual test identity switches emulate login’s password-hash session binding. */
+    public function actingAs(Authenticatable $user, $guard = null)
+    {
+        parent::actingAs($user, $guard);
+        $this->withSession(['password_hash_'.($guard ?: config('auth.defaults.guard')) => $user->getAuthPassword()]);
+
+        return $this;
     }
 
     /** Legacy screen URLs now redirect into workspaces; follow that one hop so older assertions still read the page. */

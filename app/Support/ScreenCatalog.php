@@ -9,6 +9,16 @@ class ScreenCatalog
     public function __construct()
     {
         $this->screens = json_decode(file_get_contents(resource_path('screens.json')), true, 512, JSON_THROW_ON_ERROR);
+        $copy = app(UiContent::class)->section('screens')['catalog'] ?? [];
+        foreach ($this->screens as &$screen) {
+            foreach (['title', 'description', 'action', 'module'] as $field) {
+                $value = $copy[$screen['slug']][$field] ?? null;
+                if (is_string($value)) {
+                    $screen[$field] = $value;
+                }
+            }
+        }
+        unset($screen);
     }
 
     public function all(): array { return $this->screens; }

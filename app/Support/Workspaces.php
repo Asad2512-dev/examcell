@@ -15,18 +15,21 @@ final class Workspaces
     {
         $t = fn (string $key, string $label, string $slug, array $pills = []) => compact('key', 'label', 'slug', 'pills');
 
-        return match ($role) {
+        $definitions = match ($role) {
             'admin' => [
                 ['key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard', 'slug' => 'admin-dashboard', 'tabs' => [$t('main', 'Dashboard', 'admin-dashboard')]],
+                ['key' => 'setup', 'label' => 'Academic Setup', 'icon' => 'book', 'slug' => 'academic-setup', 'tabs' => [$t('main', 'Academic Setup', 'academic-setup')]],
+                ['key' => 'teachers', 'label' => 'Teachers', 'icon' => 'users', 'slug' => 'teachers', 'tabs' => [$t('main', 'Teachers', 'teacher-directory')]],
+                ['key' => 'students', 'label' => 'Students', 'icon' => 'users', 'slug' => 'students', 'tabs' => [$t('main', 'Students', 'student-directory')]],
                 ['key' => 'assistant', 'label' => 'AI Assistant', 'icon' => 'sparkles', 'slug' => 'assistant', 'tabs' => [$t('chat', 'Chat', 'admin-ai-assistant'), $t('actions', 'AI tools', 'ai-automation')]],
                 ['key' => 'exams', 'label' => 'Exams & Date Sheets', 'icon' => 'calendar', 'slug' => 'exams', 'tabs' => [$t('overview', 'Overview', 'examination-list'), $t('datesheet', 'Date Sheet', 'date-sheet-list'), $t('admit', 'Admit Cards', 'eligible-admit-card-students')]],
                 ['key' => 'seating', 'label' => 'Seating', 'icon' => 'grid', 'slug' => 'seating', 'tabs' => [$t('main', 'Seating', 'seating-plan-overview')]],
                 ['key' => 'invigilation', 'label' => 'Invigilation', 'icon' => 'shield', 'slug' => 'invigilation', 'tabs' => [$t('main', 'Invigilation', 'duty-allocation-overview')]],
                 ['key' => 'marks', 'label' => 'Marks & Results', 'icon' => 'award', 'slug' => 'marks', 'tabs' => [$t('submissions', 'Submissions & deadlines', 'marks-submission-overview'), $t('processing', 'Result processing', 'result-processing-overview'), $t('corrections', 'Corrections', 'result-batch-overview'), $t('rechecking', 'Rechecking', 'rechecking-request-queue')]],
                 ['key' => 'reports', 'label' => 'Reports & Analytics', 'icon' => 'chart', 'slug' => 'reports', 'tabs' => [$t('reports', 'Reports', 'reports-overview'), $t('analytics', 'Analytics & findings', 'analytics-overview')]],
-                ['key' => 'people', 'label' => 'People & Academics', 'icon' => 'users', 'slug' => 'people', 'tabs' => [$t('students', 'Students', 'student-directory'), $t('teachers', 'Teachers', 'teacher-directory'), $t('academics', 'Departments · Courses · Sections', 'departments', [['Departments', 'departments'], ['Courses', 'courses'], ['Sections', 'sections'], ['Enrollments', 'student-enrollment'], ['Teacher assignments', 'teacher-course-assignment']]), $t('sessions', 'Sessions', 'academic-sessions', [['Sessions', 'academic-sessions'], ['Semesters', 'semesters']])]],
                 ['key' => 'rooms', 'label' => 'Rooms', 'icon' => 'home', 'slug' => 'rooms', 'tabs' => [$t('main', 'Rooms', 'room-directory')]],
-                ['key' => 'settings', 'label' => 'Settings', 'icon' => 'settings', 'slug' => 'settings', 'tabs' => [$t('ai', 'AI Settings', 'ai-settings'), $t('grading', 'Grading schemes', 'grading-scheme-list'), $t('notifications', 'Notifications', 'notification-settings'), $t('audit', 'Audit log', 'audit-logs'), $t('backups', 'Backups', 'backup-status'), $t('accounts', 'Accounts & permissions', 'account-and-permissions')]],
+                ['key' => 'settings', 'label' => 'Settings', 'icon' => 'settings', 'slug' => 'settings', 'tabs' => [$t('ai', 'AI Settings', 'ai-settings'), $t('grading', 'Grading schemes', 'grading-scheme-list'), $t('notifications', 'Notifications', 'notification-settings'), $t('email', 'Email & recovery', 'email-settings'), $t('audit', 'Audit log', 'audit-logs'), $t('backups', 'Backups', 'backup-status'), $t('accounts', 'Accounts & permissions', 'account-and-permissions')]],
+                ['key' => 'appearance', 'label' => 'Appearance & content', 'icon' => 'settings', 'slug' => 'appearance', 'tabs' => [$t('main', 'Appearance & content', 'appearance')]],
             ],
             'teacher' => [
                 ['key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard', 'slug' => 'teacher-dashboard', 'tabs' => [$t('main', 'Dashboard', 'teacher-dashboard')]],
@@ -46,6 +49,19 @@ final class Workspaces
                 ['key' => 'profile', 'label' => 'Profile', 'icon' => 'user', 'slug' => 'profile', 'tabs' => [$t('main', 'Profile', 'my-profile')]],
             ],
         };
+
+        foreach ($definitions as &$workspace) {
+            $workspaceKey = $workspace['key'];
+            $workspace['label'] = ui_text("navigation.roles.$role.groups.$workspaceKey.label", [], $workspace['label']);
+            foreach ($workspace['tabs'] as &$tab) {
+                $tabKey = $tab['key'];
+                $tab['label'] = ui_text("navigation.roles.$role.tabs.$workspaceKey.$tabKey", [], $tab['label']);
+            }
+            unset($tab);
+        }
+        unset($workspace);
+
+        return $definitions;
     }
 
     public static function workspace(string $role, string $slug): ?array
@@ -65,10 +81,11 @@ final class Workspaces
         if ($slug === 'records' && $resource) {
             return match ($resource) {
                 'rooms', 'room-unavailability' => ['rooms', 'main'],
-                'users', 'students', 'enrollments' => ['people', 'students'],
-                'teacher-profiles', 'teacher-assignments' => ['people', 'teachers'],
-                'sessions', 'semesters' => ['people', 'sessions'],
-                'departments', 'courses', 'sections' => ['people', 'academics'],
+                'users' => ['settings', 'accounts'],
+                'students', 'enrollments' => ['students', 'main'],
+                'teacher-profiles', 'teacher-assignments' => ['teachers', 'main'],
+                'sessions', 'semesters' => ['setup', 'main'],
+                'departments', 'courses', 'sections' => ['setup', 'main'],
                 'examinations', 'exam-courses', 'components' => ['exams', 'overview'],
                 'grading', 'boundaries' => ['settings', 'grading'],
                 default => ['dashboard', 'main'],
@@ -105,6 +122,15 @@ final class Workspaces
                 }
                 $map[$s['slug']] = $over[$s['slug']] ?? $current;
             }
+            foreach ($map as $slug => $location) {
+                if ($location[0] === 'people') {
+                    $map[$slug] = match ($location[1]) {
+                        'students' => ['students', 'main'], 'teachers' => ['teachers', 'main'], default => ['setup', 'main']
+                    };
+                }
+            }
+            $map['teacher-profile-availability'] = ['invigilation', 'main'];
+            $map['email-settings'] = ['settings', 'email'];
             foreach (['password-reset-confirmation', 'unauthorized-access', 'session-expired', 'loading-records', 'empty-records', 'server-error', 'permission-denied', 'success-confirmation', 'marks-validation-error', 'no-eligible-replacement', 'missing-assessment-weights'] as $demo) {
                 $map[$demo] = ['dashboard', 'main'];
             }
@@ -151,6 +177,12 @@ final class Workspaces
             return null;
         }
         [$ws, $tab] = $map[$slug];
+        if ($role === 'admin' && in_array($ws, ['setup', 'teachers', 'students'], true)) {
+            $page = (new ScreenCatalog)->find($role, $slug);
+            if ($page && ScreenBindings::module($page) === 'academic' && ! in_array($slug, ['teacher-directory', 'student-directory'], true)) {
+                return '/admin/records?'.http_build_query(array_merge($query, ['resource' => ScreenBindings::resource($page)]));
+            }
+        }
         $w = collect(self::definition($role))->firstWhere('key', $ws);
         if ($slug === $w['slug']) {
             return null;

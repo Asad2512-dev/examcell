@@ -59,6 +59,7 @@ class SecurityTest extends TestCase
 
     public function test_password_reset_changes_password_and_invalid_token_is_rejected(): void
     {
+        config(['mail.default' => 'smtp', 'mail.from.address' => 'sender@example.test', 'mail.mailers.smtp.host' => 'smtp.example.test', 'mail.mailers.smtp.username' => 'test', 'mail.mailers.smtp.password' => 'test']);
         $f = $this->fixture();
         Notification::fake();
         $this->post('/forgot-password', ['email' => $f['student']->email])->assertRedirect()->assertSessionHas('status');

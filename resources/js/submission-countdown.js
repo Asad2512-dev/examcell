@@ -1,3 +1,5 @@
+import { uiText } from './core/content.js';
+
 // A server timestamp plus monotonic browser elapsed time avoids a skewed client clock.
 export function deadlineState(deadlineMs, serverNowMs, elapsedMs = 0) {
   const remaining = deadlineMs - serverNowMs - elapsedMs;
@@ -10,7 +12,7 @@ export function deadlineState(deadlineMs, serverNowMs, elapsedMs = 0) {
   const duration = (days ? `${days}d ` : '') + (hours || days ? `${hours}h ` : '') + `${minutes}m ${tail}s`;
   return {
     tone: overdue ? 'danger' : remaining < 48 * 3600000 ? 'warning' : 'info',
-    label: remaining === 0 ? 'Deadline reached' : `${overdue ? 'Overdue by' : 'Due in'} ${duration}`,
+    label: remaining === 0 ? uiText('common.runtime.dates.deadline_reached', 'Deadline reached') : `${uiText(overdue ? 'common.runtime.dates.overdue_by' : 'common.runtime.dates.due_in', overdue ? 'Overdue by' : 'Due in')} ${duration}`,
   };
 }
 

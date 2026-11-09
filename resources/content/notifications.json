@@ -1,0 +1,16 @@
+{
+  "copy": {
+    "reset_your_examcell_password": "Reset your ExamCell password",
+    "examcell": "ExamCell",
+    "reset_your_password": "Reset your password",
+    "we_received_a_request_to_reset_your_examcell_password_us": "We received a request to reset your ExamCell password. Use the button below to choose a new one.",
+    "reset_password": "Reset Password",
+    "if_you_didnt_request_this_you_can_ignore_this_email_your": "If you didn’t request this, you can ignore this email. Your password has not changed.",
+    "if_the_button_doesnt_work_copy_this_link_into_your_brows": "If the button doesn’t work, copy this link into your browser:",
+    "examcell_password_changed": "ExamCell password changed",
+    "your_password_was_changed": "Your password was changed",
+    "your_examcell_password_has_been_updated_other_signed_in": "Your ExamCell password has been updated. Other signed-in sessions and remembered sign-ins will need the new password.",
+    "if_you_did_not_make_this_change_contact_your_examination": "If you did not make this change, contact your examination cell administrator immediately or request another reset from the sign-in page.",
+    "sign_in_to_examcell": "Sign in to ExamCell"
+  }
+}
