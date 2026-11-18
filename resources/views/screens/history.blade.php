@@ -1,0 +1,44 @@
+<section class="card">
+    <div class="card-heading">
+        <div>
+            <h2>{{ ui_text('screens.copy.change_history_provenance') }}</h2>
+            <p>{{ ui_text('screens.copy.original_values_are_retained_alongside_the_reason_and_ap') }}</p>
+        </div><x-badge status="Approved" />
+    </div>
+    <div class="history-list">
+        <article class="history-item"><span class="history-icon"><x-icon name="check" :size="16" /></span>
+            <div>
+                <h3>{{ ui_text('screens.copy.correction_approved_by_asad_ullah') }}</h3>
+                <p>{{ ui_text('screens.copy.question_3_contained_four_awarded_marks_omitted_from_the') }}</p>
+                <div class="history-change"><span
+                        class="muted">{{ ui_text('screens.copy.previous_82_100') }}</span><x-icon name="arrow"
+                        :size="14" /><strong>{{ ui_text('screens.copy.revised_86_100') }}</strong></div>
+                <small>{{ ui_text('screens.copy.user_action_10_oct_2026_09_14_rc_2026_018') }}</small>
+            </div>
+        </article>
+        <article class="history-item"><span class="history-icon"><x-icon name="edit" :size="16" /></span>
+            <div>
+                <h3>{{ ui_text('screens.copy.correction_requested_by_dr_sara_khan') }}</h3>
+                <p>{{ ui_text('screens.copy.mandatory_reason_and_supporting_answer_script_reference') }}</p>
+                <small>{{ ui_text('screens.copy.user_action_09_oct_2026_15_32_cr_2026_014') }}</small>
+            </div>
+        </article>
+        <article class="history-item"><span class="history-icon"><x-icon name="file" :size="16" /></span>
+            <div>
+                <h3>{{ ui_text('screens.copy.result_batch_published') }}</h3>
+                <p>{{ ui_text('screens.copy.the_system_published_the_approved_batch_using_ug_2026_gr') }}</p>
+                <small>{{ ui_text('screens.copy.system_event_02_oct_2026_12_00_rb_2026_005') }}</small>
+            </div>
+        </article>
+    </div>
+</section>
+<section class="card" style="margin-top:24px">
+    <div class="card-heading">
+        <h2>{{ ui_text('screens.copy.local_demo_activity') }}</h2><button class="btn btn-secondary btn-small"
+            data-export-audit>{{ ui_text('screens.copy.export_history') }}</button>
+    </div>
+    <div class="card-body" data-local-audit>
+        <p class="muted text-sm">{{ ui_text('screens.copy.local_confirmation_actions_will_appear_here_no_server_re') }}
+        </p>
+    </div>
+</section>

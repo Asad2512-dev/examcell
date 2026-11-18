@@ -1,0 +1,19 @@
+{
+  "copy": {
+    "check_your_duty_date_time_and_room": "Check your duty date, time and room.",
+    "if_you_cannot_attend_request_cover_at_least_48_hours_bef": "If you cannot attend, request cover at least 48 hours before the paper. Your duty remains assigned until cover is approved.",
+    "planning_future_leave": "Planning future leave?",
+    "update_my_availability": "Update my availability →",
+    "submit_availability_request": "Submit availability request",
+    "if_this_affects_an_assigned_duty_it_creates_a_cover_requ": "If this affects an assigned duty, it creates a cover request. Keep your duty until the administrator approves a replacement.",
+    "track_affected_duties_and_cover_requests": "Track affected duties and cover requests →",
+    "my_invigilation_duties": "My invigilation duties",
+    "no_upcoming_duties_on_this_page": "No upcoming duties on this page",
+    "past_duties": "Past duties",
+    "my_cover_requests": "My cover requests",
+    "no_cover_requests": "No cover requests",
+    "tell_us_when_you_are_unavailable": "Tell us when you are unavailable",
+    "recorded_availability": "Recorded availability",
+    "no_recorded_intervals": "No recorded intervals"
+  }
+}

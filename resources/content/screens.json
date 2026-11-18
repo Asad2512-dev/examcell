@@ -1,0 +1,1447 @@
+{
+  "copy": {
+    "configure": "Configure",
+    "validate": "Validate",
+    "preview": "Preview",
+    "required_fields_are_marked_with_an_asterisk": "Required fields are marked with an asterisk.",
+    "save_draft": "Save draft",
+    "not_yet_saved": "Not yet saved",
+    "review_before_continuing": "Review before continuing",
+    "linked_academic_context": "Linked academic context",
+    "academic_session": "Academic session",
+    "fall_2026": "Fall 2026",
+    "department": "Department",
+    "information_technology": "Information Technology",
+    "program_section": "Program & section",
+    "bsit_semester_5_section_a": "BSIT · Semester 5 · Section A",
+    "grading_scheme": "Grading scheme",
+    "ug_2026_approved": "UG 2026 · Approved",
+    "session_relationships_verified": "Session relationships verified",
+    "required_permissions_identified": "Required permissions identified",
+    "changes_tracked_in_local_demo_history": "Changes tracked in local demo history",
+    "room_availability_and_overlapping_duties_must_be_validat": "Room availability and overlapping duties must be validated before approval.",
+    "percentage": "Percentage",
+    "pass_fail_distribution": "Pass / fail distribution",
+    "approved_records": "Approved records",
+    "pass_ratio": "Pass ratio",
+    "passed_101": "Passed · 101",
+    "failed_27": "Failed · 27",
+    "128_sample_records": "128 sample records",
+    "semester_performance_trend": "Semester performance trend",
+    "available_historical_records": "Available historical records",
+    "semester_1": "Semester 1",
+    "semester_2": "Semester 2",
+    "semester_3": "Semester 3",
+    "semester_4": "Semester 4",
+    "semester_5": "Semester 5",
+    "ai_flags_identify_data_quality_concerns_not_misconduct_a": "AI flags identify data-quality concerns, not misconduct. An authorized reviewer must confirm or dismiss each finding. Prediction ranges are estimates and depend on sufficient historical data.",
+    "your_strongest_published_subject_is_web_engineering_revi": "Your strongest published subject is Web Engineering. Review Operating Systems topics to support your study plan. These sample insights are suggestions, not guaranteed predictions.",
+    "open_related_workflow": "Open related workflow",
+    "related_workflows": "Related workflows",
+    "only_eligible_available_teachers_may_be_proposed_an_admi": "Only eligible, available teachers may be proposed. An administrator must approve the replacement; the original assignment remains in history.",
+    "examcell": "ExamCell",
+    "university_it_department_examination_cell": "University IT Department · Examination Cell",
+    "examination_admit_card": "EXAMINATION ADMIT CARD",
+    "ayesha_khan": "Ayesha Khan",
+    "roll_number_bsit_2024_018_program_bsit": "Roll number: BSIT-2024-018 · Program: BSIT",
+    "semester_5_section_a_fall_2026": "Semester 5 · Section A · Fall 2026",
+    "card_ac_2026_018": "Card AC-2026-018",
+    "bring_this_admit_card_and_your_student_id_arrive_30_minu": "Bring this admit card and your student ID. Arrive 30 minutes early. Mobile phones and unauthorized materials are not permitted inside the examination room.",
+    "student_signature": "Student signature",
+    "exam_cell_authorization": "Exam Cell authorization",
+    "issued_10_oct_2026": "Issued 10 Oct 2026",
+    "your_admit_card": "Your admit card",
+    "student": "Student",
+    "roll_number": "Roll number",
+    "bsit_2024_018": "BSIT-2024-018",
+    "examinations": "Examinations",
+    "4_scheduled_examinations": "4 scheduled examinations",
+    "print_save_as_pdf": "Print / Save as PDF",
+    "choose_save_as_pdf_in_your_browsers_print_dialog": "Choose “Save as PDF” in your browser’s print dialog.",
+    "ug_2026_grading_scheme": "UG 2026 grading scheme",
+    "institutional_rules_draft_configuration": "Institutional rules · Draft configuration",
+    "letter_grade": "Letter grade",
+    "minimum": "Minimum (%)",
+    "maximum": "Maximum (%)",
+    "grade_points": "Grade points",
+    "assessment_weighting": "Assessment weighting",
+    "weights_must_total_100_in_this_sample_institution_config": "Weights must total 100% in this sample institution configuration.",
+    "validate_grade_ranges_gaps_overlap_credit_hours_and_tota": "Validate grade ranges, gaps, overlap, credit hours and total weighting before approval.",
+    "validate_grading_rules": "Validate grading rules",
+    "calculation_preview": "Calculation preview",
+    "midterm_score": "Midterm score",
+    "final_score": "Final score",
+    "weighted_percentage": "Weighted percentage",
+    "grade_points_fd34d9": "Grade / points",
+    "a_4_00": "A / 4.00",
+    "gpa_rule": "GPA rule",
+    "grade_points_credits_credits": "Σ(grade points × credits) ÷ Σ credits",
+    "draft_grading_changes_do_not_modify_published_results_se": "Draft grading changes do not modify published results. Select an approved scheme before processing a result batch.",
+    "cs301_database_systems": "CS301 · Database Systems",
+    "final_examination_bsit_5_a_maximum_marks_100": "Final examination · BSIT 5-A · Maximum marks: 100",
+    "course": "Course",
+    "cs301_final": "CS301 Final",
+    "cs304_final": "CS304 Final",
+    "maximum_a8df2f": "Maximum",
+    "passing": "Passing",
+    "draft_changes_are_saved_locally": "Draft changes are saved locally",
+    "marks_100": "Marks / 100",
+    "absent": "Absent",
+    "entry_status": "Entry status",
+    "entered": "Entered",
+    "missing": "Missing",
+    "errors": "Errors",
+    "validate_marks": "Validate marks",
+    "submit_for_review": "Submit for review",
+    "missing_marks_and_absent_students_are_different_states_m": "Missing marks and absent students are different states. Marks cannot exceed 100. Complete or designate all students before submitting; submitted records require authorized review.",
+    "returned_for_correction": "Returned for correction:",
+    "record_absent_status_for_omar_farooq_and_complete_ali_ha": "Record absent status for Omar Farooq and complete Ali Hassan’s assessment. Original submitted values are preserved for comparison.",
+    "change_history_provenance": "Change history & provenance",
+    "original_values_are_retained_alongside_the_reason_and_ap": "Original values are retained alongside the reason and approver.",
+    "correction_approved_by_asad_ullah": "Correction approved by Asad Ullah",
+    "question_3_contained_four_awarded_marks_omitted_from_the": "Question 3 contained four awarded marks omitted from the recorded total. Verified against the rechecked answer script.",
+    "previous_82_100": "Previous: 82 / 100",
+    "revised_86_100": "Revised: 86 / 100",
+    "user_action_10_oct_2026_09_14_rc_2026_018": "User action · 10 Oct 2026, 09:14 · RC-2026-018",
+    "correction_requested_by_dr_sara_khan": "Correction requested by Dr Sara Khan",
+    "mandatory_reason_and_supporting_answer_script_reference": "Mandatory reason and supporting answer-script reference submitted for review.",
+    "user_action_09_oct_2026_15_32_cr_2026_014": "User action · 09 Oct 2026, 15:32 · CR-2026-014",
+    "result_batch_published": "Result batch published",
+    "the_system_published_the_approved_batch_using_ug_2026_gr": "The system published the approved batch using UG 2026 grading rules.",
+    "system_event_02_oct_2026_12_00_rb_2026_005": "System event · 02 Oct 2026, 12:00 · RB-2026-005",
+    "local_demo_activity": "Local demo activity",
+    "export_history": "Export history",
+    "local_confirmation_actions_will_appear_here_no_server_re": "Local confirmation actions will appear here. No server records are modified.",
+    "new_conversation": "New conversation",
+    "recent_conversations": "Recent conversations",
+    "examination_priorities": "Examination priorities",
+    "schedule_review": "Schedule review",
+    "sample_responses_for_the_frontend_demo": "Sample responses for the frontend demo.",
+    "examcell_ai_assistant": "ExamCell AI Assistant",
+    "how_can_i_help_you_today": "How can I help you today?",
+    "ask_about_examination_schedules_academic_records_and_tas": "Ask about examination schedules, academic records and tasks available to your role.",
+    "frontend_simulation_no_ai_model_or_database_connected_ve": "Frontend simulation · no AI model or database connected · verify records before taking action",
+    "new": "New",
+    "open_module": "Open module",
+    "mark_read": "Mark read",
+    "import_validate_records": "Import & validate records",
+    "download_sample_csv": "Download sample CSV",
+    "choose_a_csv_file_to_import": "Choose a CSV file to import",
+    "utf_8_csv_maximum_2_mb_first_row_contains_column_heading": "UTF-8 CSV · maximum 2 MB · first row contains column headings",
+    "download_error_report": "Download error report",
+    "import_valid_records": "Import valid records",
+    "validation_rules": "Validation rules",
+    "required_identity_fields_must_be_present": "Required identity fields must be present",
+    "roll_numbers_cannot_be_duplicated": "Roll numbers cannot be duplicated",
+    "validation_occurs_before_import_in_this_frontend_demo_va": "Validation occurs before import. In this frontend demo, valid records are previewed locally and are not written to a database.",
+    "october_2026": "October 2026",
+    "1218_october_examination_week": "12–18 October · Examination week",
+    "week": "Week",
+    "list": "List",
+    "room_conflict_review_required": "Room conflict · review required",
+    "oct": "OCT",
+    "proposed_schedule_2_constraints_require_review": "Proposed schedule: 2 constraints require review.",
+    "an_unresolved_room_overlap_and_an_unavailable_invigilato": "An unresolved room overlap and an unavailable invigilator must be addressed before approval.",
+    "review_conflicts": "Review conflicts",
+    "published_examination_timetable_last_updated_10_oct_2026": "Published examination timetable · Last updated 10 Oct 2026. Arrive at your assigned room 30 minutes before the examination.",
+    "room_a_201": "Room A-201",
+    "cs301_final_14_oct_2026_09_0012_00": "CS301 Final · 14 Oct 2026 · 09:00–12:00",
+    "48_seats": "48 seats",
+    "front_of_room_invigilator_desk": "FRONT OF ROOM · INVIGILATOR DESK",
+    "assigned": "Assigned",
+    "empty": "Empty",
+    "unavailable": "Unavailable",
+    "conflict": "Conflict",
+    "allocation_details": "Allocation details",
+    "a01": "A01",
+    "selected_seat_room_a_201": "Selected seat · Room A-201",
+    "examination": "Examination",
+    "room_capacity": "Room capacity",
+    "48_seats_1_unavailable": "48 seats · 1 unavailable",
+    "allocation_status": "Allocation status",
+    "42_assigned_4_empty": "42 assigned · 4 empty",
+    "duplicate_allocation_on_c03_resolve_before_approval": "Duplicate allocation on C03. Resolve before approval.",
+    "review_duplicate": "Review duplicate",
+    "review_only_records_available_to_your_role": "Review only records available to your role.",
+    "review": "Review",
+    "reviewed_sample_batch": "Reviewed sample batch",
+    "128_published_result_records": "128 published result records",
+    "recent_administrative_activity": "Recent administrative activity",
+    "view_all": "View all",
+    "cs301_result_correction_approved": "CS301 result correction approved",
+    "asad_ullah_today_09_14": "Asad Ullah · Today, 09:14",
+    "fall_2026_date_sheet_revised": "Fall 2026 date sheet revised",
+    "exam_cell_administrator_yesterday_16_32": "Exam Cell administrator · Yesterday, 16:32",
+    "invigilation_replacement_proposed": "Invigilation replacement proposed",
+    "dr_maryam_ali_yesterday_15_08": "Dr Maryam Ali · Yesterday, 15:08",
+    "find_your_examination_seat": "Find your examination seat",
+    "cs301_final_14_oct_2026": "CS301 Final · 14 Oct 2026",
+    "cs302_final_16_oct_2026": "CS302 Final · 16 Oct 2026",
+    "cs303_practical_18_oct_2026": "CS303 Practical · 18 Oct 2026",
+    "find_my_seat": "Find my seat",
+    "room": "Room",
+    "a_201": "A-201",
+    "seat": "Seat",
+    "a12": "A12",
+    "date_time": "Date & time",
+    "14_oct_2026_09_0012_00": "14 Oct 2026 · 09:00–12:00",
+    "location": "Location",
+    "academic_block_a_second_floor": "Academic Block A · Second floor",
+    "bring_your_admit_card_and_student_id_arrive_at_least_30": "Bring your admit card and student ID. Arrive at least 30 minutes before the examination.",
+    "print_seat_information": "Print seat information",
+    "ak": "AK",
+    "bsit_2024_018_information_technology": "BSIT-2024-018 · Information Technology",
+    "semester_5_section_a": "Semester 5 · Section A",
+    "academic_profile": "Academic profile",
+    "contact_the_examination_cell_if_your_student_identity_or": "Contact the examination cell if your student identity or enrollment details require correction.",
+    "244_of_248_cards_completed_4_require_review": "244 of 248 cards completed · 4 require review",
+    "back_to_dashboard": "Back to dashboard",
+    "we_couldnt_save_these_changes": "We couldn’t save these changes.",
+    "your_examination_schedule_has_been_updated": "Your examination schedule has been updated.",
+    "review_the_latest_dates_times_and_room_assignments_below": "Review the latest dates, times and room assignments below before your next examination.",
+    "semester_result_card": "SEMESTER RESULT CARD",
+    "bsit_2024_018_bachelor_of_science_in_information_technol": "BSIT-2024-018 · Bachelor of Science in Information Technology",
+    "publication_date_02_october_2026": "Publication date: 02 October 2026",
+    "semester_gpa": "Semester GPA",
+    "cgpa": "CGPA",
+    "credits_completed": "Credits completed",
+    "calculated_using_approved_ug_2026_grading_scheme_semeste": "Calculated using approved UG 2026 grading scheme. Semester GPA = 42 grade-quality points ÷ 12 credits.",
+    "record_rc_2026_018": "Record RC-2026-018",
+    "issued_by_the_examination_cell": "Issued by the Examination Cell",
+    "verified_electronic_record": "Verified electronic record",
+    "sample_data_design_demonstration": "Sample data · design demonstration",
+    "document_actions": "Document actions",
+    "status": "Status",
+    "scheme": "Scheme",
+    "format": "Format",
+    "a4_portrait_print_ready": "A4 portrait · print-ready",
+    "request_rechecking": "Request rechecking",
+    "request_correction": "Request correction",
+    "published_marks_are_protected_corrections_require_an_aut": "Published marks are protected. Corrections require an authorized review and preserved change history.",
+    "cs301_76_cs302_68_cs303_81_cs304_59_cs305_72_percent": "CS301 76, CS302 68, CS303 81, CS304 59, CS305 72 percent",
+    "performance_trend_semester_1_64_percent_semester_2_68_se": "Performance trend: Semester 1 64 percent, Semester 2 68, Semester 3 73, Semester 4 71, Semester 5 79",
+    "ai_data_quality_findings": "AI data-quality findings",
+    "text_1b93795b": "—",
+    "ask_about_your_examination_records": "Ask about your examination records...",
+    "message_to_assistant": "Message to assistant",
+    "send_message": "Send message",
+    "youre_up_to_date": "You’re up to date",
+    "choose_csv_file": "Choose CSV file",
+    "previous_week": "Previous week",
+    "next_week": "Next week",
+    "print_schedule": "Print schedule",
+    "upcoming_examinations": "Upcoming examinations",
+    "loading_sample_records": "Loading sample records",
+    "sections": "Sections"
+  },
+  "catalog": {
+    "admin-dashboard": {
+      "title": "Admin Dashboard",
+      "description": "A clear view of your examination priorities and academic activity.",
+      "action": "Create examination",
+      "module": "Admin Dashboard"
+    },
+    "administrative-activity": {
+      "title": "Administrative activity",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export log",
+      "module": "Admin Dashboard"
+    },
+    "student-directory": {
+      "title": "Student directory",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create student",
+      "module": "Academic Management"
+    },
+    "teacher-directory": {
+      "title": "Teacher directory",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create teacher",
+      "module": "Academic Management"
+    },
+    "student-academic-profile": {
+      "title": "Student academic profile",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Edit profile",
+      "module": "Academic Management"
+    },
+    "teacher-profile-availability": {
+      "title": "Teacher profile & availability",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Edit availability",
+      "module": "Academic Management"
+    },
+    "create-student": {
+      "title": "Create student",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save student",
+      "module": "Academic Management"
+    },
+    "edit-user": {
+      "title": "Edit user",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save changes",
+      "module": "Academic Management"
+    },
+    "account-activation": {
+      "title": "Account activation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Deactivate account",
+      "module": "Academic Management"
+    },
+    "bulk-user-import": {
+      "title": "Bulk user import",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Upload CSV",
+      "module": "Academic Management"
+    },
+    "import-validation-errors": {
+      "title": "Import validation & errors",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Download errors",
+      "module": "Academic Management"
+    },
+    "departments": {
+      "title": "Departments",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Add departments",
+      "module": "Academic Management"
+    },
+    "academic-sessions": {
+      "title": "Academic sessions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Add academic sessions",
+      "module": "Academic Management"
+    },
+    "semesters": {
+      "title": "Semesters",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Add semesters",
+      "module": "Academic Management"
+    },
+    "sections": {
+      "title": "Sections",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Add sections",
+      "module": "Academic Management"
+    },
+    "courses": {
+      "title": "Courses",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Add courses",
+      "module": "Academic Management"
+    },
+    "course-details": {
+      "title": "Course details",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View assessments",
+      "module": "Teacher Portal"
+    },
+    "student-enrollment": {
+      "title": "Student enrollment",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Enroll students",
+      "module": "Academic Management"
+    },
+    "teacher-course-assignment": {
+      "title": "Teacher-course assignment",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save assignment",
+      "module": "Academic Management"
+    },
+    "credit-hour-configuration": {
+      "title": "Credit-hour configuration",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Save draft",
+      "module": "Academic Management"
+    },
+    "examination-list": {
+      "title": "Examination list",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create examination",
+      "module": "Examination Scheduling"
+    },
+    "create-examination": {
+      "title": "Create examination",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save examination",
+      "module": "Examination Scheduling"
+    },
+    "edit-examination": {
+      "title": "Edit examination",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save changes",
+      "module": "Examination Scheduling"
+    },
+    "examination-details": {
+      "title": "Examination details",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Edit examination",
+      "module": "Examination Scheduling"
+    },
+    "exam-type-configuration": {
+      "title": "Exam type configuration",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save exam type",
+      "module": "Examination Scheduling"
+    },
+    "assessment-components": {
+      "title": "Assessment components",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Save weighting",
+      "module": "Examination Scheduling"
+    },
+    "examination-detail-drawer": {
+      "title": "Examination detail drawer",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Open drawer",
+      "module": "Examination Scheduling"
+    },
+    "date-sheet-list": {
+      "title": "Date-sheet list",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create date sheet",
+      "module": "Examination Scheduling"
+    },
+    "create-date-sheet": {
+      "title": "Create date sheet",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Start generation",
+      "module": "Examination Scheduling"
+    },
+    "date-sheet-generation-wizard": {
+      "title": "Date-sheet generation wizard",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Generate proposal",
+      "module": "Examination Scheduling"
+    },
+    "proposed-schedule-calendar": {
+      "title": "Proposed schedule calendar",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Validate conflicts",
+      "module": "Examination Scheduling"
+    },
+    "timetable-grid": {
+      "title": "Timetable grid",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Review conflicts",
+      "module": "Examination Scheduling"
+    },
+    "conflict-detection-results": {
+      "title": "Conflict detection results",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Resolve conflicts",
+      "module": "Examination Scheduling"
+    },
+    "schedule-editing": {
+      "title": "Schedule editing",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Validate changes",
+      "module": "Examination Scheduling"
+    },
+    "conflict-resolution-drawer": {
+      "title": "Conflict resolution drawer",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Revalidate schedule",
+      "module": "Examination Scheduling"
+    },
+    "date-sheet-approval": {
+      "title": "Date-sheet approval",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Approve date sheet",
+      "module": "Examination Scheduling"
+    },
+    "published-date-sheet-preview": {
+      "title": "Published date-sheet preview",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Download PDF",
+      "module": "Examination Scheduling"
+    },
+    "date-sheet-version-history": {
+      "title": "Date-sheet version history",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View version",
+      "module": "Examination Scheduling"
+    },
+    "eligible-admit-card-students": {
+      "title": "Eligible admit-card students",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Generate admit cards",
+      "module": "Examination Scheduling"
+    },
+    "admit-card-generation": {
+      "title": "Admit-card generation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Generate PDFs",
+      "module": "Examination Scheduling"
+    },
+    "bulk-generation-progress": {
+      "title": "Bulk generation progress",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View generated cards",
+      "module": "Examination Scheduling"
+    },
+    "admit-card-preview": {
+      "title": "Admit-card preview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Download PDF",
+      "module": "Examination Scheduling"
+    },
+    "printable-admit-card": {
+      "title": "Printable admit card",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Print",
+      "module": "Examination Scheduling"
+    },
+    "admit-card-generation-error": {
+      "title": "Admit-card generation error",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Retry failed records",
+      "module": "Examination Scheduling"
+    },
+    "room-directory": {
+      "title": "Room directory",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create room",
+      "module": "Seating and Invigilation"
+    },
+    "create-or-edit-room": {
+      "title": "Create or edit room",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save room",
+      "module": "Seating and Invigilation"
+    },
+    "room-details": {
+      "title": "Room details",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Edit room",
+      "module": "Seating and Invigilation"
+    },
+    "room-availability-calendar": {
+      "title": "Room availability calendar",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Block time",
+      "module": "Seating and Invigilation"
+    },
+    "room-utilization": {
+      "title": "Room utilization",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export report",
+      "module": "Seating and Invigilation"
+    },
+    "unavailable-room": {
+      "title": "Unavailable room",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Choose another room",
+      "module": "Seating and Invigilation"
+    },
+    "seating-plan-overview": {
+      "title": "Seating plan overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Generate seating plan",
+      "module": "Seating and Invigilation"
+    },
+    "generate-seating-plan-wizard": {
+      "title": "Generate seating plan wizard",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Validate capacity",
+      "module": "Seating and Invigilation"
+    },
+    "room-capacity-validation": {
+      "title": "Room capacity validation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Preview allocations",
+      "module": "Seating and Invigilation"
+    },
+    "room-wise-seating-chart": {
+      "title": "Room-wise seating chart",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Approve seating",
+      "module": "Seating and Invigilation"
+    },
+    "subject-wise-seating-chart": {
+      "title": "Subject-wise seating chart",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Export layout",
+      "module": "Seating and Invigilation"
+    },
+    "seat-allocation-table": {
+      "title": "Seat allocation table",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export CSV",
+      "module": "Seating and Invigilation"
+    },
+    "student-seat-lookup": {
+      "title": "Student seat lookup",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Find seat",
+      "module": "Seating and Invigilation"
+    },
+    "printable-seating-layout": {
+      "title": "Printable seating layout",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Print layout",
+      "module": "Seating and Invigilation"
+    },
+    "seating-conflict-report": {
+      "title": "Seating conflict report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Resolve duplicate",
+      "module": "Seating and Invigilation"
+    },
+    "regeneration-preview": {
+      "title": "Regeneration preview",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Confirm regeneration",
+      "module": "Seating and Invigilation"
+    },
+    "duty-allocation-overview": {
+      "title": "Duty allocation overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Allocate duties",
+      "module": "Seating and Invigilation"
+    },
+    "duty-calendar": {
+      "title": "Duty calendar",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Review assignment",
+      "module": "Seating and Invigilation"
+    },
+    "teacher-availability-management": {
+      "title": "Teacher availability management",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Update availability",
+      "module": "Seating and Invigilation"
+    },
+    "teacher-wise-duties": {
+      "title": "Teacher-wise duties",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export duties",
+      "module": "Seating and Invigilation"
+    },
+    "room-wise-duties": {
+      "title": "Room-wise duties",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export duties",
+      "module": "Seating and Invigilation"
+    },
+    "duty-assignment": {
+      "title": "Duty assignment",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Check conflicts",
+      "module": "Seating and Invigilation"
+    },
+    "duty-conflict-detection": {
+      "title": "Duty conflict detection",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Resolve overlap",
+      "module": "Seating and Invigilation"
+    },
+    "reserve-teacher-pool": {
+      "title": "Reserve-teacher pool",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Select eligible teacher",
+      "module": "Seating and Invigilation"
+    },
+    "teacher-unavailable-affected-duties": {
+      "title": "Teacher unavailable — affected duties",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Find replacement",
+      "module": "Seating and Invigilation"
+    },
+    "eligible-replacements": {
+      "title": "Eligible replacements",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Compare workload",
+      "module": "Seating and Invigilation"
+    },
+    "replacement-comparison": {
+      "title": "Replacement comparison",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Propose replacement",
+      "module": "Seating and Invigilation"
+    },
+    "revised-duty-preview": {
+      "title": "Revised duty preview",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Review replacement",
+      "module": "Seating and Invigilation"
+    },
+    "duty-replacement-approval": {
+      "title": "Duty replacement approval",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Approve replacement",
+      "module": "Seating and Invigilation"
+    },
+    "updated-duty-list": {
+      "title": "Updated duty list",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Notify affected users",
+      "module": "Seating and Invigilation"
+    },
+    "printable-duty-list": {
+      "title": "Printable duty list",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Print duties",
+      "module": "Seating and Invigilation"
+    },
+    "duty-change-history": {
+      "title": "Duty change history",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export history",
+      "module": "Seating and Invigilation"
+    },
+    "marks-submission-overview": {
+      "title": "Marks submission overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review submission",
+      "module": "Marks and Results"
+    },
+    "course-wise-submissions": {
+      "title": "Course-wise submissions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View course",
+      "module": "Marks and Results"
+    },
+    "teacher-wise-submission-status": {
+      "title": "Teacher-wise submission status",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Send reminder",
+      "module": "Marks and Results"
+    },
+    "missing-marks-report": {
+      "title": "Missing marks report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Resolve missing marks",
+      "module": "Marks and Results"
+    },
+    "incomplete-result-report": {
+      "title": "Incomplete result report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review records",
+      "module": "Marks and Results"
+    },
+    "submission-deadline-view": {
+      "title": "Submission deadline view",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Update deadline",
+      "module": "Marks and Results"
+    },
+    "returned-submissions": {
+      "title": "Returned submissions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Open correction",
+      "module": "Marks and Results"
+    },
+    "submission-detail": {
+      "title": "Submission detail",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Approve submission",
+      "module": "Marks and Results"
+    },
+    "result-batch-overview": {
+      "title": "Result batch overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Process results",
+      "module": "Marks and Results"
+    },
+    "individual-result-details": {
+      "title": "Individual result details",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Request correction",
+      "module": "Marks and Results"
+    },
+    "result-editing-form": {
+      "title": "Result editing form",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save draft",
+      "module": "Marks and Results"
+    },
+    "result-correction-request": {
+      "title": "Result correction request",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Submit correction",
+      "module": "Marks and Results"
+    },
+    "previous-versus-new-comparison": {
+      "title": "Previous-versus-new comparison",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review correction",
+      "module": "Marks and Results"
+    },
+    "result-approval-queue": {
+      "title": "Result approval queue",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review batch",
+      "module": "Marks and Results"
+    },
+    "published-result-correction": {
+      "title": "Published-result correction",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Authorize correction",
+      "module": "Marks and Results"
+    },
+    "grading-scheme-list": {
+      "title": "Grading scheme list",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create scheme",
+      "module": "Marks and Results"
+    },
+    "create-grading-scheme": {
+      "title": "Create grading scheme",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Validate scheme",
+      "module": "Marks and Results"
+    },
+    "grade-boundary-editor": {
+      "title": "Grade boundary editor",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Validate boundaries",
+      "module": "Marks and Results"
+    },
+    "grade-point-mapping": {
+      "title": "Grade-point mapping",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Save mapping",
+      "module": "Marks and Results"
+    },
+    "gpa-and-cgpa-rules": {
+      "title": "GPA and CGPA rules",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Save draft",
+      "module": "Marks and Results"
+    },
+    "assessment-weighting-editor": {
+      "title": "Assessment weighting editor",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Validate weights",
+      "module": "Marks and Results"
+    },
+    "grading-rule-validation": {
+      "title": "Grading rule validation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Fix boundaries",
+      "module": "Marks and Results"
+    },
+    "approved-grading-scheme-preview": {
+      "title": "Approved grading scheme preview",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Approve scheme",
+      "module": "Marks and Results"
+    },
+    "result-processing-overview": {
+      "title": "Result processing overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Validate completeness",
+      "module": "Marks and Results"
+    },
+    "course-result-table": {
+      "title": "Course result table",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review calculations",
+      "module": "Marks and Results"
+    },
+    "student-wise-marks": {
+      "title": "Student-wise marks",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review student",
+      "module": "Marks and Results"
+    },
+    "weighted-score-calculation": {
+      "title": "Weighted score calculation",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Calculate results",
+      "module": "Marks and Results"
+    },
+    "gpa-and-cgpa-preview": {
+      "title": "GPA and CGPA preview",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Review result batch",
+      "module": "Marks and Results"
+    },
+    "missing-result-flags": {
+      "title": "Missing-result flags",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Resolve required marks",
+      "module": "Marks and Results"
+    },
+    "ai-anomaly-review": {
+      "title": "AI anomaly review",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Review finding",
+      "module": "Marks and Results"
+    },
+    "result-batch-approval": {
+      "title": "Result batch approval",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Approve batch",
+      "module": "Marks and Results"
+    },
+    "publication-confirmation": {
+      "title": "Publication confirmation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Publish results",
+      "module": "Marks and Results"
+    },
+    "published-results-overview": {
+      "title": "Published results overview",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Download results",
+      "module": "Marks and Results"
+    },
+    "rechecking-request-queue": {
+      "title": "Rechecking request queue",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review request",
+      "module": "Marks and Results"
+    },
+    "rechecking-request-details": {
+      "title": "Rechecking request details",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Start review",
+      "module": "Marks and Results"
+    },
+    "rechecking-decision-form": {
+      "title": "Rechecking decision form",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Submit decision",
+      "module": "Marks and Results"
+    },
+    "approved-rechecking-correction": {
+      "title": "Approved rechecking correction",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Authorize correction",
+      "module": "Marks and Results"
+    },
+    "rechecking-request-history": {
+      "title": "Rechecking request history",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View decision",
+      "module": "Marks and Results"
+    },
+    "analytics-overview": {
+      "title": "Analytics overview",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export analytics",
+      "module": "AI Analytics"
+    },
+    "class-wise-analysis": {
+      "title": "Class-wise analysis",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "View class",
+      "module": "AI Analytics"
+    },
+    "individual-student-analysis": {
+      "title": "Individual student analysis",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Open authorized profile",
+      "module": "AI Analytics"
+    },
+    "ai-findings-queue": {
+      "title": "AI findings queue",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Review finding",
+      "module": "AI Analytics"
+    },
+    "finding-review-details": {
+      "title": "Finding review details",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save review",
+      "module": "AI Analytics"
+    },
+    "prediction-range-uncertainty": {
+      "title": "Prediction range & uncertainty",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "View historical context",
+      "module": "AI Analytics"
+    },
+    "prediction-unavailable": {
+      "title": "Prediction unavailable",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View available results",
+      "module": "AI Analytics"
+    },
+    "admin-ai-assistant": {
+      "title": "Admin AI Assistant",
+      "description": "Explore examination records available to your current role.",
+      "action": "New conversation",
+      "module": "AI Chatbot"
+    },
+    "assistant-no-matching-records": {
+      "title": "Assistant — no matching records",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Adjust question",
+      "module": "AI Chatbot"
+    },
+    "assistant-permission-denied": {
+      "title": "Assistant — permission denied",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Return to assistant",
+      "module": "AI Chatbot"
+    },
+    "assistant-data-unavailable": {
+      "title": "Assistant — data unavailable",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Retry query",
+      "module": "AI Chatbot"
+    },
+    "reports-overview": {
+      "title": "Reports overview",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create report",
+      "module": "Reports and Notifications"
+    },
+    "class-wise-result-report": {
+      "title": "Class-wise result report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "course-wise-performance-report": {
+      "title": "Course-wise performance report",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "pass-fail-report": {
+      "title": "Pass/fail report",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "grade-distribution-report": {
+      "title": "Grade distribution report",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "individual-student-report": {
+      "title": "Individual student report",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "teacher-submission-report": {
+      "title": "Teacher submission report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "seating-plan-report": {
+      "title": "Seating plan report",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "invigilation-duty-report": {
+      "title": "Invigilation duty report",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "examination-schedule-report": {
+      "title": "Examination schedule report",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Export PDF",
+      "module": "Reports and Notifications"
+    },
+    "notification-center": {
+      "title": "Notification center",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Mark all read",
+      "module": "Reports and Notifications"
+    },
+    "notification-settings": {
+      "title": "Notification settings",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save preferences",
+      "module": "Reports and Notifications"
+    },
+    "audit-logs": {
+      "title": "Audit logs",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export CSV",
+      "module": "Reports and Notifications"
+    },
+    "user-activity-details": {
+      "title": "User activity details",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View actor",
+      "module": "Reports and Notifications"
+    },
+    "result-change-history": {
+      "title": "Result change history",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Open result",
+      "module": "Reports and Notifications"
+    },
+    "grading-configuration-history": {
+      "title": "Grading configuration history",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View scheme",
+      "module": "Reports and Notifications"
+    },
+    "academic-settings": {
+      "title": "Academic settings",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save settings",
+      "module": "Reports and Notifications"
+    },
+    "account-and-permissions": {
+      "title": "Account and permissions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save permissions",
+      "module": "Reports and Notifications"
+    },
+    "backup-status": {
+      "title": "Backup status",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View backup history",
+      "module": "Reports and Notifications"
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Sign in",
+      "module": "Authentication"
+    },
+    "forgot-password": {
+      "title": "Forgot password",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Send reset link",
+      "module": "Authentication"
+    },
+    "reset-password": {
+      "title": "Reset password",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Reset password",
+      "module": "Authentication"
+    },
+    "password-reset-confirmation": {
+      "title": "Password reset confirmation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Back to sign in",
+      "module": "Authentication"
+    },
+    "unauthorized-access": {
+      "title": "Unauthorized access",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Back to dashboard",
+      "module": "Authentication"
+    },
+    "session-expired": {
+      "title": "Session expired",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Sign in again",
+      "module": "Authentication"
+    },
+    "teacher-dashboard": {
+      "title": "Teacher Dashboard",
+      "description": "A clear view of your examination priorities and academic activity.",
+      "action": "Enter marks",
+      "module": "Teacher Portal"
+    },
+    "my-courses": {
+      "title": "My Courses",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View course",
+      "module": "Student Portal"
+    },
+    "my-students": {
+      "title": "My Students",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View student",
+      "module": "Teacher Portal"
+    },
+    "student-roster": {
+      "title": "Student roster",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Export roster",
+      "module": "Teacher Portal"
+    },
+    "course-assessments": {
+      "title": "Course assessments",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "View structure",
+      "module": "Teacher Portal"
+    },
+    "course-examination-schedule": {
+      "title": "Course examination schedule",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "View date sheet",
+      "module": "Teacher Portal"
+    },
+    "course-performance": {
+      "title": "Course performance",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "Export report",
+      "module": "Teacher Portal"
+    },
+    "marks-entry": {
+      "title": "Marks Entry",
+      "description": "Save draft marks, resolve validation errors and submit for review.",
+      "action": "Submit for review",
+      "module": "Teacher Portal"
+    },
+    "marks-csv-import": {
+      "title": "Marks CSV import",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Validate import",
+      "module": "Teacher Portal"
+    },
+    "marks-import-errors": {
+      "title": "Marks import errors",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Download errors",
+      "module": "Teacher Portal"
+    },
+    "marks-submissions": {
+      "title": "Marks Submissions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Open submission",
+      "module": "Teacher Portal"
+    },
+    "returned-marks-correction": {
+      "title": "Returned marks correction",
+      "description": "Save draft marks, resolve validation errors and submit for review.",
+      "action": "Resubmit correction",
+      "module": "Teacher Portal"
+    },
+    "marks-submission-confirmation": {
+      "title": "Marks submission confirmation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Submit marks",
+      "module": "Teacher Portal"
+    },
+    "examination-schedule": {
+      "title": "Examination Schedule",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Print date sheet",
+      "module": "Student Portal"
+    },
+    "seating-plans": {
+      "title": "Seating Plans",
+      "description": "Allocate seats with capacity checks and duplicate prevention.",
+      "action": "Print seating list",
+      "module": "Teacher Portal"
+    },
+    "invigilation-duties": {
+      "title": "Invigilation Duties",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "View duty",
+      "module": "Teacher Portal"
+    },
+    "duty-instructions": {
+      "title": "Duty instructions",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Open seating list",
+      "module": "Teacher Portal"
+    },
+    "profile-and-availability": {
+      "title": "Profile and Availability",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Save availability",
+      "module": "Teacher Portal"
+    },
+    "unavailability-request": {
+      "title": "Unavailability request",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Submit request",
+      "module": "Teacher Portal"
+    },
+    "replacement-status": {
+      "title": "Replacement status",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View revised duty",
+      "module": "Teacher Portal"
+    },
+    "performance-analytics": {
+      "title": "Performance Analytics",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "View course",
+      "module": "Teacher Portal"
+    },
+    "teacher-notifications": {
+      "title": "Teacher Notifications",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Mark all read",
+      "module": "Teacher Portal"
+    },
+    "teacher-ai-assistant": {
+      "title": "Teacher AI Assistant",
+      "description": "Explore examination records available to your current role.",
+      "action": "New conversation",
+      "module": "Teacher Portal"
+    },
+    "student-dashboard": {
+      "title": "Student Dashboard",
+      "description": "A clear view of your examination priorities and academic activity.",
+      "action": "View admit card",
+      "module": "Student Portal"
+    },
+    "my-profile": {
+      "title": "My Profile",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View profile",
+      "module": "Student Portal"
+    },
+    "updated-examination-schedule": {
+      "title": "Updated examination schedule",
+      "description": "Review dates, constraints and room assignments before publication.",
+      "action": "Acknowledge update",
+      "module": "Student Portal"
+    },
+    "admit-card": {
+      "title": "Admit Card",
+      "description": "Your identity, exam schedule and seating details in one printable card.",
+      "action": "Download PDF",
+      "module": "Student Portal"
+    },
+    "seating-plan": {
+      "title": "Seating Plan",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Find my seat",
+      "module": "Student Portal"
+    },
+    "my-results": {
+      "title": "My Results",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "Download result card",
+      "module": "Student Portal"
+    },
+    "semester-results": {
+      "title": "Semester results",
+      "description": "Published academic records calculated using the approved grading scheme.",
+      "action": "View semester",
+      "module": "Student Portal"
+    },
+    "performance-analysis": {
+      "title": "Performance Analysis",
+      "description": "Review performance, data quality and explainable AI findings.",
+      "action": "View trends",
+      "module": "Student Portal"
+    },
+    "rechecking-requests": {
+      "title": "Rechecking Requests",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "New request",
+      "module": "Student Portal"
+    },
+    "submit-rechecking-request": {
+      "title": "Submit rechecking request",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Submit request",
+      "module": "Student Portal"
+    },
+    "rechecking-confirmation": {
+      "title": "Rechecking confirmation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View request history",
+      "module": "Student Portal"
+    },
+    "rechecking-decision": {
+      "title": "Rechecking decision",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View decision",
+      "module": "Student Portal"
+    },
+    "student-notifications": {
+      "title": "Student Notifications",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Mark all read",
+      "module": "Student Portal"
+    },
+    "student-ai-assistant": {
+      "title": "Student AI Assistant",
+      "description": "Explore examination records available to your current role.",
+      "action": "New conversation",
+      "module": "Student Portal"
+    },
+    "unpublished-result": {
+      "title": "Unpublished result",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "View published results",
+      "module": "Student Portal"
+    },
+    "loading-records": {
+      "title": "Loading records",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Retry",
+      "module": "UI States and Edge Cases"
+    },
+    "empty-records": {
+      "title": "Empty records",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Create first record",
+      "module": "UI States and Edge Cases"
+    },
+    "server-error": {
+      "title": "Server error",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Retry request",
+      "module": "UI States and Edge Cases"
+    },
+    "permission-denied": {
+      "title": "Permission denied",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Return to dashboard",
+      "module": "UI States and Edge Cases"
+    },
+    "success-confirmation": {
+      "title": "Success confirmation",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Continue",
+      "module": "UI States and Edge Cases"
+    },
+    "marks-validation-error": {
+      "title": "Marks validation error",
+      "description": "Save draft marks, resolve validation errors and submit for review.",
+      "action": "Validate marks",
+      "module": "UI States and Edge Cases"
+    },
+    "no-eligible-replacement": {
+      "title": "No eligible replacement",
+      "description": "Manage academic records with clear statuses, validation and change history.",
+      "action": "Review reserve pool",
+      "module": "UI States and Edge Cases"
+    },
+    "missing-assessment-weights": {
+      "title": "Missing assessment weights",
+      "description": "Configure approved grade boundaries, credit hours and assessment weights.",
+      "action": "Validate weights",
+      "module": "UI States and Edge Cases"
+    },
+    "ai-automation": {
+      "title": "AI Automation",
+      "description": "Describe what you need — AI proposes, the system validates, you approve with one click.",
+      "module": "AI Automation"
+    },
+    "ai-settings": {
+      "title": "AI Settings",
+      "description": "Connection status, model and monthly usage for the OpenAI integration.",
+      "module": "AI Automation"
+    }
+  },
+  "fallback": {
+    "title": ":Name",
+    "description": "Authoritative academic records.",
+    "fallback": {
+      "module": "Workspace"
+    }
+  },
+  "email_settings": {
+    "description": "Configure secure delivery for password-reset emails."
+  },
+  "role_descriptions": {
+    "teacher": {
+      "marks": "Enter marks, save drafts and submit completed work for review.",
+      "duties_profile": "Check your profile and let the examination cell know when you are unavailable.",
+      "duties": "Check your invigilation assignments and request cover when needed.",
+      "schedule": "Find your examination dates, times and rooms.",
+      "roster": "Students enrolled in the courses and sections assigned to you.",
+      "import": "Upload your marks, review the preview and confirm.",
+      "default": "Your assigned academic work, clearly organized."
+    },
+    "student": "Your examination records, clearly organized."
+  }
+}

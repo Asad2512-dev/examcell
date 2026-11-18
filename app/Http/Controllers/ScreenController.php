@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models as M;
+use App\Services as S;
+use App\Support\Resources;
+use App\Support\ScreenBindings;
+use App\Support\ScreenCatalog;
+use App\Support\Workspaces;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
+
+class ScreenController
+{
+    public function show(Request $r, string $role, ?string $screen = null)
+    {
+        abort_unless($r->user()->role === $role, 403);
+        $screen ??= $role.'-dashboard';
+        if ($w = Workspaces::workspace($role, $screen)) {
+            $tabs = collect($w['tabs']);
+            $tab = $tabs->firstWhere('key', $r->input('tab')) ?? $tabs->first();
+            $screen = $tab['slug'];
+            $view = (string) $r->input('view');
+            if ($view !== '' && (Workspaces::legacy($role)[$view][0] ?? null) === $w['key']) {
+                $screen = $view;
+                $tab = $tabs->firstWhere('key', Workspaces::legacy($role)[$view][1]) ?? $tab;
+            }
+            $r->attributes->set('ws', ['key' => $w['key'], 'tab' => $tab['key'], 'primary' => $tab['slug']]);
+        } elseif ($to = Workspaces::urlFor($role, $screen, $r->query())) {
+            return redirect($to);
+        } else {
+            [$k, $t] = Workspaces::locate($role, $screen, $r->input('resource'));
+            $r->attributes->set('ws', ['key' => $k, 'tab' => $t, 'primary' => $screen]);
+        }
+        $catalog = new ScreenCatalog;
+        $page = $catalog->find($role, $screen);
+        if (! $page && in_array($screen, ['records', 'duty-replacements', 'exam-schedule', 'my-duties', 'recheck-requests', 'forecast', 'backup-status', 'email-settings'])) {
+            $page = ['slug' => $screen, 'title' => ui_text('screens.fallback.title', ['name' => ucwords(str_replace('-', ' ', $screen))], 'Workspace'), 'kind' => 'table', 'role' => $role, 'description' => ui_text('screens.fallback.description')];
+        }abort_unless($page, 404);
+        if ($page['kind'] === 'auth') {
+            return redirect('/sign-in');
+        }
+        $module = ScreenBindings::module($page);
+        $page['module'] ??= $page['title'];
+        if ($role === 'teacher' && $screen === 'returned-marks-correction') {
+            $module = 'marks';
+        }
+        if ($screen === 'email-settings') {
+            abort_unless($role === 'admin', 403);
+            $module = 'email-settings';
+            $page['description'] = ui_text('screens.email_settings.description');
+            $page['module'] = 'Settings';
+        }
+        if ($screen === 'backup-status') {
+            $module = 'backups';
+            abort_unless($role === 'admin', 403);
+        }if ($screen === 'forecast') {
+            $module = 'analytics';
+        }
+        if ($role === 'teacher' && (str_contains($screen, 'students') || str_contains($screen, 'roster'))) {
+            $module = 'roster';
+        }
+        $u = $r->user();
+        $scope = app(S\ScopedQueries::class);
+        $context = app(S\AcademicContext::class);
+        $r->validate(['q' => 'nullable|string|max:100', 'status' => 'nullable|string|max:40', 'sort' => 'nullable|in:id,name,created_at', 'direction' => 'nullable|in:asc,desc', 'course_id' => 'nullable|integer', 'semester_id' => 'nullable|integer', 'id' => 'nullable|integer', 'resource' => 'nullable|string', 'conversation_id' => 'nullable|integer']);
+        $needsCourses = ! in_array($module, ['academic', 'audit', 'notifications', 'backups', 'email-settings', 'state']) || $r->filled('course_id');
+        $courses = $needsCourses ? $scope->courses($u)->with(['course', 'submission', 'examination', 'submissionDeadlines' => fn ($q) => $q->when($role === 'teacher', fn ($t) => $t->where('teacher_id', $u->id))])->orderBy('id')->get() : collect();
+        if ($module === 'marks') {
+            $courses->load('components');
+        }
+        $selected = $r->filled('course_id') ? $courses->firstWhere('id', $r->integer('course_id')) : $courses->first();
+        if ($role === 'teacher' && ! $r->filled('course_id')) {
+            $selected = $courses->sortBy(fn ($course) => [
+                $course->submission?->status === 'returned' ? 0 : ($course->submission?->status === 'submitted' ? 2 : 1),
+                $course->submissionDeadlineFor($u)?->timestamp ?? PHP_INT_MAX,
+            ])->first();
+        }
+        if ($r->filled('course_id') && ! $selected) {
+            abort(404);
+        }
+        $resource = $r->input('resource', ScreenBindings::resource($page));
+        if ($module === 'academic' && $resource === 'rooms') {
+            $page['module'] = 'Rooms';
+            $page['description'] = 'Add rooms, set their seat counts, and continue to exam allocation.';
+        }
+        $record = null;
+        $records = null;
+        $students = collect();
+        $marks = collect();
+        $conversation = null;
+        $query = match ($module) {
+            'backups' => M\BackupRun::query(),
+            'academic' => (Resources::get($resource)[0])::query(),'schedule' => $scope->schedules($u),'seats' => $scope->seats($u),'duties' => $u->role === 'student' ? abort(403) : $scope->duties($u),'results','corrections','analytics' => $scope->results($u),'marks' => $scope->courses($u)->with('course', 'submission'),'rechecks' => M\RecheckRequest::with('student', 'result.examCourse.course')->when($role === 'student', fn ($q) => $q->where('student_id', $u->id)),'admit' => M\AdmitCard::with('student', 'examination')->when($role !== 'admin', fn ($q) => $q->where('student_id', $u->id)->whereHas('examination', fn ($e) => $e->where('status', 'published'))),'audit' => $role === 'admin' ? M\AuditLog::query() : M\AuditLog::where('actor_id', $u->id),'notifications' => $u->notifications(),'roster' => $scope->roster($u),'courses' => $role === 'student' ? $u->enrollments()->with('course', 'section') : M\TeacherAssignment::with('teacher', 'course', 'section')->where('teacher_id', $u->id),default => null
+        };
+        if ($module === 'academic') {
+            abort_unless($role === 'admin', 403);
+        }
+        if ($query) {
+            $query = $context->apply($query, $u);
+            $table = $query->getModel()->getTable();
+            if ($module === 'roster' && $role === 'teacher' && $r->filled('course_id') && $selected) {
+                $query->where('course_id', $selected->course_id)->where('section_id', $selected->section_id);
+            }
+            if ($module === 'results' && $role === 'student' && $r->filled('semester_id')) {
+                $query->whereHas('examCourse.section', fn ($q) => $q->where('semester_id', $r->integer('semester_id')));
+            }
+            if ($r->filled('q')) {
+                $q = $r->input('q');
+                $columns = Schema::getColumnListing($table);
+                $fields = array_intersect(['name', 'code', 'email', 'roll_number', 'action', 'type'], $columns);
+                if ($fields) {
+                    $query->where(function ($x) use ($fields, $q) {
+                        foreach ($fields as $field) {
+                            $x->orWhere($field, 'like', '%'.$q.'%');
+                        }
+                    });
+                } elseif ($module === 'results' || $module === 'analytics' || $module === 'corrections') {
+                    $query->whereHas('examCourse.course', fn ($c) => $c->where('name', 'like', '%'.$q.'%')->orWhere('code', 'like', '%'.$q.'%'));
+                }
+            }
+            if ($r->filled('status') && in_array('status', $columns ??= Schema::getColumnListing($table))) {
+                $query->where('status', $r->input('status'));
+            }
+            $sort = $r->input('sort', 'id');
+            if ($sort !== 'id' && ! in_array($sort, $columns ??= Schema::getColumnListing($table))) {
+                $sort = 'id';
+            }
+            if ($module === 'schedule' && $role !== 'admin' && ! $r->filled('sort')) {
+                $query->orderByRaw('starts_at < ?', [now()])->orderBy('starts_at');
+            }
+            $records = $query->orderBy($table.'.'.$sort, $r->input('direction', 'desc'))->paginate(20)->withQueryString();
+            if ($module === 'academic' && $r->filled('id')) {
+                $record = $context->apply((Resources::get($resource)[0])::query(), $u)->findOrFail($r->integer('id'));
+            }
+        }
+        if ($module === 'marks' && $selected) {
+            Gate::authorize('view', $selected);
+            $students = $selected->eligible()->with('student.profile')->get();
+            $marks = M\Mark::whereIn('assessment_component_id', $selected->components->pluck('id'))->get()->keyBy(fn ($m) => $m->student_id.':'.$m->assessment_component_id);
+        }
+        if ($module === 'chat' && $r->filled('conversation_id')) {
+            $conversation = M\Conversation::findOrFail($r->integer('conversation_id'));
+            Gate::authorize('view', $conversation);
+            $conversation->load('messages');
+        }
+        $allResults = $module === 'results' && $role === 'student' ? $scope->results($u)->with('examCourse.examination', 'examCourse.section')->get() : collect();
+        $metrics = $module === 'dashboard' ? ['Courses' => $role === 'student' ? $u->enrollments()->count() : $courses->count(), 'Scheduled exams' => $scope->schedules($u)->count(), 'Result records' => $scope->results($u)->count(), 'Unread notifications' => $u->unreadNotifications()->count()] : [];
+
+        $dashboardResults = $module === 'dashboard' ? $scope->results($u)->with('examCourse.course')->get() : collect();
+        $dashboardSchedule = $module === 'dashboard' ? $scope->schedules($u)->with('examCourse.course', 'room')->where('starts_at', '>=', now())->orderBy('starts_at')->limit(6)->get() : collect();
+        $notifications = $u->notifications()->latest()->limit(10)->get();
+        $unreadCount = $u->unreadNotifications()->count();
+        $dashboard = [
+            'courseAverages' => $dashboardResults->groupBy(fn ($result) => $result->examCourse?->course?->code ?: 'Course')->map(fn ($group, $code) => ['label' => $code, 'value' => round((float) $group->avg('percentage'), 1)])->values()->take(6),
+            'upcoming' => $dashboardSchedule,
+            'recentNotifications' => $notifications->take(5),
+            'passCount' => $dashboardResults->where('passed', true)->count(),
+            'failCount' => $dashboardResults->where('passed', false)->count(),
+        ];
+
+        $analytics = $module === 'analytics' ? app(S\AnalyticsService::class)->aggregates($u) : [];
+
+        return view('screens.show', compact('page', 'role', 'module', 'resource', 'record', 'records', 'courses', 'selected', 'students', 'marks', 'conversation', 'metrics', 'allResults', 'analytics', 'dashboard') + [
+            'navigation' => $catalog->navigation($role),
+            'screens' => $catalog->forRole($role),
+            'userName' => $u->name,
+            'initials' => collect(explode(' ', $u->name))->map(fn ($n) => mb_substr($n, 0, 1))->take(2)->implode(''),
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
+            'exams' => $role === 'admin' && (in_array($module, ['dashboard', 'schedule', 'results', 'admit', 'analytics', 'ai']) || ($r->attributes->get('ws')['key'] ?? null) === 'exams') ? $context->apply(M\Examination::query(), $u)->with(['batch', 'courses' => fn ($q) => $context->apply($q, $u)->with('schedule')])->latest()->get() : collect(),
+            'replacements' => $module === 'duties' ? $context->apply(M\DutyReplacement::query(), $u)->with('duty.teacher', 'candidate', 'request')->when($role === 'teacher', fn ($q) => $q->whereHas('duty', fn ($d) => $d->where('teacher_id', $u->id)))->latest()->limit(50)->get() : collect(),
+            'dutyRequests' => $module === 'duties' ? $context->apply(M\DutyRequest::query(), $u)->with('duty.scheduleEntry.examCourse.course', 'teacher', 'proposal.candidate')->when($role === 'teacher', fn ($q) => $q->where('teacher_id', $u->id))->latest()->paginate(20, ['*'], 'requests_page')->withQueryString() : new LengthAwarePaginator([], 0, 20),
+            'corrections' => $role === 'admin' && $module === 'corrections' ? $context->apply(M\ResultCorrection::query(), $u)->with('mark.student')->latest()->limit(50)->get() : collect(),
+            'flags' => $role === 'admin' && $module === 'analytics' ? $context->apply(M\AnalysisFlag::query(), $u)->latest()->limit(100)->get() : collect(),
+            'admitStudents' => $role === 'admin' && $module === 'admit' ? $context->apply(M\StudentProfile::query(), $u)->with('user')->where('eligible', true)->get() : collect(),
+        ]);
+    }
+}

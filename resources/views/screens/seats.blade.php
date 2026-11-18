@@ -1,0 +1,73 @@
+<div class="seating-layout">
+    <section class="card">
+        <div class="card-heading">
+            <div>
+                <h2>{{ ui_text('screens.copy.room_a_201') }}</h2>
+                <p>{{ ui_text('screens.copy.cs301_final_14_oct_2026_09_0012_00') }}</p>
+            </div><span class="badge badge-info">{{ ui_text('screens.copy.48_seats') }}</span>
+        </div>
+        <div class="seat-stage">{{ ui_text('screens.copy.front_of_room_invigilator_desk') }}</div>
+        <div class="seat-grid">
+            @for ($r = 0; $r < 6; $r++)
+                @for ($c = 1; $c <= 8; $c++)
+                    @php
+                        $label = chr(65 + $r) . str_pad($c, 2, '0', STR_PAD_LEFT);
+                        $state =
+                            $r === 5 && $c > 4
+                                ? 'empty'
+                                : ($r === 3 && $c === 5
+                                    ? 'unavailable'
+                                    : ($r === 2 && $c === 3 && $role === 'admin'
+                                        ? 'conflict'
+                                        : 'assigned'));
+                    @endphp<button class="seat {{ $state }}" data-seat="{{ $label }}"
+                        data-seat-state="{{ $state }}" aria-label="Seat {{ $label }}, {{ $state }}"
+                        @disabled($state === 'unavailable')>{{ $label }}<small>{{ $state === 'assigned' ? 'Assigned' : ucfirst($state) }}</small></button>
+                @endfor
+            @endfor
+        </div>
+        <div class="legend"><span><i></i>{{ ui_text('screens.copy.assigned') }}</span><span><i
+                    class="empty"></i>{{ ui_text('screens.copy.empty') }}</span><span><i
+                    class="unavailable"></i>{{ ui_text('screens.copy.unavailable') }}</span>
+            @if ($role === 'admin')
+                <span><i class="conflict"></i>{{ ui_text('screens.copy.conflict') }}</span>
+            @endif
+        </div>
+    </section>
+    <aside class="card">
+        <div class="card-heading">
+            <h2>{{ ui_text('screens.copy.allocation_details') }}</h2>
+        </div>
+        <div class="card-body"><x-badge :status="$role === 'admin' ? 'Needs review' : 'Published'" />
+            <div class="summary-big" data-selected-seat>{{ ui_text('screens.copy.a01') }}</div>
+            <p class="muted text-sm">{{ ui_text('screens.copy.selected_seat_room_a_201') }}</p>
+            <dl class="key-values">
+                <div>
+                    <dt>{{ ui_text('screens.copy.student') }}</dt>
+                    <dd data-seat-student>{{ $role === 'student' ? 'Ayesha Khan' : 'Select a seat' }}</dd>
+                </div>
+                <div>
+                    <dt>{{ ui_text('screens.copy.examination') }}</dt>
+                    <dd>{{ ui_text('screens.copy.cs301_final') }}</dd>
+                </div>
+                <div>
+                    <dt>{{ ui_text('screens.copy.room_capacity') }}</dt>
+                    <dd>{{ ui_text('screens.copy.48_seats_1_unavailable') }}</dd>
+                </div>
+                <div>
+                    <dt>{{ ui_text('screens.copy.allocation_status') }}</dt>
+                    <dd data-seat-detail>{{ ui_text('screens.copy.42_assigned_4_empty') }}</dd>
+                </div>
+            </dl>
+            @if ($role === 'admin')
+                <div class="info-box warning"><x-icon name="alert" :size="16" />
+                    <p>{{ ui_text('screens.copy.duplicate_allocation_on_c03_resolve_before_approval') }}</p>
+                </div><x-button variant="secondary"
+                    :href="route('screen', ['admin', 'seating-conflict-report'])">{{ ui_text('screens.copy.review_duplicate') }}</x-button>
+            @else<div class="info-box"><x-icon name="help" :size="16" />
+                    <p>{{ ui_text('screens.copy.review_only_records_available_to_your_role') }}</p>
+                </div>
+            @endif
+        </div>
+    </aside>
+</div>

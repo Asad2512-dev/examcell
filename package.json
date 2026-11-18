@@ -1,0 +1,32 @@
+{
+  "name": "examcell-frontend-checks",
+  "private": true,
+  "description": "ExamCell frontend: Vite, Tailwind, Alpine and lazy charts",
+  "scripts": {
+    "test:browser": "node tests/browser/backend.cjs",
+    "dev": "vite",
+    "build": "vite build",
+    "test:ui": "node tests/browser/redesign.cjs",
+    "test:frontend": "node --test tests/frontend/*.test.mjs",
+    "test:backend-ui": "node tests/browser/backend-features.cjs",
+    "test:landing": "node tests/browser/landing-story.cjs",
+    "test:landing-responsive": "node tests/browser/landing-responsive.cjs",
+    "test:loading": "node tests/browser/loading.cjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "jsqr": "^1.4.0",
+    "laravel-vite-plugin": "^3.2.0",
+    "playwright": "^1.51.0",
+    "pngjs": "^7.0.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  },
+  "dependencies": {
+    "alpinejs": "^3.17.5",
+    "chart.js": "^4.6.1",
+    "gsap": "^3.15.0",
+    "lucide": "^1.63.0"
+  },
+  "type": "module"
+}

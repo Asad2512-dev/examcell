@@ -1,0 +1,22 @@
+# Shared-hosting layout: the project may sit in public_html, but only public/
+# is a web document root. Fail closed if rewriting is unavailable.
+Options -Indexes
+DirectoryIndex public/index.php
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
+    RewriteRule ^public(?:/|$) - [L]
+    RewriteRule ^\.well-known(?:/|$) - [L]
+
+    # Never execute or download an existing project file outside public/.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^.+ - [F,L]
+
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

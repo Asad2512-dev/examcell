@@ -1,0 +1,24 @@
+{
+  "copy": {
+    "choose_a_semester_then_review_your_published_results": "Choose a semester, then review your published results.",
+    "official_grades_and_gpa_follow_the_institution_s_grading": "Official grades and GPA follow the institution's grading rules. Need a review? Open “Request recheck” for the relevant course.",
+    "all_semesters": "All semesters",
+    "show_results": "Show results",
+    "course_examination": "Course / examination",
+    "marks": "Marks",
+    "grade": "Grade",
+    "grade_points": "Grade points",
+    "outcome_review": "Outcome / review",
+    "credit_details": "Credit details",
+    "track_rechecking_request": "Track rechecking request →",
+    "request_recheck": "Request recheck",
+    "submit_rechecking_request": "Submit rechecking request",
+    "already_requested_a_review": "Already requested a review?",
+    "track_my_rechecking_requests": "Track my rechecking requests →",
+    "course_name_or_code": "Course name or code",
+    "my_published_results": "My published results",
+    "submit_this_rechecking_request": "Submit this rechecking request?",
+    "the_examination_cell_will_review_your_request_your_publi": "The examination cell will review your request. Your published marks will not change automatically.",
+    "submit_request": "Submit request"
+  }
+}

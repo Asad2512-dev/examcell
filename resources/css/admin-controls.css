@@ -1,0 +1,241 @@
+/* One control scale across admin forms, filters, dialogs, and actions. */
+@media screen {
+  body[data-role="admin"] {
+    --admin-control-height: 44px;
+    --admin-control-radius: 8px;
+    --admin-control-font: 15px;
+  }
+  body[data-role="admin"]
+    :is(
+      input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+      select:not([multiple]),
+      textarea
+    ) {
+    box-sizing: border-box;
+    height: var(--admin-control-height);
+    min-height: var(--admin-control-height);
+    border-radius: var(--admin-control-radius);
+    font-size: var(--admin-control-font);
+    line-height: 22px;
+    padding: 10px 12px;
+  }
+  body[data-role="admin"]
+    :is(
+      .field input:not([type="checkbox"]):not([type="radio"]),
+      .field select,
+      .field textarea
+    ) {
+    width: 100%;
+  }
+  body[data-role="admin"] textarea {
+    resize: vertical;
+  }
+  body[data-role="admin"] :is(.form-grid, .setup-fields) {
+    align-items: start;
+    gap: 20px;
+  }
+  body[data-role="admin"] .field {
+    gap: 8px;
+  }
+  body[data-role="admin"] .field > span:first-child {
+    font-size: var(--admin-control-font);
+    line-height: 22px;
+  }
+  body[data-role="admin"] :is(.field small, .field-error) {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  body[data-role="admin"] :is(.btn.btn, .btn-small.btn-small) {
+    box-sizing: border-box;
+    min-height: var(--admin-control-height);
+    height: auto;
+    min-width: 112px;
+    padding: 10px 16px;
+    font-size: var(--admin-control-font);
+    line-height: 22px;
+    border-radius: var(--admin-control-radius);
+    align-self: start;
+    white-space: normal;
+  }
+  body[data-role="admin"] :is(.global-search, .context-picker > summary) {
+    min-height: var(--admin-control-height);
+    height: var(--admin-control-height);
+  }
+  body[data-role="admin"] .icon-button {
+    width: var(--admin-control-height);
+    height: var(--admin-control-height);
+    min-width: var(--admin-control-height);
+    min-height: var(--admin-control-height);
+    padding: 10px;
+  }
+  body[data-role="admin"] .form-grid > .btn {
+    justify-self: start;
+    align-self: end;
+  }
+  body[data-role="admin"]
+    .form-grid
+    > :is(.form-actions, .toggle-field, .admin-optional) {
+    grid-column: 1 / -1;
+  }
+  body[data-role="admin"] .form-actions {
+    align-items: center;
+    gap: 12px;
+  }
+  body[data-role="admin"] .form-actions .btn {
+    min-width: 144px;
+  }
+  body[data-role="admin"] :is(input[type="checkbox"], input[type="radio"]) {
+    width: 18px;
+    height: 18px;
+    min-height: 18px;
+    flex-shrink: 0;
+  }
+  body[data-role="admin"] .toggle-field {
+    min-height: 44px;
+    font-size: 15px;
+  }
+  body[data-role="admin"] .chat-composer .field {
+    align-self: start;
+  }
+  body[data-role="admin"] .chat-composer textarea {
+    height: 44px;
+    min-height: 44px;
+  }
+  body[data-role="admin"] .admin-flow {
+    margin-bottom: 24px;
+  }
+  .admin-flow ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .admin-flow a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 88px;
+    height: 100%;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+  }
+  .admin-flow a[aria-current="step"] {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
+  .admin-flow-number {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--surface-muted);
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .admin-flow a[aria-current="step"] .admin-flow-number {
+    background: var(--primary);
+    color: white;
+  }
+  .admin-flow strong {
+    display: block;
+    font-size: 15px;
+  }
+  body[data-role="admin"] .admin-flow small {
+    display: block;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .admin-flow a > svg {
+    margin-left: auto;
+  }
+  .admin-flow > p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 12px 0 0;
+  }
+  .room-search {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 24px;
+  }
+  .room-search .field {
+    flex: 1;
+    min-width: 180px;
+  }
+  body[data-role="admin"] .room-search .btn {
+    align-self: end;
+  }
+  .room-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .admin-optional {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .admin-optional > summary {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .admin-room-choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .admin-room-choices label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  @media (max-width: 1100px) {
+    .admin-flow ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    body[data-role="admin"]
+      :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+      font-size: 16px;
+    }
+    body[data-role="admin"] .form-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .admin-flow a {
+      padding: 12px;
+      gap: 8px;
+    }
+    .admin-flow a > svg {
+      display: none;
+    }
+    .admin-flow a small {
+      display: none;
+    }
+    .admin-room-choices {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .room-actions {
+      flex-direction: column;
+    }
+    body[data-role="admin"] .form-actions .btn {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

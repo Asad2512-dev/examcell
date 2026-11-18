@@ -1,0 +1,45 @@
+<section class="card chat-layout">
+    <aside class="conversation-panel"><x-button variant="secondary" icon="plus"
+            data-new-chat>{{ ui_text('screens.copy.new_conversation') }}</x-button>
+        <h3>{{ ui_text('screens.copy.recent_conversations') }}</h3><button class="conversation-button active"
+            data-chat-suggestion="{{ $role === 'student' ? 'When is my next examination?' : ($role === 'teacher' ? 'Which marks submissions are pending?' : 'Which teachers have pending marks submissions?') }}"><x-icon
+                name="file" :size="14" />{{ ui_text('screens.copy.examination_priorities') }}</button><button
+            class="conversation-button" data-chat-suggestion="Which examination schedules have conflicts?"><x-icon
+                name="calendar" :size="14" />{{ ui_text('screens.copy.schedule_review') }}</button>
+        <p class="muted text-sm" style="margin:24px 8px">{{ ucfirst($role) }} records
+            only.<br>{{ ui_text('screens.copy.sample_responses_for_the_frontend_demo') }}</p>
+    </aside>
+    <div class="chat-main">
+        <header class="chat-top"><span><x-icon name="sparkles" :size="19" /></span>
+            <div>
+                <h2>{{ ui_text('screens.copy.examcell_ai_assistant') }}</h2>
+                <p>Role-scoped sample answers · {{ ucfirst($role) }} workspace</p>
+            </div>
+        </header>
+        <div class="chat-history" id="chat-history" aria-live="polite">
+            <div class="chat-welcome">
+                <h2>{{ ui_text('screens.copy.how_can_i_help_you_today') }}</h2>
+                <p>{{ ui_text('screens.copy.ask_about_examination_schedules_academic_records_and_tas') }}</p>
+                <div class="suggested-questions">
+                    @foreach (match ($role) {
+        'student' => ['When is my next examination?', 'Where is my assigned seat?', 'Show my published semester result.', 'Explain how my GPA was calculated.'],
+        'teacher' => ['Which marks submissions are pending?', 'Show my course performance.', 'What are my upcoming invigilation duties?', 'Which records require correction?'],
+        default => ['Which courses have the highest failure ratio?', 'Which teachers have pending marks submissions?', 'Which schedules have unresolved conflicts?', 'Who can replace an unavailable invigilator?'],
+    } as $question)
+                        <button data-chat-suggestion="{{ $question }}">{{ $question }} <x-icon name="arrow"
+                                :size="13" /></button>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="chat-compose">
+            <form id="chat-form"><input id="chat-input"
+                    placeholder="{{ ui_text('screens.copy.ask_about_your_examination_records') }}"
+                    aria-label="{{ ui_text('screens.copy.message_to_assistant') }}" maxlength="1000" required><button
+                    class="btn btn-primary" type="submit"
+                    aria-label="{{ ui_text('screens.copy.send_message') }}"><x-icon name="arrow"
+                        :size="16" /></button></form>
+            <small>{{ ui_text('screens.copy.frontend_simulation_no_ai_model_or_database_connected_ve') }}</small>
+        </div>
+    </div>
+</section>

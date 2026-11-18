@@ -1,0 +1,89 @@
+{
+  "copy": {
+    "examcell_home": "ExamCell home"
+  },
+  "states": {
+    "loading-records": {
+      "title": "Loading your records",
+      "description": "Preparing the latest records for this workspace."
+    },
+    "empty-records": {
+      "title": "A fresh start",
+      "description": "There are no records in this view yet. New records will appear here when available."
+    },
+    "server-error": {
+      "title": "Something went wrong",
+      "description": "We couldn’t complete this request. Return to your workspace and try again."
+    },
+    "permission-denied": {
+      "title": "This area is restricted",
+      "description": "Your current account does not have permission to access these records."
+    },
+    "unauthorized-access": {
+      "title": "This area is restricted",
+      "description": "Your current account does not have permission to access these records."
+    },
+    "session-expired": {
+      "title": "Your session has expired",
+      "description": "Sign in again to continue working securely."
+    },
+    "success-confirmation": {
+      "title": "Action completed",
+      "description": "Completed actions and their details are confirmed by the server on the relevant workflow."
+    },
+    "password-reset-confirmation": {
+      "title": "Check your institution email",
+      "description": "If the account exists, password recovery instructions are sent through your configured mail transport."
+    },
+    "default": {
+      "description": "This view describes a workflow state. The server reports live outcomes within the relevant module."
+    },
+    "student": {
+      "unpublished": [
+        "This result is not published",
+        "Only approved, published academic records are available to students.",
+        "Return to My Results to view available semesters."
+      ],
+      "empty": [
+        "No records yet",
+        "There are no matching examination records in this view.",
+        "Create a record or adjust your current filters."
+      ],
+      "unavailable": [
+        "Data temporarily unavailable",
+        "The requested records could not be loaded.",
+        "Try again or select another available record."
+      ],
+      "permission": [
+        "Permission denied",
+        "Your current role does not have access to this record.",
+        "Return to records available to your role."
+      ],
+      "session": [
+        "Your session has expired",
+        "Sign in again to continue your examination tasks.",
+        "Draft changes remain saved in this demo browser."
+      ],
+      "replacement": [
+        "No eligible replacement found",
+        "Available teachers have overlapping duties or are above the permitted workload.",
+        "Review the reserve pool; no unavailable teacher will be assigned silently."
+      ],
+      "success": [
+        "Request recorded successfully",
+        "Your sample request is ready for the next authorized review.",
+        "You can view status updates in the request history."
+      ],
+      "prediction": [
+        "Prediction is not yet available",
+        "There are fewer than three comparable historical assessments.",
+        "Add sufficient historical data before requesting an estimate."
+      ],
+      "default": [
+        "Review this consequential action",
+        "Confirm the selected records and the reason for this change.",
+        "All consequential changes require a reviewed audit trail."
+      ]
+    }
+  }
+}

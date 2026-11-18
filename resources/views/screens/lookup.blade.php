@@ -1,0 +1,43 @@
+<section class="card lookup-layout">
+    <div class="card-heading">
+        <h2>{{ ui_text('screens.copy.find_your_examination_seat') }}</h2><x-badge status="Published" />
+    </div>
+    <div class="card-body">
+        <form data-seat-lookup>
+            <div class="form-grid"><x-field label="Student roll number" value="BSIT-2024-018" :readonly="true" /><x-field
+                    label="Examination" type="select" name="exam">
+                    <option>{{ ui_text('screens.copy.cs301_final_14_oct_2026') }}</option>
+                    <option>{{ ui_text('screens.copy.cs302_final_16_oct_2026') }}</option>
+                    <option>{{ ui_text('screens.copy.cs303_practical_18_oct_2026') }}</option>
+                </x-field></div>
+            <div class="form-actions" style="padding:20px 0;background:transparent"><x-button type="submit"
+                    icon="search">{{ ui_text('screens.copy.find_my_seat') }}</x-button></div>
+        </form>
+        <div data-seat-ticket>
+            <div class="seat-ticket">
+                <div><span>{{ ui_text('screens.copy.room') }}</span><strong
+                        data-lookup-room>{{ ui_text('screens.copy.a_201') }}</strong></div>
+                <div><span>{{ ui_text('screens.copy.seat') }}</span><strong
+                        data-lookup-seat>{{ ui_text('screens.copy.a12') }}</strong></div>
+            </div>
+            <dl class="key-values">
+                <div>
+                    <dt>{{ ui_text('screens.copy.examination') }}</dt>
+                    <dd data-lookup-exam>{{ ui_text('screens.copy.cs301_database_systems') }}</dd>
+                </div>
+                <div>
+                    <dt>{{ ui_text('screens.copy.date_time') }}</dt>
+                    <dd data-lookup-time>{{ ui_text('screens.copy.14_oct_2026_09_0012_00') }}</dd>
+                </div>
+                <div>
+                    <dt>{{ ui_text('screens.copy.location') }}</dt>
+                    <dd>{{ ui_text('screens.copy.academic_block_a_second_floor') }}</dd>
+                </div>
+            </dl>
+            <div class="info-box"><x-icon name="help" :size="18" />
+                <p>{{ ui_text('screens.copy.bring_your_admit_card_and_student_id_arrive_at_least_30') }}</p>
+            </div><x-button variant="secondary" icon="print"
+                data-print>{{ ui_text('screens.copy.print_seat_information') }}</x-button>
+        </div>
+    </div>
+</section>

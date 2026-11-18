@@ -1,0 +1,68 @@
+@if (str_contains(strtolower($page['title']), 'admit'))
+    @include('screens.admit')
+@else
+    <div class="document-layout">
+        <section class="card document printable-document">
+            <div class="document-brand"><x-logo :size="42" />
+                <div>
+                    <strong>{{ ui_text('screens.copy.examcell') }}</strong><small>{{ ui_text('screens.copy.university_it_department_examination_cell') }}</small>
+                </div>
+            </div>
+            <h2>{{ ui_text('screens.copy.semester_result_card') }}</h2>
+            <div class="identity"><span class="identity-avatar"><x-icon name="user" :size="32" /></span>
+                <div><strong>{{ ui_text('screens.copy.ayesha_khan') }}</strong>
+                    <p>{{ ui_text('screens.copy.bsit_2024_018_bachelor_of_science_in_information_technol') }}</p>
+                    <p>{{ ui_text('screens.copy.semester_5_section_a_fall_2026') }}</p>
+                    <p>{{ ui_text('screens.copy.publication_date_02_october_2026') }} <x-badge status="Published" /></p>
+                </div>
+            </div><x-table :headers="['Course', 'Marks', 'Percentage', 'Grade / points', 'Credits']" :rows="[
+                ['CS301 · Database Systems', '86 / 100', '86.00%', 'A / 4.00', '3'],
+                ['CS302 · Operating Systems', '74 / 100', '74.00%', 'B / 3.00', '3'],
+                ['CS303 · Computer Networks', '79 / 100', '79.00%', 'B / 3.00', '3'],
+                ['CS304 · Web Engineering', '89 / 100', '89.00%', 'A / 4.00', '3'],
+            ]" :actions="false" />
+            <div class="result-summary">
+                <div><span>{{ ui_text('screens.copy.semester_gpa') }}</span><strong>3.50</strong></div>
+                <div><span>{{ ui_text('screens.copy.cgpa') }}</span><strong>3.36</strong></div>
+                <div><span>{{ ui_text('screens.copy.credits_completed') }}</span><strong>12</strong></div>
+            </div>
+            <div class="info-box success"><x-icon name="check" :size="16" />
+                <p>{{ ui_text('screens.copy.calculated_using_approved_ug_2026_grading_scheme_semeste') }}</p>
+            </div>
+            <div class="document-foot">
+                <span>{{ ui_text('screens.copy.record_rc_2026_018') }}<br>{{ ui_text('screens.copy.issued_by_the_examination_cell') }}</span><span>{{ ui_text('screens.copy.verified_electronic_record') }}<br>{{ ui_text('screens.copy.sample_data_design_demonstration') }}</span>
+            </div>
+        </section>
+        <aside class="card document-side">
+            <div class="card-heading">
+                <h2>{{ ui_text('screens.copy.document_actions') }}</h2>
+            </div>
+            <div class="card-body">
+                <dl class="key-values">
+                    <div>
+                        <dt>{{ ui_text('screens.copy.status') }}</dt>
+                        <dd><x-badge status="Published" /></dd>
+                    </div>
+                    <div>
+                        <dt>{{ ui_text('screens.copy.scheme') }}</dt>
+                        <dd>{{ ui_text('screens.copy.ug_2026_approved') }}</dd>
+                    </div>
+                    <div>
+                        <dt>{{ ui_text('screens.copy.format') }}</dt>
+                        <dd>{{ ui_text('screens.copy.a4_portrait_print_ready') }}</dd>
+                    </div>
+                </dl><x-button icon="download" data-print>{{ ui_text('screens.copy.print_save_as_pdf') }}</x-button>
+                @if ($role === 'student')
+                    <x-button variant="secondary"
+                        :href="route('screen', ['student', 'submit-rechecking-request'])">{{ ui_text('screens.copy.request_rechecking') }}</x-button>
+                @elseif($role === 'admin')
+                    <x-button variant="secondary"
+                        :href="route('screen', ['admin', 'result-correction-request'])">{{ ui_text('screens.copy.request_correction') }}</x-button>
+                @endif
+                <div class="info-box warning"><x-icon name="shield" :size="16" />
+                    <p>{{ ui_text('screens.copy.published_marks_are_protected_corrections_require_an_aut') }}</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+@endif

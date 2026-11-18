@@ -1,0 +1,36 @@
+{
+  "upcoming": {
+    "heading": "Upcoming examinations",
+    "description": "Your next dates, times and rooms"
+  },
+  "copy": {
+    "start_here": "START HERE",
+    "set_up_your_academic_session": "Set up your academic session",
+    "session_departments_courses_teachers_students": "Session → Departments → Courses → Teachers → Students",
+    "open_academic_setup": "Open academic setup",
+    "review_the_return_reason_and_correct_your_draft_before_r": "Review the return reason and correct your draft before resubmitting.",
+    "open_returned_marks": "Open returned marks →",
+    "your_next_examination": "YOUR NEXT EXAMINATION",
+    "get_admit_card": "Get admit card",
+    "find_my_seat": "Find my seat",
+    "review_missing_draft_and_returned_submissions": "Review missing, draft and returned submissions.",
+    "inspect_findings_before_making_any_changes": "Inspect findings before making any changes.",
+    "review_scheduling_conflicts": "Review scheduling conflicts",
+    "conflicts_are_checked_during_schedule_validation": "Conflicts are checked during schedule validation.",
+    "view_duty": "View duty →",
+    "view_all": "View all →",
+    "use_ai_assistant_for_help_with_your_records_you_can_find": "Use AI Assistant for help with your records. You can find your account options in the profile menu at the top of the page.",
+    "no_upcoming_examinations": "No upcoming examinations",
+    "attention_needed": "Attention needed",
+    "my_upcoming_duties": "My upcoming duties",
+    "no_upcoming_duties": "No upcoming duties",
+    "recent_notifications": "Recent notifications",
+    "performance_and_activity": "Performance and activity",
+    "course_performance": "Course performance",
+    "your_performance_story_starts_here": "Your performance story starts here",
+    "recent_activity": "Recent activity",
+    "no_activity_yet": "No activity yet",
+    "more_tools": "More tools",
+    "ask_ai_for_help": "Ask AI for help"
+  }
+}

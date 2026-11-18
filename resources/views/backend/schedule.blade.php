@@ -1,0 +1,84 @@
+@if ($role !== 'admin')
+    @include('roles.schedule')
+@else
+    @php
+        $uiCalendarEvents = collect($records->items())
+            ->map(
+                fn($entry) => [
+                    'id' => $entry->id,
+                    'date' => $entry->starts_at->toIso8601String(),
+                    'end' => $entry->ends_at->toIso8601String(),
+                    'title' => $entry->examCourse->course->code,
+                    'detail' => $entry->starts_at->format('H:i') . ' · ' . $entry->room_label,
+                    'room' => $entry->room_id,
+                ],
+            )
+            ->all();
+    @endphp
+
+    <x-calendar :events="$uiCalendarEvents" title="{{ ui_text('examinations.copy.examination_schedule') }}" />
+    @include('backend.filters')
+    @if ($role === 'admin')
+        <x-card title="Allocate a room to a paper" description="Choose the paper, room, and start time. Extra rooms are optional.">
+            @include('backend.schedule-form')
+        </x-card>
+        @foreach ($exams as $exam)
+            <x-card class="">
+                <div class="card-heading">
+                    <h2>{{ $exam->name }}</h2><x-badge :status="ucfirst($exam->status)" />
+                </div>
+                @if ($exam->status === 'draft')
+                    <form class="form-grid" data-wizard-form method="POST"
+                        action="/workflow/examination/{{ $exam->id }}/generate">
+                        @csrf<x-form-field><span>{{ ui_text('examinations.copy.generate_from') }}</span><input
+                                type="date" name="starts_on"
+                                required></x-form-field><x-form-field><span>{{ ui_text('examinations.copy.search_days_190') }}</span><input
+                                type="number" name="days" value="14" min="1" max="90"
+                                required></x-form-field><x-button variant="primary" class=""
+                            type="submit">{{ ui_text('examinations.copy.generate_conflict_checked_timetable') }}</x-button>
+                    </form>
+                    @endif @if (in_array($exam->status, ['draft', 'approved']))
+                        <form method="POST" action="/workflow/examination/{{ $exam->id }}/state">
+                            @csrf<input type="hidden" name="status"
+                                value="{{ $exam->status === 'draft' ? 'approved' : 'published' }}"><x-button
+                                variant="secondary" class=""
+                                type="submit">{{ $exam->status === 'draft' ? 'Approve' : 'Publish' }}
+                                schedule</x-button>
+                        </form>
+                        @endif @if ($exam->status === 'published')
+                            <form method="POST" action="/workflow/examination/{{ $exam->id }}/revision">
+                                @csrf<x-button variant="secondary" class=""
+                                    type="submit">{{ ui_text('examinations.copy.create_draft_schedule_revision') }}</x-button>
+                            </form>
+                        @endif
+            </x-card>
+        @endforeach
+    @endif
+    <x-card class="table-card"><x-data-table>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>{{ ui_text('examinations.copy.course') }}</th>
+                        <th>{{ ui_text('examinations.copy.room') }}</th>
+                        <th>{{ ui_text('examinations.copy.start') }}</th>
+                        <th>{{ ui_text('examinations.copy.end') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($records as $s)
+                        <tr>
+                            <td>{{ $s->examCourse->course->code }} · {{ $s->examCourse->course->name }}</td>
+                            <td>{{ $s->room_label }}</td>
+                            <td>{{ $s->starts_at->format('d M Y H:i') }}</td>
+                            <td>{{ $s->ends_at->format('H:i') }}</td>
+                        </tr>
+                    @empty<tr>
+                            <td colspan="4">{{ ui_text('examinations.copy.no_authorized_schedules') }}</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </x-data-table>
+        @include('backend.pagination')</x-card>
+
+@endif

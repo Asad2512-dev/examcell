@@ -1,0 +1,7 @@
+{
+  "indentSize": 4,
+  "wrapLineLength": 120,
+  "wrapAttributes": "auto",
+  "endWithNewline": true,
+  "phpVersion": "8.3"
+}
