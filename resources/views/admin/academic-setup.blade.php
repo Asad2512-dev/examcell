@@ -5,6 +5,11 @@
         <x-slot:eyebrow>{{ ui_text('admin.copy.your_academic_workspace') }}</x-slot:eyebrow><x-button
             variant="secondary"
             href="/admin/records?resource=departments">{{ ui_text('admin.copy.manage_existing_records') }}</x-button>
+        @if (in_array($step, ['session', 'departments']))
+            <x-button variant="secondary" icon="upload"
+                href="/admin/import?kind={{ $step === 'session' ? 'sessions' : 'departments' }}">Import or export
+                {{ $step === 'session' ? 'sessions' : 'departments' }}</x-button>
+        @endif
         @if ($session && $step !== $next)
             <x-button :href="route('academic-setup', ['step' => $next])">{{ ui_text('admin.copy.continue_setup') }}</x-button>
         @endif
@@ -49,7 +54,7 @@
         </x-card>
     @elseif($step === 'session')
         <div class="setup-session-grid">
-            @foreach (['Fall' => ui_text('admin.setup.fall_caption'), 'Spring' => ui_text('admin.setup.spring_caption')] as $term => $caption)
+            @foreach (collect(\App\Services\University::terms())->mapWithKeys(fn($t) => [$t => ui_text('admin.setup.' . strtolower($t) . '_caption', [], 'Pick a year, or create a new one below.')]) as $term => $caption)
                 @php $termSessions=$sessions->filter(fn($s)=>str_starts_with(strtolower($s->name),strtolower($term))); @endphp
                 <x-card :title="$term . ' session'" :description="$caption">
                     <div class="card-body">
@@ -90,7 +95,7 @@
             <form method="POST" action="{{ route('academic-setup.save', 'session') }}" class="setup-form" data-setup-form>
                 @csrf<input type="hidden" name="mode" value="new">
                 <div class="setup-fields"><x-form-field label="Session"><select name="term" required>
-                            @foreach (['Fall', 'Spring'] as $term)
+                            @foreach (\App\Services\University::terms() as $term)
                                 <option @selected(old('term') === $term)>{{ $term }}</option>
                             @endforeach
                         </select>
@@ -139,8 +144,8 @@
                     </x-form-field><x-setup-input name="name" label="Course name"
                         placeholder="{{ ui_text('admin.copy.e_g_database_systems') }}" /><x-setup-input name="code"
                         label="Course code" placeholder="{{ ui_text('admin.copy.e_g_cs301') }}" /><x-setup-input
-                        name="credits" label="Credit hours" type="number" value="3" min="0.01" max="30"
-                        step="0.01" /></div><x-button type="submit"
+                        name="credits" label="Credit hours" type="number" value="3" min="0.01"
+                        max="30" step="0.01" /></div><x-button type="submit"
                     :disabled="$departments->isEmpty()">{{ ui_text('admin.copy.add_course') }}</x-button></form>
         </x-card>
         <x-card title="{{ ui_text('admin.copy.course_directory') }}">
@@ -210,8 +215,10 @@
             $accounts = $isTeacher ? $teachers : $studentAccounts;
         @endphp
         <div class="account-directory-context">
-            <p>{{ ui_text('admin.copy.need_a_new_login_create_the_account_in_its_dedicated_dir') }}</p><x-button
-                variant="secondary" href="/admin/{{ $step }}">Open {{ $step }} and logins</x-button>
+            <p>{{ ui_text('admin.copy.need_a_new_login_create_the_account_in_its_dedicated_dir') }}</p><span
+                class="page-actions"><x-button href="/admin/import?kind={{ $step }}" icon="upload">Add many
+                    from a spreadsheet</x-button><x-button variant="secondary" href="/admin/{{ $step }}">Open
+                    {{ $step }} and logins</x-button></span>
         </div>
         @if ($sections->isEmpty() || $courses->isEmpty())
             <div class="callout callout-warning">

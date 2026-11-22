@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models as M;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
 
 /** Read filters only: deliberately not a global model scope or an authorization rule. */
 class AcademicContext
@@ -84,6 +86,38 @@ class AcademicContext
             // backups and notifications are shared/global, not semester-owned records.
             default => $query,
         };
+    }
+
+    /**
+     * The latest few audit entries inside the selected session. Reads only the newest rows and checks
+     * each record type once, so it stays fast however large the audit log grows.
+     */
+    public function recentAudit(int $limit = 4, int $scan = 60): Collection
+    {
+        $rows = M\AuditLog::query()->latest('id')->limit($scan)->get();
+        if (! $this->current()['session_id']) {
+            return $rows->take($limit);
+        }
+        $scoped = [];
+        foreach ($rows->groupBy('entity_type') as $type => $group) {
+            if (! $type || ! is_subclass_of($type, Model::class) || ! in_array($type, $this->auditedTypes(), true)) {
+                continue;
+            }
+            $scoped[$type] = $this->apply($type::query())->whereIn('id', $group->pluck('entity_id')->filter()->unique())->pluck('id')->flip();
+        }
+
+        return $rows->filter(fn ($row) => ! isset($scoped[$row->entity_type]) || isset($scoped[$row->entity_type][$row->entity_id]))->take($limit)->values();
+    }
+
+    /** @return list<class-string> */
+    private function auditedTypes(): array
+    {
+        return [M\Examination::class, M\ExamCourse::class, M\Semester::class, M\Section::class,
+            M\StudentProfile::class, M\Enrollment::class, M\TeacherAssignment::class, M\ScheduleEntry::class,
+            M\AssessmentComponent::class, M\MarksSubmissionDeadline::class, M\MarkSubmission::class,
+            M\Mark::class, M\CalculatedResult::class, M\SeatingPlan::class, M\SeatAssignment::class,
+            M\DutyAssignment::class, M\DutyRequest::class, M\DutyReplacement::class, M\RecheckRequest::class,
+            M\ResultCorrection::class, M\ResultBatch::class, M\AdmitGenerationRun::class, M\AdmitCard::class, M\AnalysisFlag::class];
     }
 
     private function sections(array $state): Builder

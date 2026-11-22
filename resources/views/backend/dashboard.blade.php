@@ -15,32 +15,31 @@
                 ->count()
             : 0;
 @endphp
-<x-workspace-actions :role="$role" />
+@unless ($role === 'admin')
+    <x-workspace-actions :role="$role" />
+@endunless
 @if ($role === 'admin')
-    <div class="admin-start-banner">
-        <div><span class="eyebrow">{{ ui_text('dashboard.copy.start_here') }}</span>
-            <h2>{{ ui_text('dashboard.copy.set_up_your_academic_session') }}</h2>
-            <p>{{ ui_text('dashboard.copy.session_departments_courses_teachers_students') }}</p>
-        </div><x-button href="/admin/academic-setup"
-            icon="chevron">{{ ui_text('dashboard.copy.open_academic_setup') }}</x-button>
-    </div>
+    <x-exam-cycle :cycle="app(\App\Services\ExamCycle::class)->overview(
+        request()->filled('exam') ? request()->integer('exam') : null,
+    )" />
 
     <div class="dashboard-kpis kpi-five"><x-stat-card label="Active examinations" :value="$exams->whereIn('status', ['draft', 'approved', 'published'])->count()" icon="calendar"
             note="Draft, approved and published" /><x-stat-card label="Pending submissions" :value="$uiPending->count()"
-            icon="edit" note="Courses awaiting submitted marks" tone="warning" /><x-stat-card
-            label="Open review flags" :value="$uiOpenFlagCount" icon="alert" note="Recorded analysis findings"
-            tone="warning" /><x-stat-card label="Rechecking requests" :value="app(\App\Services\AcademicContext::class)
+            icon="edit" note="Courses awaiting submitted marks" tone="warning" /><x-stat-card label="Open review flags"
+            :value="$uiOpenFlagCount" icon="alert" note="Recorded analysis findings" tone="warning" /><x-stat-card
+            label="Rechecking requests" :value="app(\App\Services\AcademicContext::class)
                 ->apply(\App\Models\RecheckRequest::query())
                 ->whereIn('status', ['pending', 'under_review'])
-                ->count()" icon="history"
-            note="Awaiting review or decision" tone="teal" /><x-stat-card label="Published result batches"
-            :value="$exams->filter(fn($e) => $e->batch?->status === 'published')->count()" icon="award" note="Approved and released results" tone="teal" /></div>
+                ->count()" icon="history" note="Awaiting review or decision"
+            tone="teal" /><x-stat-card label="Published result batches" :value="$exams->filter(fn($e) => $e->batch?->status === 'published')->count()" icon="award"
+            note="Approved and released results" tone="teal" /></div>
 @elseif($role === 'teacher')
     <div class="dashboard-kpis"><x-stat-card label="Examination courses" :value="$courses->count()" icon="book"
             note="Assigned to your account" /><x-stat-card label="Awaiting submission" :value="$uiPending->count()" icon="edit"
             note="Save drafts, then submit for review" tone="warning" /><x-stat-card label="Returned submissions"
             :value="$uiReturned->count()" icon="alert" note="Corrections requiring your attention" tone="warning" /><x-stat-card
-            label="Notifications" :value="$unreadCount" icon="bell" note="Unread account updates" tone="teal" /></div>
+            label="Notifications" :value="$unreadCount" icon="bell" note="Unread account updates" tone="teal" />
+    </div>
     <x-submission-deadlines :courses="$courses" compact />
     @if ($uiReturned->isNotEmpty())
         <div class="callout callout-warning"><strong>{{ $uiReturned->count() }} returned submissions need your
@@ -53,7 +52,9 @@
     @endif
 @else
     @php
-        $uiStudentResults = app(\App\Services\ScopedQueries::class)->results(auth()->user())->get();
+        $uiStudentResults = app(\App\Services\ScopedQueries::class)
+            ->results(auth()->user())
+            ->get();
     @endphp
 
     <div class="dashboard-kpis"><x-stat-card label="Enrolled courses" :value="$metrics['Courses']" icon="book"
@@ -164,7 +165,7 @@
         @if ($role === 'admin')
             <x-card title="{{ ui_text('dashboard.copy.recent_activity') }}"
                 description="Latest recorded institutional changes"><x-timeline>
-                    @forelse(app(\App\Services\AcademicContext::class)->apply(\App\Models\AuditLog::query())->latest()->limit(4)->get() as $uiLog)
+                    @forelse(app(\App\Services\AcademicContext::class)->recentAudit(4) as $uiLog)
                         <article><strong>{{ ucwords(str_replace(['.', '_'], ' ', $uiLog->action)) }}</strong>
                             <p>{{ class_basename($uiLog->entity_type) }} #{{ $uiLog->entity_id ?? '—' }}</p>
                             <time>{{ $uiLog->created_at->diffForHumans() }}</time>

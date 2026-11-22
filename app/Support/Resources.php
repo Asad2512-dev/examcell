@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models as M;
 use App\Services\AcademicContext;
+use App\Services\University;
 
 class Resources
 {
@@ -21,7 +22,7 @@ class Resources
             'teacher-assignments' => [M\TeacherAssignment::class, ['teacher_id' => 'required|exists:users,id', 'course_id' => 'required|exists:courses,id', 'section_id' => 'required|exists:sections,id']],
             'teacher-profiles' => [M\TeacherProfile::class, ['teacher_id' => 'required|exists:users,id', 'department_id' => 'required|exists:departments,id', 'reserve' => 'boolean', 'max_duties_per_day' => 'required|integer|between:1,10']],
             'grading' => [M\GradingScheme::class, ['name' => 'required|string|max:120', 'status' => 'required|in:draft,approved,archived', 'rounding_places' => 'required|integer|between:0,2']],
-            'boundaries' => [M\GradeBoundary::class, ['grading_scheme_id' => 'required|exists:grading_schemes,id', 'grade' => 'required|string|max:8', 'minimum' => 'required|numeric|between:0,100', 'grade_points' => 'required|numeric|between:0,4']],
+            'boundaries' => [M\GradeBoundary::class, ['grading_scheme_id' => 'required|exists:grading_schemes,id', 'grade' => 'required|string|max:8', 'minimum' => 'required|numeric|between:0,100', 'grade_points' => 'required|numeric|between:0,'.University::maxGradePoint()]],
             'examinations' => [M\Examination::class, ['name' => 'required|string|max:120', 'type' => 'required|in:midterm,final,quiz,assignment', 'academic_session_id' => 'required|exists:academic_sessions,id', 'grading_scheme_id' => 'required|exists:grading_schemes,id', 'admit_enabled' => 'boolean']],
             'exam-courses' => [M\ExamCourse::class, ['examination_id' => 'required|exists:examinations,id', 'course_id' => 'required|exists:courses,id', 'section_id' => 'required|exists:sections,id', 'duration_minutes' => 'required|integer|between:15,480', 'maximum' => 'required|numeric|between:1,10000', 'passing' => 'required|numeric|min:0|lte:maximum']],
             'components' => [M\AssessmentComponent::class, ['exam_course_id' => 'required|exists:exam_courses,id', 'name' => 'required|string|max:80', 'maximum' => 'required|numeric|between:0.01,10000', 'weight' => 'required|numeric|between:0.01,100']],

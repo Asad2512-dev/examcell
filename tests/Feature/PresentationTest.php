@@ -30,7 +30,7 @@ class PresentationTest extends TestCase
         $pages = (new ScreenCatalog)->all();
         $keys = array_map(fn ($p) => $p['role'].':'.$p['slug'], $pages);
         $this->assertCount(count(array_unique($keys)), $keys);
-        foreach (['admin' => 12, 'teacher' => 7, 'student' => 6] as $role => $count) {
+        foreach (['admin' => 14, 'teacher' => 7, 'student' => 6] as $role => $count) {
             $this->assertCount($count, WorkspaceNavigation::groups($role));
         }
         foreach (['admin', 'teacher', 'student'] as $role) {
@@ -88,6 +88,6 @@ class PresentationTest extends TestCase
         $report = Pdf::loadView('backend.report-pdf', ['title' => 'Examination schedule report', 'rows' => collect([['Course' => 'CS301 · Database Systems', 'Room' => 'Room 1', 'Date' => '14 Oct 2026 09:00']])])->setPaper('a4', 'landscape')->output();
         $this->assertStringStartsWith('%PDF', $report);
         $this->assertStringContainsString('/Subtype /Image', $report);
-        file_put_contents('/tmp/examcell-redesign-report.pdf',$report);
+        file_put_contents('/tmp/examcell-redesign-report.pdf', $report);
     }
 }

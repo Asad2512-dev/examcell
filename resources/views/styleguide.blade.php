@@ -1,4 +1,7 @@
-<x-app-layout role="admin" :page="['title' => 'Design system', 'slug' => 'styleguide', 'module' => 'Design system', 'kind' => 'table']" :user-name="auth()->user()->name" :initials="collect(explode(' ', auth()->user()->name))->map(fn($n) => mb_substr($n, 0, 1))->take(2)->implode('')" :notifications="auth()->user()->notifications()->latest()->limit(10)->get()" :unread-count="auth()->user()->unreadNotifications()->count()">
+<x-app-layout role="admin" :page="['title' => 'Design system', 'slug' => 'styleguide', 'module' => 'Design system', 'kind' => 'table']" :user-name="auth()->user()->name" :initials="collect(explode(' ', auth()->user()->name))
+    ->map(fn($n) => mb_substr($n, 0, 1))
+    ->take(2)
+    ->implode('')" :notifications="auth()->user()->notifications()->latest()->limit(10)->get()" :unread-count="auth()->user()->unreadNotifications()->count()">
     <x-page-header title="{{ ui_text('common.copy.the_examcell_design_system') }}"
         description="One visual language for every academic workflow. Explore the components in light and dark mode."><x-button
             variant="secondary" data-print

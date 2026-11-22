@@ -33,8 +33,8 @@
         <main id="main-content" class="content" tabindex="-1">
             <div class="demo-line"><span><span
                         class="demo-dot"></span>{{ ui_text('common.copy.secure_workspace_verified_records') }}</span><time
-                    class="workspace-date" datetime="{{ now('Asia/Karachi')->toDateString() }}"><x-icon name="calendar"
-                        :size="12" />{{ now('Asia/Karachi')->format('D, d M Y') }}</time></div>
+                    class="workspace-date" datetime="{{ now()->toDateString() }}"><x-icon name="calendar"
+                        :size="12" />{{ now()->format('D, d M Y') }}</time></div>
             {{ $slot }}<footer class="app-footer">
                 <span>{{ ui_text('common.copy.examcell_examination_management') }}</span><span>{{ ui_text('common.copy.carefully_coordinated_clearly_recorded') }}</span>
             </footer>
@@ -78,11 +78,13 @@
                 <p class="notice-feedback" data-notice-feedback role="status" aria-live="polite"></p>
             </div>
             <div class="notification-heading-actions">
-                <form method="POST" action="/workflow/notifications/read-all" data-notice-read-all @if (!$unreadCount) hidden @endif>
+                <form method="POST" action="/workflow/notifications/read-all" data-notice-read-all
+                    @if (!$unreadCount) hidden @endif>
                     @csrf
                     <x-button type="submit" variant="secondary" class="btn-small">Mark all read</x-button>
                 </form>
-                <button type="button" class="icon-button" data-close-dialog aria-label="{{ ui_text('common.copy.close_notifications') }}">
+                <button type="button" class="icon-button" data-close-dialog
+                    aria-label="{{ ui_text('common.copy.close_notifications') }}">
                     <x-icon name="close" />
                 </button>
             </div>

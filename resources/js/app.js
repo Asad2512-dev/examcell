@@ -841,3 +841,15 @@ if (document.readyState === "loading") {
 } else {
   initPageFeedback();
 }
+
+// Small helpers shared by every page.
+document.addEventListener("change", (event) => {
+  const el = event.target;
+  if (
+    el instanceof HTMLSelectElement &&
+    el.hasAttribute("data-autosubmit") &&
+    el.form
+  ) {
+    el.form.requestSubmit();
+  }
+});

@@ -11,6 +11,9 @@
             @php
                 $active = \App\View\WorkspaceNavigation::active($group, $page['slug'], $resource);
             @endphp
+            @if (!empty($group['tools']) && empty($groups[$loop->index - 1]['tools']))
+                <div class="nav-section-label nav-tools-label">{{ ui_text('navigation.tools', [], 'Tools') }}</div>
+            @endif
 
             @if (count($group['children']) > 1)
                 <details class="nav-group" @if ($active) open @endif>

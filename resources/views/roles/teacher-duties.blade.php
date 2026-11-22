@@ -14,7 +14,7 @@
         $pastDuties = $personalDuties->reject(fn($d) => $d->scheduleEntry->ends_at->gte(now()));
     @endphp
     <x-card title="{{ ui_text('teacher.copy.my_invigilation_duties') }}"
-        description="Upcoming duties on this page. Past duties are available below. Times are PKT.">
+        description="Upcoming duties on this page. Past duties are available below. Times are in {{ config('app.timezone') }}.">
         <div class="role-task-list">
             @forelse($upcomingDuties as $d)
                 @include('roles.duty-task')
@@ -42,7 +42,7 @@
                             :status="ucwords(str_replace('_', ' ', $req->status))" />
                     </div>
                     <p>{{ $req->reason }}</p><small class="role-subline">Submitted
-                        {{ $req->requested_at->format('d M Y · H:i') }} PKT</small>
+                        {{ $req->requested_at->format('d M Y · H:i') }} {{ config('app.timezone') }}</small>
                     @if ($req->decision_reason)
                         <p>{{ $req->decision_reason }}</p>
                     @endif

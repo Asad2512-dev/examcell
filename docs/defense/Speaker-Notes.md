@@ -114,7 +114,7 @@ Implementation evidence: `bootstrap/app.php; routes/web.php; app/Models/User.php
 
 ## 19. Testing and current evidence
 
-State this clearly: vendor and node_modules are absent from this checkout. No application test run, load benchmark, user study or production reliability result is claimed. Review tests/Feature for workflow, role, import, AI, security, deadlines and admit verification cases. PHP tests require a disposable MySQL database ending in _test and can reset its tables.
+State this clearly: vendor and node_modules are absent from this checkout. No application test run, load benchmark, user study or production reliability result is claimed. Review tests/Feature for workflow, role, import, AI, security, deadlines and admit verification cases. PHP tests require a disposable MySQL database ending in \_test and can reset its tables.
 
 Implementation evidence: `tests; phpunit.xml; README.md; composer.json; package.json`
 

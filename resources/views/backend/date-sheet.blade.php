@@ -13,7 +13,7 @@
         <strong>{{ ui_text('examinations.copy.add_papers_before_creating_a_date_sheet') }}</strong>
         <p>{{ ui_text('examinations.copy.choose_the_courses_and_sections_taking_this_examination') }}</p><a
             class="btn btn-primary"
-            href="/admin/records?resource=exam-courses">{{ ui_text('examinations.copy.add_examination_papers') }}</a>
+            href="/admin/exams/new?exam={{ $ehExam->id }}">{{ ui_text('examinations.copy.add_examination_papers') }}</a>
     </div>
 @elseif($ehExam->status === 'draft' && $ehUnscheduled > 0)
     <x-card title="{{ ui_text('examinations.copy.1_create_your_timetable') }}"
@@ -111,7 +111,7 @@
                             type="hidden" name="status" value="published"><x-button type="submit" icon="check"
                             data-confirm="true"
                             data-confirm-title="{{ ui_text('examinations.copy.publish_this_date_sheet') }}"
-                            data-confirm-message="{{ ui_text('examinations.copy.the_server_checks_publication_requirements_then_notifies') }}"
+                            data-confirm-message="{{ app(\App\Services\ExamCycle::class)->audience($ehExam) }}. {{ ui_text('examinations.copy.the_server_checks_publication_requirements_then_notifies') }}"
                             data-confirm-label="{{ ui_text('examinations.copy.publish') }}">{{ ui_text('examinations.copy.publish_date_sheet') }}</x-button>
                     </form>
                 </div>
@@ -145,7 +145,9 @@
                 @endunless
             </form>
         </x-disclosure>
-        <x-disclosure title="Optional: allocate or adjust one paper" description="Rooms are assigned automatically. Use this only to place an individual paper yourself." :open="$errors->hasAny(['schedule', 'starts_at', 'room_id', 'extra_rooms'])">
+        <x-disclosure title="Optional: allocate or adjust one paper"
+            description="Rooms are assigned automatically. Use this only to place an individual paper yourself."
+            :open="$errors->hasAny(['schedule', 'starts_at', 'room_id', 'extra_rooms'])">
             @include('backend.schedule-form', ['allocationCourses' => $dsCourses])
         </x-disclosure>
     @endif
@@ -160,4 +162,3 @@
         @endforeach
     </div>
 </x-disclosure>
-

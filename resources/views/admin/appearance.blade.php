@@ -1,4 +1,7 @@
-<x-app-layout role="admin" :page="['title' => 'Appearance & content', 'slug' => 'appearance', 'module' => 'Settings', 'kind' => 'form']" :user-name="auth()->user()->name" :initials="collect(explode(' ', auth()->user()->name))->map(fn($n) => mb_substr($n, 0, 1))->take(2)->implode('')" :notifications="auth()->user()->notifications()->latest()->limit(10)->get()" :unread-count="auth()->user()->unreadNotifications()->count()">
+<x-app-layout role="admin" :page="['title' => 'Appearance & content', 'slug' => 'appearance', 'module' => 'Settings', 'kind' => 'form']" :user-name="auth()->user()->name" :initials="collect(explode(' ', auth()->user()->name))
+    ->map(fn($n) => mb_substr($n, 0, 1))
+    ->take(2)
+    ->implode('')" :notifications="auth()->user()->notifications()->latest()->limit(10)->get()" :unread-count="auth()->user()->unreadNotifications()->count()">
     <x-page-header title="Appearance & content"
         description="Change the words and colors people see across ExamCell. Your changes apply to every page that uses the shared design system." />
     @if (session('status'))

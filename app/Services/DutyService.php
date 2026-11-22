@@ -75,7 +75,7 @@ class DutyService
                 throw V::withMessages(['request' => 'Only a current assigned duty can be requested.']);
             }$deadline = $d->scheduleEntry->starts_at->copy()->subHours(48);
             if (now()->gt($deadline)) {
-                throw V::withMessages(['request' => 'Requests must be submitted at least 48 hours before the paper. Deadline: '.$deadline->format('d M Y H:i').' Asia/Karachi.']);
+                throw V::withMessages(['request' => 'Requests must be submitted at least 48 hours before the paper. Deadline: '.$deadline->format('d M Y H:i').' '.config('app.timezone').'.']);
             }if (M\DutyRequest::where('duty_assignment_id', $d->id)->where('status', 'pending')->exists()) {
                 throw V::withMessages(['request' => 'A pending request already exists for this duty.']);
             }$req = M\DutyRequest::create(['duty_assignment_id' => $d->id, 'teacher_id' => $teacher, 'reason' => $reason, 'requested_at' => now(), 'deadline_at' => $deadline, 'status' => 'pending']);

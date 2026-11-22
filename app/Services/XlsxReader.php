@@ -48,9 +48,9 @@ class XlsxReader
                 }
             }
             $strings = [];
-            $raw = $z->getFromName('xl/sharedStrings.xml');
-            if ($raw !== false) {
-                foreach ($this->xml($raw)->getElementsByTagNameNS('*', 'si') as $si) {
+            $sharedStringsXml = $z->getFromName('xl/sharedStrings.xml');
+            if ($sharedStringsXml !== false) {
+                foreach ($this->xml($sharedStringsXml)->getElementsByTagNameNS('*', 'si') as $si) {
                     $text = '';
                     foreach ($si->getElementsByTagNameNS('*', 't') as $t) {
                         $text .= $t->textContent;

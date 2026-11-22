@@ -59,7 +59,7 @@
                 ____________________________<br>{{ ui_text('admin.copy.examination_cell_authorization') }}</td>
         </tr>
     </table>
-    <div class="pdf-footer">Generated {{ now('Asia/Karachi')->format('d M Y H:i') }} (Asia/Karachi) from authorized
+    <div class="pdf-footer">Generated {{ now()->format('d M Y H:i') }} ({{ config('app.timezone') }}) from authorized
         academic records.<br>This document contains private academic information. Reference: {{ $reference }}</div>
 </body>
 

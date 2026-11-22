@@ -5,7 +5,7 @@
             Your admit card and assigned seat are in the next two tabs.
         @else
             Your invigilation assignments are in My duties.
-        @endif All times are Pakistan time (PKT).</p>
+        @endif All times are in {{ config('app.timezone') }}.</p>
 </div>
 <x-card title="{{ ui_text('examinations.copy.exam_schedule') }}" :description="$role === 'student'
     ? 'Published examinations available to your account.'

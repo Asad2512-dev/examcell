@@ -7,15 +7,17 @@
         )
         ->orderBy('name')
         ->get(['id', 'name']);
-    $defaultDeadline = $course->marks_due_at?->timezone('Asia/Karachi')->format('Y-m-d\TH:i') ?? '';
+    $defaultDeadline = $course->marks_due_at?->timezone(config('app.timezone'))->format('Y-m-d\TH:i') ?? '';
     $teacherDeadlines = $course->submissionDeadlines->mapWithKeys(
         fn($override) => [
-            (string) $override->teacher_id => $override->marks_due_at->timezone('Asia/Karachi')->format('Y-m-d\TH:i'),
+            (string) $override->teacher_id => $override->marks_due_at
+                ->timezone(config('app.timezone'))
+                ->format('Y-m-d\TH:i'),
         ],
     );
 @endphp
 <x-card title="{{ ui_text('common.copy.set_a_submission_deadline') }}"
-    description="The course default applies to all assigned teachers. A teacher override takes precedence. Times are in Asia/Karachi.">
+    description="The course default applies to all assigned teachers. A teacher override takes precedence. Times are in {{ config('app.timezone') }}.">
     <form method="POST" action="{{ route('marks.deadline.update', $course) }}" class="form-grid" x-data="{ teacherId: @js((string) old('teacher_id', '')), deadline: @js(old('marks_due_at', $defaultDeadline)), defaultDeadline: @js($defaultDeadline), overrides: @js($teacherDeadlines) }">
         @csrf<x-form-field label="Applies to"><select name="teacher_id" x-model="teacherId"
                 @change="deadline=teacherId?(overrides[teacherId]??defaultDeadline):defaultDeadline">
@@ -24,18 +26,19 @@
                     <option value="{{ $deadlineTeacher->id }}">{{ $deadlineTeacher->name }} · teacher override</option>
                 @endforeach
             </select>
-        </x-form-field><x-form-field label="Deadline (PKT)"><input type="datetime-local" name="marks_due_at"
-                x-model="deadline"
-                value="{{ old('marks_due_at', $course->marks_due_at?->timezone('Asia/Karachi')->format('Y-m-d\TH:i')) }}"><small>{{ ui_text('common.copy.leave_blank_to_clear_the_course_default_or_remove_the_se') }}</small></x-form-field><x-button
+        </x-form-field><x-form-field label="Deadline ({{ config('app.timezone') }})"><input type="datetime-local"
+                name="marks_due_at" x-model="deadline"
+                value="{{ old('marks_due_at', $course->marks_due_at?->timezone(config('app.timezone'))->format('Y-m-d\TH:i')) }}"><small>{{ ui_text('common.copy.leave_blank_to_clear_the_course_default_or_remove_the_se') }}</small></x-form-field><x-button
             type="submit" icon="calendar">{{ ui_text('common.copy.save_deadline') }}</x-button></form>
     <div class="card-body">
         <p class="muted text-xs">Course default:
-            {{ $course->marks_due_at ? $course->marks_due_at->timezone('Asia/Karachi')->format('d M Y H:i') . ' PKT' : 'No deadline set' }}
+            {{ $course->marks_due_at ? $course->marks_due_at->timezone(config('app.timezone'))->format('d M Y H:i') . ' ' . config('app.timezone') : 'No deadline set' }}
         </p>
         @foreach ($course->submissionDeadlines as $override)
             <p class="muted text-xs">
                 {{ $deadlineTeachers->firstWhere('id', $override->teacher_id)?->name ?? 'Assigned teacher' }}:
-                {{ $override->marks_due_at->timezone('Asia/Karachi')->format('d M Y H:i') }} PKT</p>
+                {{ $override->marks_due_at->timezone(config('app.timezone'))->format('d M Y H:i') }}
+                {{ config('app.timezone') }}</p>
         @endforeach
     </div>
 </x-card>

@@ -5,7 +5,7 @@
         : 'Create a clear academic profile and a working ExamCell login.'">
         <x-slot:eyebrow>{{ strtoupper($accountRole) }} MANAGEMENT</x-slot:eyebrow>
         @if ($mode === 'directory')
-        <x-button href="/admin/{{ $directory }}/create" icon="users">Add {{ $accountRole }}</x-button>@else<x-button
+        <x-button variant="secondary" href="/admin/import?kind={{ $directory }}" icon="upload">Import / export spreadsheets</x-button><x-button href="/admin/{{ $directory }}/create" icon="users">Add {{ $accountRole }}</x-button>@else<x-button
                 variant="secondary" href="/admin/{{ $directory }}">Back to {{ $directory }}</x-button>
         @endif
     </x-page-header>

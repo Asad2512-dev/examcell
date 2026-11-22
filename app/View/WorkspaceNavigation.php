@@ -9,7 +9,13 @@ final class WorkspaceNavigation
 {
     public static function groups(string $role): array
     {
-        return array_map(fn ($w) => ['label' => $w['label'], 'slug' => $w['slug'], 'key' => $w['key'], 'icon' => $w['icon'], 'children' => []], Workspaces::definition($role));
+        $groups = array_map(fn ($w) => ['label' => $w['label'], 'slug' => $w['slug'], 'key' => $w['key'], 'icon' => $w['icon'], 'children' => [], 'tools' => $w['tools'] ?? false], Workspaces::definition($role));
+        if ($role === 'admin') {
+            // Sits with the other tools: name, time zone, terms and exam times.
+            array_splice($groups, count($groups) - 1, 0, [['label' => ui_text('navigation.roles.admin.groups.university.label', [], 'Your university'), 'slug' => 'university', 'key' => 'university', 'icon' => 'home', 'children' => [], 'tools' => true]]);
+        }
+
+        return $groups;
     }
 
     public static function active(array $group, string $slug, ?string $resource = null): bool

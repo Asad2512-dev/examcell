@@ -811,206 +811,206 @@ $t->unsignedTinyInteger('seat_rows')->nullable();
 
 These are catalog entries, not independent proof that every screen is complete. Route aliases can expose additional paths.
 
-| Role | Screen | Route slug |
-|---|---|---|
-| admin | Admin Dashboard | `admin-dashboard` |
-| admin | Administrative activity | `administrative-activity` |
-| admin | Student directory | `student-directory` |
-| admin | Teacher directory | `teacher-directory` |
-| admin | Student academic profile | `student-academic-profile` |
-| admin | Teacher profile & availability | `teacher-profile-availability` |
-| admin | Create student | `create-student` |
-| admin | Edit user | `edit-user` |
-| admin | Account activation | `account-activation` |
-| admin | Bulk user import | `bulk-user-import` |
-| admin | Import validation & errors | `import-validation-errors` |
-| admin | Departments | `departments` |
-| admin | Academic sessions | `academic-sessions` |
-| admin | Semesters | `semesters` |
-| admin | Sections | `sections` |
-| admin | Courses | `courses` |
-| admin | Course details | `course-details` |
-| admin | Student enrollment | `student-enrollment` |
-| admin | Teacher-course assignment | `teacher-course-assignment` |
-| admin | Credit-hour configuration | `credit-hour-configuration` |
-| admin | Examination list | `examination-list` |
-| admin | Create examination | `create-examination` |
-| admin | Edit examination | `edit-examination` |
-| admin | Examination details | `examination-details` |
-| admin | Exam type configuration | `exam-type-configuration` |
-| admin | Assessment components | `assessment-components` |
-| admin | Examination detail drawer | `examination-detail-drawer` |
-| admin | Date-sheet list | `date-sheet-list` |
-| admin | Create date sheet | `create-date-sheet` |
-| admin | Date-sheet generation wizard | `date-sheet-generation-wizard` |
-| admin | Proposed schedule calendar | `proposed-schedule-calendar` |
-| admin | Timetable grid | `timetable-grid` |
-| admin | Conflict detection results | `conflict-detection-results` |
-| admin | Schedule editing | `schedule-editing` |
-| admin | Conflict resolution drawer | `conflict-resolution-drawer` |
-| admin | Date-sheet approval | `date-sheet-approval` |
-| admin | Published date-sheet preview | `published-date-sheet-preview` |
-| admin | Date-sheet version history | `date-sheet-version-history` |
-| admin | Eligible admit-card students | `eligible-admit-card-students` |
-| admin | Admit-card generation | `admit-card-generation` |
-| admin | Bulk generation progress | `bulk-generation-progress` |
-| admin | Admit-card preview | `admit-card-preview` |
-| admin | Printable admit card | `printable-admit-card` |
-| admin | Admit-card generation error | `admit-card-generation-error` |
-| admin | Room directory | `room-directory` |
-| admin | Create or edit room | `create-or-edit-room` |
-| admin | Room details | `room-details` |
-| admin | Room availability calendar | `room-availability-calendar` |
-| admin | Room utilization | `room-utilization` |
-| admin | Unavailable room | `unavailable-room` |
-| admin | Seating plan overview | `seating-plan-overview` |
-| admin | Generate seating plan wizard | `generate-seating-plan-wizard` |
-| admin | Room capacity validation | `room-capacity-validation` |
-| admin | Room-wise seating chart | `room-wise-seating-chart` |
-| admin | Subject-wise seating chart | `subject-wise-seating-chart` |
-| admin | Seat allocation table | `seat-allocation-table` |
-| admin | Student seat lookup | `student-seat-lookup` |
-| admin | Printable seating layout | `printable-seating-layout` |
-| admin | Seating conflict report | `seating-conflict-report` |
-| admin | Regeneration preview | `regeneration-preview` |
-| admin | Duty allocation overview | `duty-allocation-overview` |
-| admin | Duty calendar | `duty-calendar` |
-| admin | Teacher availability management | `teacher-availability-management` |
-| admin | Teacher-wise duties | `teacher-wise-duties` |
-| admin | Room-wise duties | `room-wise-duties` |
-| admin | Duty assignment | `duty-assignment` |
-| admin | Duty conflict detection | `duty-conflict-detection` |
-| admin | Reserve-teacher pool | `reserve-teacher-pool` |
-| admin | Teacher unavailable — affected duties | `teacher-unavailable-affected-duties` |
-| admin | Eligible replacements | `eligible-replacements` |
-| admin | Replacement comparison | `replacement-comparison` |
-| admin | Revised duty preview | `revised-duty-preview` |
-| admin | Duty replacement approval | `duty-replacement-approval` |
-| admin | Updated duty list | `updated-duty-list` |
-| admin | Printable duty list | `printable-duty-list` |
-| admin | Duty change history | `duty-change-history` |
-| admin | Marks submission overview | `marks-submission-overview` |
-| admin | Course-wise submissions | `course-wise-submissions` |
-| admin | Teacher-wise submission status | `teacher-wise-submission-status` |
-| admin | Missing marks report | `missing-marks-report` |
-| admin | Incomplete result report | `incomplete-result-report` |
-| admin | Submission deadline view | `submission-deadline-view` |
-| admin | Returned submissions | `returned-submissions` |
-| admin | Submission detail | `submission-detail` |
-| admin | Result batch overview | `result-batch-overview` |
-| admin | Individual result details | `individual-result-details` |
-| admin | Result editing form | `result-editing-form` |
-| admin | Result correction request | `result-correction-request` |
-| admin | Previous-versus-new comparison | `previous-versus-new-comparison` |
-| admin | Result approval queue | `result-approval-queue` |
-| admin | Published-result correction | `published-result-correction` |
-| admin | Grading scheme list | `grading-scheme-list` |
-| admin | Create grading scheme | `create-grading-scheme` |
-| admin | Grade boundary editor | `grade-boundary-editor` |
-| admin | Grade-point mapping | `grade-point-mapping` |
-| admin | GPA and CGPA rules | `gpa-and-cgpa-rules` |
-| admin | Assessment weighting editor | `assessment-weighting-editor` |
-| admin | Grading rule validation | `grading-rule-validation` |
-| admin | Approved grading scheme preview | `approved-grading-scheme-preview` |
-| admin | Result processing overview | `result-processing-overview` |
-| admin | Course result table | `course-result-table` |
-| admin | Student-wise marks | `student-wise-marks` |
-| admin | Weighted score calculation | `weighted-score-calculation` |
-| admin | GPA and CGPA preview | `gpa-and-cgpa-preview` |
-| admin | Missing-result flags | `missing-result-flags` |
-| admin | AI anomaly review | `ai-anomaly-review` |
-| admin | Result batch approval | `result-batch-approval` |
-| admin | Publication confirmation | `publication-confirmation` |
-| admin | Published results overview | `published-results-overview` |
-| admin | Rechecking request queue | `rechecking-request-queue` |
-| admin | Rechecking request details | `rechecking-request-details` |
-| admin | Rechecking decision form | `rechecking-decision-form` |
-| admin | Approved rechecking correction | `approved-rechecking-correction` |
-| admin | Rechecking request history | `rechecking-request-history` |
-| admin | Analytics overview | `analytics-overview` |
-| admin | Class-wise analysis | `class-wise-analysis` |
-| admin | Individual student analysis | `individual-student-analysis` |
-| admin | AI findings queue | `ai-findings-queue` |
-| admin | Finding review details | `finding-review-details` |
-| admin | Prediction range & uncertainty | `prediction-range-uncertainty` |
-| admin | Prediction unavailable | `prediction-unavailable` |
-| admin | Admin AI Assistant | `admin-ai-assistant` |
-| admin | Assistant — no matching records | `assistant-no-matching-records` |
-| admin | Assistant — permission denied | `assistant-permission-denied` |
-| admin | Assistant — data unavailable | `assistant-data-unavailable` |
-| admin | Reports overview | `reports-overview` |
-| admin | Class-wise result report | `class-wise-result-report` |
-| admin | Course-wise performance report | `course-wise-performance-report` |
-| admin | Pass/fail report | `pass-fail-report` |
-| admin | Grade distribution report | `grade-distribution-report` |
-| admin | Individual student report | `individual-student-report` |
-| admin | Teacher submission report | `teacher-submission-report` |
-| admin | Seating plan report | `seating-plan-report` |
-| admin | Invigilation duty report | `invigilation-duty-report` |
-| admin | Examination schedule report | `examination-schedule-report` |
-| admin | Notification center | `notification-center` |
-| admin | Notification settings | `notification-settings` |
-| admin | Audit logs | `audit-logs` |
-| admin | User activity details | `user-activity-details` |
-| admin | Result change history | `result-change-history` |
-| admin | Grading configuration history | `grading-configuration-history` |
-| admin | Academic settings | `academic-settings` |
-| admin | Account and permissions | `account-and-permissions` |
-| admin | Backup status | `backup-status` |
-| admin | Sign in | `sign-in` |
-| admin | Forgot password | `forgot-password` |
-| admin | Reset password | `reset-password` |
-| admin | Password reset confirmation | `password-reset-confirmation` |
-| admin | Unauthorized access | `unauthorized-access` |
-| admin | Session expired | `session-expired` |
-| teacher | Teacher Dashboard | `teacher-dashboard` |
-| teacher | My Courses | `my-courses` |
-| teacher | My Students | `my-students` |
-| teacher | Course details | `course-details` |
-| teacher | Student roster | `student-roster` |
-| teacher | Course assessments | `course-assessments` |
-| teacher | Course examination schedule | `course-examination-schedule` |
-| teacher | Course performance | `course-performance` |
-| teacher | Marks Entry | `marks-entry` |
-| teacher | Marks CSV import | `marks-csv-import` |
-| teacher | Marks import errors | `marks-import-errors` |
-| teacher | Marks Submissions | `marks-submissions` |
-| teacher | Returned marks correction | `returned-marks-correction` |
-| teacher | Marks submission confirmation | `marks-submission-confirmation` |
-| teacher | Examination Schedule | `examination-schedule` |
-| teacher | Seating Plans | `seating-plans` |
-| teacher | Invigilation Duties | `invigilation-duties` |
-| teacher | Duty instructions | `duty-instructions` |
-| teacher | Profile and Availability | `profile-and-availability` |
-| teacher | Unavailability request | `unavailability-request` |
-| teacher | Replacement status | `replacement-status` |
-| teacher | Performance Analytics | `performance-analytics` |
-| teacher | Teacher Notifications | `teacher-notifications` |
-| teacher | Teacher AI Assistant | `teacher-ai-assistant` |
-| student | Student Dashboard | `student-dashboard` |
-| student | My Profile | `my-profile` |
-| student | My Courses | `my-courses` |
-| student | Examination Schedule | `examination-schedule` |
-| student | Updated examination schedule | `updated-examination-schedule` |
-| student | Admit Card | `admit-card` |
-| student | Seating Plan | `seating-plan` |
-| student | My Results | `my-results` |
-| student | Semester results | `semester-results` |
-| student | Performance Analysis | `performance-analysis` |
-| student | Rechecking Requests | `rechecking-requests` |
-| student | Submit rechecking request | `submit-rechecking-request` |
-| student | Rechecking confirmation | `rechecking-confirmation` |
-| student | Rechecking decision | `rechecking-decision` |
-| student | Student Notifications | `student-notifications` |
-| student | Student AI Assistant | `student-ai-assistant` |
-| student | Unpublished result | `unpublished-result` |
-| admin | Loading records | `loading-records` |
-| admin | Empty records | `empty-records` |
-| admin | Server error | `server-error` |
-| admin | Permission denied | `permission-denied` |
-| admin | Success confirmation | `success-confirmation` |
-| admin | Marks validation error | `marks-validation-error` |
-| admin | No eligible replacement | `no-eligible-replacement` |
-| admin | Missing assessment weights | `missing-assessment-weights` |
-| admin | AI Automation | `ai-automation` |
-| admin | AI Settings | `ai-settings` |
+| Role    | Screen                                | Route slug                            |
+| ------- | ------------------------------------- | ------------------------------------- |
+| admin   | Admin Dashboard                       | `admin-dashboard`                     |
+| admin   | Administrative activity               | `administrative-activity`             |
+| admin   | Student directory                     | `student-directory`                   |
+| admin   | Teacher directory                     | `teacher-directory`                   |
+| admin   | Student academic profile              | `student-academic-profile`            |
+| admin   | Teacher profile & availability        | `teacher-profile-availability`        |
+| admin   | Create student                        | `create-student`                      |
+| admin   | Edit user                             | `edit-user`                           |
+| admin   | Account activation                    | `account-activation`                  |
+| admin   | Bulk user import                      | `bulk-user-import`                    |
+| admin   | Import validation & errors            | `import-validation-errors`            |
+| admin   | Departments                           | `departments`                         |
+| admin   | Academic sessions                     | `academic-sessions`                   |
+| admin   | Semesters                             | `semesters`                           |
+| admin   | Sections                              | `sections`                            |
+| admin   | Courses                               | `courses`                             |
+| admin   | Course details                        | `course-details`                      |
+| admin   | Student enrollment                    | `student-enrollment`                  |
+| admin   | Teacher-course assignment             | `teacher-course-assignment`           |
+| admin   | Credit-hour configuration             | `credit-hour-configuration`           |
+| admin   | Examination list                      | `examination-list`                    |
+| admin   | Create examination                    | `create-examination`                  |
+| admin   | Edit examination                      | `edit-examination`                    |
+| admin   | Examination details                   | `examination-details`                 |
+| admin   | Exam type configuration               | `exam-type-configuration`             |
+| admin   | Assessment components                 | `assessment-components`               |
+| admin   | Examination detail drawer             | `examination-detail-drawer`           |
+| admin   | Date-sheet list                       | `date-sheet-list`                     |
+| admin   | Create date sheet                     | `create-date-sheet`                   |
+| admin   | Date-sheet generation wizard          | `date-sheet-generation-wizard`        |
+| admin   | Proposed schedule calendar            | `proposed-schedule-calendar`          |
+| admin   | Timetable grid                        | `timetable-grid`                      |
+| admin   | Conflict detection results            | `conflict-detection-results`          |
+| admin   | Schedule editing                      | `schedule-editing`                    |
+| admin   | Conflict resolution drawer            | `conflict-resolution-drawer`          |
+| admin   | Date-sheet approval                   | `date-sheet-approval`                 |
+| admin   | Published date-sheet preview          | `published-date-sheet-preview`        |
+| admin   | Date-sheet version history            | `date-sheet-version-history`          |
+| admin   | Eligible admit-card students          | `eligible-admit-card-students`        |
+| admin   | Admit-card generation                 | `admit-card-generation`               |
+| admin   | Bulk generation progress              | `bulk-generation-progress`            |
+| admin   | Admit-card preview                    | `admit-card-preview`                  |
+| admin   | Printable admit card                  | `printable-admit-card`                |
+| admin   | Admit-card generation error           | `admit-card-generation-error`         |
+| admin   | Room directory                        | `room-directory`                      |
+| admin   | Create or edit room                   | `create-or-edit-room`                 |
+| admin   | Room details                          | `room-details`                        |
+| admin   | Room availability calendar            | `room-availability-calendar`          |
+| admin   | Room utilization                      | `room-utilization`                    |
+| admin   | Unavailable room                      | `unavailable-room`                    |
+| admin   | Seating plan overview                 | `seating-plan-overview`               |
+| admin   | Generate seating plan wizard          | `generate-seating-plan-wizard`        |
+| admin   | Room capacity validation              | `room-capacity-validation`            |
+| admin   | Room-wise seating chart               | `room-wise-seating-chart`             |
+| admin   | Subject-wise seating chart            | `subject-wise-seating-chart`          |
+| admin   | Seat allocation table                 | `seat-allocation-table`               |
+| admin   | Student seat lookup                   | `student-seat-lookup`                 |
+| admin   | Printable seating layout              | `printable-seating-layout`            |
+| admin   | Seating conflict report               | `seating-conflict-report`             |
+| admin   | Regeneration preview                  | `regeneration-preview`                |
+| admin   | Duty allocation overview              | `duty-allocation-overview`            |
+| admin   | Duty calendar                         | `duty-calendar`                       |
+| admin   | Teacher availability management       | `teacher-availability-management`     |
+| admin   | Teacher-wise duties                   | `teacher-wise-duties`                 |
+| admin   | Room-wise duties                      | `room-wise-duties`                    |
+| admin   | Duty assignment                       | `duty-assignment`                     |
+| admin   | Duty conflict detection               | `duty-conflict-detection`             |
+| admin   | Reserve-teacher pool                  | `reserve-teacher-pool`                |
+| admin   | Teacher unavailable — affected duties | `teacher-unavailable-affected-duties` |
+| admin   | Eligible replacements                 | `eligible-replacements`               |
+| admin   | Replacement comparison                | `replacement-comparison`              |
+| admin   | Revised duty preview                  | `revised-duty-preview`                |
+| admin   | Duty replacement approval             | `duty-replacement-approval`           |
+| admin   | Updated duty list                     | `updated-duty-list`                   |
+| admin   | Printable duty list                   | `printable-duty-list`                 |
+| admin   | Duty change history                   | `duty-change-history`                 |
+| admin   | Marks submission overview             | `marks-submission-overview`           |
+| admin   | Course-wise submissions               | `course-wise-submissions`             |
+| admin   | Teacher-wise submission status        | `teacher-wise-submission-status`      |
+| admin   | Missing marks report                  | `missing-marks-report`                |
+| admin   | Incomplete result report              | `incomplete-result-report`            |
+| admin   | Submission deadline view              | `submission-deadline-view`            |
+| admin   | Returned submissions                  | `returned-submissions`                |
+| admin   | Submission detail                     | `submission-detail`                   |
+| admin   | Result batch overview                 | `result-batch-overview`               |
+| admin   | Individual result details             | `individual-result-details`           |
+| admin   | Result editing form                   | `result-editing-form`                 |
+| admin   | Result correction request             | `result-correction-request`           |
+| admin   | Previous-versus-new comparison        | `previous-versus-new-comparison`      |
+| admin   | Result approval queue                 | `result-approval-queue`               |
+| admin   | Published-result correction           | `published-result-correction`         |
+| admin   | Grading scheme list                   | `grading-scheme-list`                 |
+| admin   | Create grading scheme                 | `create-grading-scheme`               |
+| admin   | Grade boundary editor                 | `grade-boundary-editor`               |
+| admin   | Grade-point mapping                   | `grade-point-mapping`                 |
+| admin   | GPA and CGPA rules                    | `gpa-and-cgpa-rules`                  |
+| admin   | Assessment weighting editor           | `assessment-weighting-editor`         |
+| admin   | Grading rule validation               | `grading-rule-validation`             |
+| admin   | Approved grading scheme preview       | `approved-grading-scheme-preview`     |
+| admin   | Result processing overview            | `result-processing-overview`          |
+| admin   | Course result table                   | `course-result-table`                 |
+| admin   | Student-wise marks                    | `student-wise-marks`                  |
+| admin   | Weighted score calculation            | `weighted-score-calculation`          |
+| admin   | GPA and CGPA preview                  | `gpa-and-cgpa-preview`                |
+| admin   | Missing-result flags                  | `missing-result-flags`                |
+| admin   | AI anomaly review                     | `ai-anomaly-review`                   |
+| admin   | Result batch approval                 | `result-batch-approval`               |
+| admin   | Publication confirmation              | `publication-confirmation`            |
+| admin   | Published results overview            | `published-results-overview`          |
+| admin   | Rechecking request queue              | `rechecking-request-queue`            |
+| admin   | Rechecking request details            | `rechecking-request-details`          |
+| admin   | Rechecking decision form              | `rechecking-decision-form`            |
+| admin   | Approved rechecking correction        | `approved-rechecking-correction`      |
+| admin   | Rechecking request history            | `rechecking-request-history`          |
+| admin   | Analytics overview                    | `analytics-overview`                  |
+| admin   | Class-wise analysis                   | `class-wise-analysis`                 |
+| admin   | Individual student analysis           | `individual-student-analysis`         |
+| admin   | AI findings queue                     | `ai-findings-queue`                   |
+| admin   | Finding review details                | `finding-review-details`              |
+| admin   | Prediction range & uncertainty        | `prediction-range-uncertainty`        |
+| admin   | Prediction unavailable                | `prediction-unavailable`              |
+| admin   | Admin AI Assistant                    | `admin-ai-assistant`                  |
+| admin   | Assistant — no matching records       | `assistant-no-matching-records`       |
+| admin   | Assistant — permission denied         | `assistant-permission-denied`         |
+| admin   | Assistant — data unavailable          | `assistant-data-unavailable`          |
+| admin   | Reports overview                      | `reports-overview`                    |
+| admin   | Class-wise result report              | `class-wise-result-report`            |
+| admin   | Course-wise performance report        | `course-wise-performance-report`      |
+| admin   | Pass/fail report                      | `pass-fail-report`                    |
+| admin   | Grade distribution report             | `grade-distribution-report`           |
+| admin   | Individual student report             | `individual-student-report`           |
+| admin   | Teacher submission report             | `teacher-submission-report`           |
+| admin   | Seating plan report                   | `seating-plan-report`                 |
+| admin   | Invigilation duty report              | `invigilation-duty-report`            |
+| admin   | Examination schedule report           | `examination-schedule-report`         |
+| admin   | Notification center                   | `notification-center`                 |
+| admin   | Notification settings                 | `notification-settings`               |
+| admin   | Audit logs                            | `audit-logs`                          |
+| admin   | User activity details                 | `user-activity-details`               |
+| admin   | Result change history                 | `result-change-history`               |
+| admin   | Grading configuration history         | `grading-configuration-history`       |
+| admin   | Academic settings                     | `academic-settings`                   |
+| admin   | Account and permissions               | `account-and-permissions`             |
+| admin   | Backup status                         | `backup-status`                       |
+| admin   | Sign in                               | `sign-in`                             |
+| admin   | Forgot password                       | `forgot-password`                     |
+| admin   | Reset password                        | `reset-password`                      |
+| admin   | Password reset confirmation           | `password-reset-confirmation`         |
+| admin   | Unauthorized access                   | `unauthorized-access`                 |
+| admin   | Session expired                       | `session-expired`                     |
+| teacher | Teacher Dashboard                     | `teacher-dashboard`                   |
+| teacher | My Courses                            | `my-courses`                          |
+| teacher | My Students                           | `my-students`                         |
+| teacher | Course details                        | `course-details`                      |
+| teacher | Student roster                        | `student-roster`                      |
+| teacher | Course assessments                    | `course-assessments`                  |
+| teacher | Course examination schedule           | `course-examination-schedule`         |
+| teacher | Course performance                    | `course-performance`                  |
+| teacher | Marks Entry                           | `marks-entry`                         |
+| teacher | Marks CSV import                      | `marks-csv-import`                    |
+| teacher | Marks import errors                   | `marks-import-errors`                 |
+| teacher | Marks Submissions                     | `marks-submissions`                   |
+| teacher | Returned marks correction             | `returned-marks-correction`           |
+| teacher | Marks submission confirmation         | `marks-submission-confirmation`       |
+| teacher | Examination Schedule                  | `examination-schedule`                |
+| teacher | Seating Plans                         | `seating-plans`                       |
+| teacher | Invigilation Duties                   | `invigilation-duties`                 |
+| teacher | Duty instructions                     | `duty-instructions`                   |
+| teacher | Profile and Availability              | `profile-and-availability`            |
+| teacher | Unavailability request                | `unavailability-request`              |
+| teacher | Replacement status                    | `replacement-status`                  |
+| teacher | Performance Analytics                 | `performance-analytics`               |
+| teacher | Teacher Notifications                 | `teacher-notifications`               |
+| teacher | Teacher AI Assistant                  | `teacher-ai-assistant`                |
+| student | Student Dashboard                     | `student-dashboard`                   |
+| student | My Profile                            | `my-profile`                          |
+| student | My Courses                            | `my-courses`                          |
+| student | Examination Schedule                  | `examination-schedule`                |
+| student | Updated examination schedule          | `updated-examination-schedule`        |
+| student | Admit Card                            | `admit-card`                          |
+| student | Seating Plan                          | `seating-plan`                        |
+| student | My Results                            | `my-results`                          |
+| student | Semester results                      | `semester-results`                    |
+| student | Performance Analysis                  | `performance-analysis`                |
+| student | Rechecking Requests                   | `rechecking-requests`                 |
+| student | Submit rechecking request             | `submit-rechecking-request`           |
+| student | Rechecking confirmation               | `rechecking-confirmation`             |
+| student | Rechecking decision                   | `rechecking-decision`                 |
+| student | Student Notifications                 | `student-notifications`               |
+| student | Student AI Assistant                  | `student-ai-assistant`                |
+| student | Unpublished result                    | `unpublished-result`                  |
+| admin   | Loading records                       | `loading-records`                     |
+| admin   | Empty records                         | `empty-records`                       |
+| admin   | Server error                          | `server-error`                        |
+| admin   | Permission denied                     | `permission-denied`                   |
+| admin   | Success confirmation                  | `success-confirmation`                |
+| admin   | Marks validation error                | `marks-validation-error`              |
+| admin   | No eligible replacement               | `no-eligible-replacement`             |
+| admin   | Missing assessment weights            | `missing-assessment-weights`          |
+| admin   | AI Automation                         | `ai-automation`                       |
+| admin   | AI Settings                           | `ai-settings`                         |

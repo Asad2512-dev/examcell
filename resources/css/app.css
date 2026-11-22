@@ -23,7 +23,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: var(--type-body-size)/var(--type-body-line) var(--font-family-ui);
+  font: var(--type-body-size) / var(--type-body-line) var(--font-family-ui);
   -webkit-font-smoothing: antialiased;
 }
 button,
@@ -3655,3 +3655,4 @@ dialog::backdrop {
 }
 
 @import "./admin-controls.css";
+@import "./admin-guide.css";

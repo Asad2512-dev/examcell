@@ -13,7 +13,7 @@
         <p class="pdf-eyebrow">{{ ui_text('results.copy.examination_cell_academic_report') }}</p>
     </div>
     <h1>{{ $title }}</h1>
-    <p class="pdf-reference">Generated {{ now('Asia/Karachi')->format('d M Y H:i') }} (Asia/Karachi) · Authorized
+    <p class="pdf-reference">Generated {{ now()->format('d M Y H:i') }} ({{ config('app.timezone') }}) · Authorized
         account: {{ auth()->user()->name }}</p>
     @if ($rows->isNotEmpty())
         <table>

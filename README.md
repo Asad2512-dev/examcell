@@ -118,11 +118,11 @@ php artisan db:seed
 
 The demo seeder is restricted to local/testing environments. Use it on a separate local demonstration database: it creates sample academic records and links the following login addresses to demo identities. On its initial run, matching existing login addresses can be reassigned to those identities. Subsequent runs retain already-linked passwords.
 
-| Role | Email | Initial password |
-| --- | --- | --- |
-| Administrator | `admin@gmail.com` | `12345678` |
-| Teacher | `teacher@gmail.com` | `12345678` |
-| Student | `student@gmail.com` | `12345678` |
+| Role          | Email               | Initial password |
+| ------------- | ------------------- | ---------------- |
+| Administrator | `admin@gmail.com`   | `12345678`       |
+| Teacher       | `teacher@gmail.com` | `12345678`       |
+| Student       | `student@gmail.com` | `12345678`       |
 
 These credentials are for local demonstrations only.
 
@@ -240,21 +240,21 @@ This verifies and stages the recovery; it does not automatically switch the runn
 
 ## 11. Troubleshooting
 
-| Problem | What to check |
-| --- | --- |
-| `php` or `composer` is not found | Add the folder containing `php.exe` to `Path`; install Composer for Windows if missing. |
-| Missing PHP extension | Run `php -m` using the same PHP binary used by Composer and Artisan. Run `php --ini` to find the loaded `php.ini`, enable the required extension there and restart affected PHP/Apache processes. |
-| Database connection refused | Start MySQL in your control panel; check host, port or socket in `.env`. Run `php artisan config:clear` and `php artisan examcell:db-check`. |
-| Database access denied | Check the MySQL username, password and permissions. |
-| Missing table | Confirm the intended database is selected, then run `php artisan migrate`. |
-| Missing application key | Run `php artisan examcell:setup-key`. |
-| Missing styles or Vite manifest | Run `npm ci` and `npm run build`. If a stopped dev server left `public/hot`, remove that stale file with `Remove-Item public/hot`. |
-| Port 8000 is already used | Stop the other server, or use `--port=8001` and update `APP_URL`. |
-| Form returns 419 | Reload the form, allow cookies, use one consistent hostname and check that `storage` is writable. |
-| Bulk PDFs stay queued | Start the queue worker and inspect `php artisan queue:failed`. |
-| Password-reset email does not arrive | Check whether `MAIL_MAILER=log`; configure SMTP for delivery. |
-| Permission error | In Windows folder Properties → Security, grant your PHP/web-server user Modify access to `storage` and `bootstrap/cache`. |
-| Unexpected application error | Inspect `storage/logs/laravel.log`; keep passwords and reset links private. |
+| Problem                              | What to check                                                                                                                                                                                     |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `php` or `composer` is not found     | Add the folder containing `php.exe` to `Path`; install Composer for Windows if missing.                                                                                                           |
+| Missing PHP extension                | Run `php -m` using the same PHP binary used by Composer and Artisan. Run `php --ini` to find the loaded `php.ini`, enable the required extension there and restart affected PHP/Apache processes. |
+| Database connection refused          | Start MySQL in your control panel; check host, port or socket in `.env`. Run `php artisan config:clear` and `php artisan examcell:db-check`.                                                      |
+| Database access denied               | Check the MySQL username, password and permissions.                                                                                                                                               |
+| Missing table                        | Confirm the intended database is selected, then run `php artisan migrate`.                                                                                                                        |
+| Missing application key              | Run `php artisan examcell:setup-key`.                                                                                                                                                             |
+| Missing styles or Vite manifest      | Run `npm ci` and `npm run build`. If a stopped dev server left `public/hot`, remove that stale file with `Remove-Item public/hot`.                                                                |
+| Port 8000 is already used            | Stop the other server, or use `--port=8001` and update `APP_URL`.                                                                                                                                 |
+| Form returns 419                     | Reload the form, allow cookies, use one consistent hostname and check that `storage` is writable.                                                                                                 |
+| Bulk PDFs stay queued                | Start the queue worker and inspect `php artisan queue:failed`.                                                                                                                                    |
+| Password-reset email does not arrive | Check whether `MAIL_MAILER=log`; configure SMTP for delivery.                                                                                                                                     |
+| Permission error                     | In Windows folder Properties → Security, grant your PHP/web-server user Modify access to `storage` and `bootstrap/cache`.                                                                         |
+| Unexpected application error         | Inspect `storage/logs/laravel.log`; keep passwords and reset links private.                                                                                                                       |
 
 ## 12. Optional checks
 
@@ -272,5 +272,25 @@ php vendor/bin/phpunit
 ```
 
 Tests can reset database tables. Never point them at your working or production database.
+
 # examcell
+
 # examcell
+
+## Making ExamCell fast (production)
+
+On a live server, run this after every update. It caches configuration, routes and views:
+
+```sh
+sh deploy/optimize.sh
+```
+
+Also keep `APP_DEBUG=false` in `.env`, and turn on PHP OPcache. The `public/.htaccess` file already compresses pages and lets browsers keep built files for a year. On a development machine do not use these caches. Clear them with `php artisan optimize:clear`.
+
+## First-time guide for administrators
+
+After signing in, the **Dashboard** shows your next step. The order is: your university → classes, teachers and students → rooms → create the examination → date sheet → seating and invigilators → approve and publish → admit cards → marks → results.
+
+- **Your university** (menu: Tools): name, time zone, terms, exam start times, top grade point, duty limit.
+- **Add many from a spreadsheet**: on the Teachers and Students pages. Download the template, fill it in, upload, check the preview, and confirm. Only rows without problems are added.
+- **New examination**: Exams → New examination. Pick the classes and papers; marks breakdowns are created for you.

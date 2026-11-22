@@ -101,7 +101,7 @@
                         {{ $req->duty->scheduleEntry->examCourse->course->code }}</strong>
                     <p>{{ $req->reason }}</p>
                     <p>Status: {{ $req->status }} · Submitted {{ $req->requested_at->format('d M Y H:i') }} ·
-                        Deadline {{ $req->deadline_at->format('d M Y H:i') }} (Asia/Karachi)</p>
+                        Deadline {{ $req->deadline_at->format('d M Y H:i') }} ({{ config('app.timezone') }})</p>
                     <p>Reserve cover: {{ $req->proposal?->candidate?->name ?? 'Needs eligible reserve staff' }} ·
                         {{ $req->proposal?->status }}</p>
                     @if ($req->decision_reason)
@@ -233,7 +233,8 @@
                                         $pending = \App\Models\DutyRequest::where('duty_assignment_id', $d->id)
                                             ->where('status', 'pending')
                                             ->exists();
-                                    @endphp <p>{{ $deadline->format('d M Y H:i') }} (Asia/Karachi)</p>
+                                    @endphp <p>{{ $deadline->format('d M Y H:i') }}
+                                        ({{ config('app.timezone') }})</p>
                                     @if ($d->status === 'assigned' && !$pending && now()->lte($deadline))
                                         <form method="POST" action="/workflow/duty/{{ $d->id }}/request">
                                             @csrf

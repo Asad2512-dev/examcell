@@ -31,11 +31,12 @@ class WorkspaceNavigationTest extends TestCase
     public function test_sidebars_are_exactly_the_short_flat_lists(): void
     {
         $f = $this->fixture();
-        $expected = ['admin' => ['Dashboard', 'Academic Setup', 'Teachers', 'Students', 'AI Assistant', 'Exams & Date Sheets', 'Seating', 'Invigilation', 'Marks & Results', 'Reports & Analytics', 'Rooms', 'Settings'], 'teacher' => ['Dashboard', 'AI Assistant', 'My Courses & Marks', 'Exam Schedule', 'Duties', 'Analytics', 'Profile & Availability'], 'student' => ['Dashboard', 'AI Assistant', 'Exams', 'Results', 'Rechecking', 'Profile']];
+        $expected = ['admin' => ['Dashboard', 'Academic Setup', 'Teachers', 'Students', 'Rooms', 'Exams & Date Sheets', 'Seating', 'Invigilation', 'Marks & Results', 'Reports & Analytics', 'AI Assistant', 'Settings', 'Appearance & content'], 'teacher' => ['Dashboard', 'AI Assistant', 'My Courses & Marks', 'Exam Schedule', 'Duties', 'Analytics', 'Profile'], 'student' => ['Dashboard', 'AI Assistant', 'Exams', 'Results', 'Rechecking', 'Profile']];
         foreach ($expected as $role => $labels) {
             $this->assertSame($labels, array_column(Workspaces::definition($role), 'label'));
             $html = $this->actingAs($f[$role])->get('/'.$role.'/'.$role.'-dashboard')->assertOk()->getContent();
-            $this->assertSame(count($labels), preg_match_all('/class="nav-item[ "]/', $html), $role.' sidebar items');
+            // The administrator also has a "Your university" link under Tools.
+            $this->assertSame(count($labels) + ($role === 'admin' ? 1 : 0), preg_match_all('/class="nav-item[ "]/', $html), $role.' sidebar items');
             $this->assertStringNotContainsString('<details class="nav-group"', $html);
         }
     }

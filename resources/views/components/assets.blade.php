@@ -13,6 +13,8 @@
 <script>
     window.examcellContent = {{ \Illuminate\Support\Js::from(ui_frontend_content()) }};
 </script>
+<link rel="preload" href="/assets/fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/fonts/Inter-SemiBold.woff" as="font" type="font/woff" crossorigin>
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 <x-brand-head />
-<link rel="stylesheet" href="{{ route('ui.palette') }}">
+<link rel="stylesheet" href="{{ route('ui.palette', ['v' => app(\App\Support\UiContent::class)->version()]) }}">

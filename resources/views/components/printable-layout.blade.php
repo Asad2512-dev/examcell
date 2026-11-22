@@ -9,5 +9,5 @@
         @endif
     </header>
     <h1>{{ $title }}</h1>{{ $slot }}<footer class="print-footer">Issued by the Examination Cell ·
-        {{ now('Asia/Karachi')->format('d M Y') }}</footer>
+        {{ now()->format('d M Y') }}</footer>
 </article>

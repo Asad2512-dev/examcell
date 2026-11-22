@@ -88,7 +88,7 @@ class AppearanceController
         return redirect()->route('admin.appearance', ['section' => $section])->with('status', 'Your appearance and wording changes are saved.');
     }
 
-    public function paletteCss(UiContent $content)
+    public function paletteCss(Request $request, UiContent $content)
     {
         $overrides = $content->overrides();
         $palette = $this->paletteDefaults();
@@ -114,7 +114,10 @@ class AppearanceController
             $css .= '}';
         }
 
-        return response($css, 200, ['Content-Type' => 'text/css; charset=UTF-8', 'Cache-Control' => 'no-cache, no-store, must-revalidate']);
+        // The page links this file with ?v=<last change>, so a versioned URL can be cached for a year.
+        $cache = $request->query('v') === $content->version() ? 'public, max-age=31536000, immutable' : 'no-cache, no-store, must-revalidate';
+
+        return response($css, 200, ['Content-Type' => 'text/css; charset=UTF-8', 'Cache-Control' => $cache]);
     }
 
     private function flatten(array $data, string $prefix, array &$flat): void

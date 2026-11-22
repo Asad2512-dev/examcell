@@ -67,7 +67,10 @@
             ->orderBy('starts_at')
             ->get();
         $aiConfigured = app(\App\Services\AI\AiSettings::class)->keyConfigured();
-        $aiRecent = \App\Models\AiRun::where('user_id', auth()->id())->latest()->limit(8)->get();
+        $aiRecent = \App\Models\AiRun::where('user_id', auth()->id())
+            ->latest()
+            ->limit(8)
+            ->get();
     @endphp
     @unless ($aiConfigured)
         <div class="callout callout-warning" role="status">

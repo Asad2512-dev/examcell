@@ -45,6 +45,32 @@ class RoomsPageTest extends TestCase
         $this->assertDatabaseHas('rooms', ['name' => 'Hall B', 'capacity' => 40, 'active' => true]);
     }
 
+    public function test_admin_can_create_an_ai_ready_room_from_its_physical_arrangement(): void
+    {
+        $admin = User::create(['name' => 'Room Admin', 'email' => 'grid-rooms@example.test', 'password' => 'TestPassword2026!', 'role' => 'admin']);
+
+        $this->actingAs($admin)->post(route('resource.save', ['rooms']), [
+            'name' => 'Examination Hall',
+            'layout_mode' => 'grid',
+            'rows' => 5,
+            'cols' => 8,
+            'aisles' => '4',
+            'disabled' => 'A1, E8',
+            'accessible' => 'A2, A3',
+            'door_side' => 'left',
+            'active' => 1,
+        ])->assertRedirect('/admin/rooms')->assertSessionHasNoErrors();
+
+        $room = Room::where('name', 'Examination Hall')->firstOrFail();
+        $this->assertSame(38, $room->capacity);
+        $this->assertSame(5, $room->seat_rows);
+        $this->assertSame(8, $room->seat_columns);
+        $this->assertSame([4], $room->aisles);
+        $this->assertSame(['A1', 'E8'], $room->disabled_seats);
+        $this->assertSame([1, 2], $room->accessible_seats);
+        $this->assertSame('left', $room->door_side);
+    }
+
     public function test_authentication_icons_render_svg_paths(): void
     {
         $html = view('components.auth-icon', [

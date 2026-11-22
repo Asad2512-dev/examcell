@@ -9,6 +9,10 @@ use Throwable;
 
 class UiContent
 {
+    private ?array $overridesMemo = null;
+
+    private ?string $overridesStamp = null;
+
     /** @return array<string, mixed> */
     public function section(string $section): array
     {
@@ -84,11 +88,30 @@ class UiContent
     public function overrides(): array
     {
         try {
-            $decoded = json_decode(Storage::disk('local')->get('ui-overrides.json'), true, 512, JSON_THROW_ON_ERROR);
+            $disk = Storage::disk('local');
+            // A cheap stat tells us whether the file changed, so it is parsed once per change, not once per call.
+            $stamp = $disk->exists('ui-overrides.json') ? $disk->lastModified('ui-overrides.json').':'.$disk->size('ui-overrides.json') : 'none';
+            if ($this->overridesStamp === $stamp && $this->overridesMemo !== null) {
+                return $this->overridesMemo;
+            }
+            $decoded = json_decode($disk->get('ui-overrides.json'), true, 512, JSON_THROW_ON_ERROR);
+            $this->overridesStamp = $stamp;
 
-            return is_array($decoded) ? $decoded : [];
+            return $this->overridesMemo = is_array($decoded) ? $decoded : [];
         } catch (Throwable) {
             return [];
+        }
+    }
+
+    /** Changes whenever the saved appearance changes; used to version the palette stylesheet URL. */
+    public function version(): string
+    {
+        try {
+            $disk = Storage::disk('local');
+
+            return $disk->exists('ui-overrides.json') ? (string) $disk->lastModified('ui-overrides.json') : '0';
+        } catch (Throwable) {
+            return '0';
         }
     }
 

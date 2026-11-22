@@ -3,34 +3,43 @@
 namespace App\Services;
 
 use App\Models\AppSetting;
+use Illuminate\Support\Facades\Cache;
 
 /** Small admin-editable key/value store (JSON). Falls back to the supplied default or config. */
 class Settings
 {
-    public static function get(string $key, mixed $default = null): mixed
+    private const CACHE_KEY = 'app-settings.all';
+
+    /** Every setting in one query, kept in the cache so a page never asks the database per key. */
+    private static function all(): array
     {
-        $memoKey = 'settings.resolved.'.$key;
-        $attributes = request()->attributes;
-        $memoize = request()->route() !== null;
-        if ($memoize && $attributes->has($memoKey)) {
-            return $attributes->get($memoKey) ?? $default;
-        }
+        $load = fn () => AppSetting::query()->get()->mapWithKeys(fn ($row) => [$row->key => $row->value['v'] ?? null])->all();
         try {
-            $value = AppSetting::find($key)?->value['v'] ?? null;
-            if ($memoize) {
-                $attributes->set($memoKey, $value);
+            $request = request();
+            if ($request->route() !== null && $request->attributes->has('settings.all')) {
+                return $request->attributes->get('settings.all');
+            }
+            $all = Cache::remember(self::CACHE_KEY, now()->addMinutes(30), $load);
+            if ($request->route() !== null) {
+                $request->attributes->set('settings.all', $all);
             }
 
-            return $value ?? $default;
+            return $all;
         } catch (\Throwable) {
-            return $default;
+            return [];
         }
+    }
+
+    public static function get(string $key, mixed $default = null): mixed
+    {
+        return self::all()[$key] ?? $default;
     }
 
     public static function set(string $key, mixed $value): void
     {
         AppSetting::updateOrCreate(['key' => $key], ['value' => ['v' => $value]]);
-        request()->attributes->remove('settings.resolved.'.$key);
+        Cache::forget(self::CACHE_KEY);
+        request()->attributes->remove('settings.all');
     }
 
     /** Notification events an admin can switch off, with the notice titles each covers. */

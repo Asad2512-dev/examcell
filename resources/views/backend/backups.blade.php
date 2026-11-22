@@ -22,8 +22,8 @@
                     {{ $run->failure }}</p>
             </div>
             @if ($run->status === 'completed')
-                <a class="btn btn-secondary"
-                    data-no-loading href="/download/backup/{{ $run->id }}">{{ ui_text('admin.copy.download_verified_backup') }}</a>
+                <a class="btn btn-secondary" data-no-loading
+                    href="/download/backup/{{ $run->id }}">{{ ui_text('admin.copy.download_verified_backup') }}</a>
             @endif
         </article>
     @empty<p>{{ ui_text('admin.copy.no_backups_yet_create_the_first_verified_backup_above') }}</p>

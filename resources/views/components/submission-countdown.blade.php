@@ -26,7 +26,7 @@
             data-countdown-label>{{ $label }}</span></span>
     @if ($deadline)
         <time class="deadline-date"
-            datetime="{{ $deadline->toIso8601String() }}">{{ $deadline->timezone('Asia/Karachi')->format('d M Y · H:i') }}
-            PKT</time>
+            datetime="{{ $deadline->toIso8601String() }}">{{ $deadline->timezone(config('app.timezone'))->format('d M Y · H:i') }}
+            {{ config('app.timezone') }}</time>
     @endif
 </div>

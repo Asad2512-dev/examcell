@@ -16,7 +16,7 @@
         <details class="role-inline-details" @if ($errors->has('reason') && str_contains(url()->previous(), '/duties')) open @endif>
             <summary>{{ ui_text('examinations.copy.cannot_attend_request_cover') }}</summary>
             <form method="POST" action="/workflow/duty/{{ $d->id }}/request" class="role-inline-form">@csrf<p>
-                    Request by {{ $deadline->format('d M Y · H:i') }} PKT.</p><x-form-field
+                    Request by {{ $deadline->format('d M Y · H:i') }} {{ config('app.timezone') }}.</p><x-form-field
                     label="Why are you unavailable?">
                     <textarea name="reason" required minlength="10" maxlength="2000" rows="3">{{ old('reason') }}</textarea>
                 </x-form-field><x-button

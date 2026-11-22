@@ -19,7 +19,8 @@
     <x-calendar :events="$uiCalendarEvents" title="{{ ui_text('examinations.copy.examination_schedule') }}" />
     @include('backend.filters')
     @if ($role === 'admin')
-        <x-card title="Allocate a room to a paper" description="Choose the paper, room, and start time. Extra rooms are optional.">
+        <x-card title="Allocate a room to a paper"
+            description="Choose the paper, room, and start time. Extra rooms are optional.">
             @include('backend.schedule-form')
         </x-card>
         @foreach ($exams as $exam)

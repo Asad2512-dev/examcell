@@ -6,6 +6,7 @@ use App\Models as M;
 use App\Services\AcademicContext;
 use App\Services\AcademicService;
 use App\Services\AuditService;
+use App\Services\University;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,7 +63,7 @@ class AcademicSetupController
             throw_unless($sessionId, ValidationException::withMessages(['session' => 'Select a session before adding academic records.']));
         }
         $rules = match ($action) {
-            'session' => ['mode' => 'required|in:existing,new', 'session_id' => 'required_if:mode,existing|nullable|integer|exists:academic_sessions,id', 'term' => 'required_if:mode,new|nullable|in:Fall,Spring', 'year' => 'required_if:mode,new|nullable|integer|between:2000,2100', 'starts_on' => 'required_if:mode,new|nullable|date', 'ends_on' => 'required_if:mode,new|nullable|date|after:starts_on'],
+            'session' => ['mode' => 'required|in:existing,new', 'session_id' => 'required_if:mode,existing|nullable|integer|exists:academic_sessions,id', 'term' => ['required_if:mode,new', 'nullable', Rule::in(University::terms())], 'year' => 'required_if:mode,new|nullable|integer|between:2000,2100', 'starts_on' => 'required_if:mode,new|nullable|date', 'ends_on' => 'required_if:mode,new|nullable|date|after:starts_on'],
             'department' => ['name' => 'required|string|max:120', 'code' => 'required|string|max:20|unique:departments,code'],
             'course' => ['department_id' => 'required|integer|exists:departments,id', 'name' => 'required|string|max:120', 'code' => 'required|string|max:20|unique:courses,code', 'credits' => 'required|numeric|between:0.01,30'],
             'semester' => ['name' => ['required', 'string', 'max:80', Rule::unique('semesters')->where('academic_session_id', $sessionId)], 'number' => 'required|integer|between:1,12'],

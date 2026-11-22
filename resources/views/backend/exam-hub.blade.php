@@ -4,17 +4,12 @@
     $ehConfigured = app(\App\Services\AI\AiSettings::class)->keyConfigured();
 @endphp
 @if (!$ehExam)
-    @if ($ehTab === 'datesheet')
-        <div class="callout">
-            <strong>{{ ui_text('examinations.copy.make_a_date_sheet_in_three_steps') }}</strong>
-            <p>{{ ui_text('examinations.copy.choose_an_examination_below_generate_its_timetable_revie') }}</p>
-            <p>{{ ui_text('examinations.copy.starting_fresh') }} <a class="card-link"
-                    href="/admin/records?resource=examinations">{{ ui_text('examinations.copy.create_an_examination') }}</a>{{ ui_text('examinations.copy.then') }}
-                <a class="card-link"
-                    href="/admin/records?resource=exam-courses">{{ ui_text('examinations.copy.add_its_papers') }}</a>.
-            </p>
-        </div>
-    @endif
+    <div class="callout">
+        <strong>{{ $ehTab === 'datesheet' ? 'Make a date sheet in three steps' : 'Exams in three steps' }}</strong>
+        <p>1. Create the examination &nbsp;→&nbsp; 2. Make its date sheet (rooms are picked for you) &nbsp;→&nbsp; 3.
+            Seating and invigilators, then publish.</p>
+        <p><x-button href="/admin/exams/new" icon="plus">New examination</x-button></p>
+    </div>
     <x-card title="{{ ui_text('examinations.copy.examinations') }}"
         description="Open an examination to manage its date sheet and admit cards."><x-data-table :enhanced="false">
             <table class="data-table">
@@ -92,9 +87,15 @@
         ' unscheduled'"><x-slot:actions><x-badge :status="ucfirst($ehExam->status)" /></x-slot:actions>
         <div class="card-body"><a class="card-link"
                 href="/admin/exams?tab={{ $ehTab }}">{{ ui_text('examinations.copy.all_examinations') }}</a>
+            @if ($ehExam->status === 'draft')
+                &nbsp;·&nbsp; <a class="card-link" href="/admin/exams/new?exam={{ $ehExam->id }}">Add more papers</a>
+            @endif
         </div>
     </x-card>
     @include('ai.run-panel')
+    @if (in_array($ehExam->status, ['draft', 'approved'], true))
+        <x-readiness :exam="$ehExam" />
+    @endif
     @if ($ehTab === 'overview')
         <x-card title="{{ ui_text('examinations.copy.overview') }}">
             <div class="card-body">
@@ -114,7 +115,7 @@
                                 type="hidden" name="status" value="published"><x-button type="submit" icon="check"
                                 data-confirm="true"
                                 data-confirm-title="{{ ui_text('examinations.copy.publish_this_examination') }}"
-                                data-confirm-message="{{ ui_text('examinations.copy.students_and_teachers_are_notified') }}"
+                                data-confirm-message="{{ app(\App\Services\ExamCycle::class)->audience($ehExam) }}. {{ ui_text('examinations.copy.students_and_teachers_are_notified') }}"
                                 data-confirm-label="{{ ui_text('examinations.copy.publish') }}">{{ ui_text('examinations.copy.publish') }}</x-button>
                         </form>
                     @elseif($ehExam->status === 'published')

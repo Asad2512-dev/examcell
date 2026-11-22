@@ -7,12 +7,15 @@ use App\Http\Controllers\AdmitVerificationController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\AppearanceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExamWizardController;
+use App\Http\Controllers\PeopleImportController;
 use App\Http\Controllers\RecoveryMailController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RoleAccountController;
 use App\Http\Controllers\RoomLayoutController;
 use App\Http\Controllers\ScreenController;
 use App\Http\Controllers\SubmissionDeadlineController;
+use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\WorkflowController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +41,15 @@ Route::middleware(['auth', 'active', 'recovery.session', 'auth.session'])->group
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // Administrator tools: account setup, examinations, approvals and settings.
     Route::middleware('role:admin')->group(function () {
+        Route::get('/admin/exams/new', [ExamWizardController::class, 'show'])->name('exam-wizard');
+        Route::post('/admin/exams/new', [ExamWizardController::class, 'store'])->name('exam-wizard.save');
+        Route::get('/admin/import', [PeopleImportController::class, 'show'])->name('people-import');
+        Route::get('/admin/import/template/{kind}', [PeopleImportController::class, 'template'])->where('kind', 'students|teachers|departments|sessions');
+        Route::get('/admin/import/export/{kind}', [PeopleImportController::class, 'export'])->where('kind', 'students|teachers|departments|sessions');
+        Route::post('/admin/import/preview', [PeopleImportController::class, 'preview'])->middleware('throttle:30,1');
+        Route::post('/admin/import/commit', [PeopleImportController::class, 'commit'])->middleware('throttle:10,1');
+        Route::get('/admin/university', [UniversityController::class, 'show'])->name('admin.university');
+        Route::post('/admin/university', [UniversityController::class, 'save'])->name('admin.university.save');
         Route::get('/admin/appearance', [AppearanceController::class, 'index'])->name('admin.appearance');
         Route::post('/admin/appearance', [AppearanceController::class, 'save'])->name('admin.appearance.save');
         Route::post('/admin/settings/email', [RecoveryMailController::class, 'save']);

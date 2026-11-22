@@ -100,8 +100,9 @@ class SchedulingService
                 }
                 $found = false;
                 for ($day = 0; $day < $days && ! $found; $day++) {
-                    foreach ([9, 13, 17] as $hour) {
-                        $start = Carbon::parse($from)->startOfDay()->addDays($day)->setHour($hour);
+                    foreach (University::slots() as $slot) {
+                        [$hour, $minute] = array_map('intval', explode(':', $slot));
+                        $start = Carbon::parse($from)->startOfDay()->addDays($day)->setTime($hour, $minute);
                         $end = $start->copy()->addMinutes($c->duration_minutes);
                         $pool = [];
                         foreach (M\Room::where('active', true)->orderByDesc('capacity')->orderBy('id')->get() as $room) {

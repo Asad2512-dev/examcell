@@ -14,11 +14,14 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\EloquentUserRepository;
 use App\Services\PasswordRecovery;
 use App\Services\RecoveryMail;
+use App\Services\University;
 use App\Support\UiContent;
+use App\View\Icons;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +54,12 @@ class AppServiceProvider extends ServiceProvider
                     'minutes' => config('auth.passwords.users.expire', 60),
                 ]);
         });
+        try {
+            University::apply();
+        } catch (\Throwable) {
+            // The settings table may not exist yet (first install, before migrate).
+        }
+        Blade::prepareStringsForCompilationUsing(fn (string $template) => Icons::compile($template));
         RateLimiter::for('assistant', fn (Request $r) => Limit::perMinute(5)->by($r->user()?->id ?? $r->ip()));
     }
 }

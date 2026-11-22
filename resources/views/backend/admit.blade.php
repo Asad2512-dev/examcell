@@ -49,8 +49,8 @@
         <div class="notification-item">
             <div><strong>{{ $card->examination->name }} · {{ $card->student->name }}</strong>
                 <p>Reference {{ $card->reference }} · {{ $card->created_at }}</p>
-            </div><a class="btn btn-secondary"
-                data-no-loading href="/download/admit/{{ $card->id }}">{{ ui_text('examinations.copy.download_pdf') }}</a>
+            </div><a class="btn btn-secondary" data-no-loading
+                href="/download/admit/{{ $card->id }}">{{ ui_text('examinations.copy.download_pdf') }}</a>
         </div>
     @empty<x-empty-state title="{{ ui_text('examinations.copy.your_admit_card_is_not_available_yet') }}"
             description="Check back after the examination cell generates it. If your exam is approaching, contact the examination cell."
