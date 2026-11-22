@@ -28,7 +28,7 @@
         </x-select>
         <label class="field"><span>{{ ui_text('admin.copy.file') }}</span><input type="file" name="file"
                 accept=".csv,.tsv,.txt,.xlsx,.pdf,.png,.jpg,.jpeg,.webp" required></label>
-        <x-button type="submit" icon="upload" :disabled="!app(\App\Services\AI\AiSettings::class)->keyConfigured()">{{ ui_text('admin.copy.read_with_ai') }}</x-button>
+        <x-button type="submit" icon="upload" :disabled="!app(\App\Services\AI\AiClient::class)->configured()">{{ ui_text('admin.copy.read_with_ai') }}</x-button>
     </form>
 </x-card>
 
@@ -37,5 +37,5 @@
             href="/teacher/courses?tab=marks">{{ ui_text('admin.copy.open_marks_entry') }}</a></p>
 @endif
 @unless (app(\App\Services\AI\AiSettings::class)->keyConfigured())
-    <div class="callout">{{ ui_text('admin.copy.ai_import_is_not_configured_yet_contact_the_examination') }}</div>
+    <div class="callout">Offline demo mode is active. CSV and Excel column mapping works without an API key. Reading PDFs and photos still requires a valid key.</div>
 @endunless

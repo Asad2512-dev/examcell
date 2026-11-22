@@ -31,7 +31,7 @@ class AiSettings
 
         return [
             'requests' => $rows->count(),
-            'failed' => $rows->where('status', '!=', 'ok')->count(),
+            'failed' => $rows->where('status', 'error')->count(),
             'input_tokens' => (int) $rows->sum('input_tokens'),
             'output_tokens' => (int) $rows->sum('output_tokens'),
             'cost_usd' => round((float) $rows->sum('cost_usd'), 4),

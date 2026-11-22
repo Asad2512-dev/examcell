@@ -56,7 +56,7 @@
                     <form method="POST" action="/ai/start" class="sm2-ai">@csrf<input type="hidden" name="feature"
                             value="seating"><input type="hidden" name="entry_id" value="{{ $smEntry->id }}">
                         <x-button type="submit" icon="sparkles"
-                            :disabled="$smData['locked'] || !app(\App\Services\AI\AiSettings::class)->keyConfigured()">{{ $smHasSeats ? 'AI Regenerate' : 'AI Generate' }}</x-button>
+                            :disabled="$smData['locked'] || !app(\App\Services\AI\AiClient::class)->configured()">{{ $smHasSeats ? 'AI Regenerate' : 'AI Generate' }}</x-button>
                     </form>
             </div>
             @if ($smData['locked'])

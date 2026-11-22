@@ -1,4 +1,4 @@
-@php $cbConfigured=app(\App\Services\AI\AiSettings::class)->keyConfigured(); @endphp
+@php $cbConfigured=app(\App\Services\AI\AiClient::class)->configured(); @endphp
 <x-card class="ai-command">
     <form method="POST" action="/admin/ai/command" class="form-grid card-body" role="search">@csrf<input type="hidden"
             name="from" value="{{ $from ?? 'dashboard' }}">

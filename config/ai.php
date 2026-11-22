@@ -7,6 +7,8 @@ return [
     'max_attempts' => 3,
     'retry_delay_ms' => (int) env('AI_RETRY_DELAY_MS', 800),
     'max_output_tokens' => (int) env('AI_MAX_OUTPUT_TOKENS', 8000),
+    // Keeps validated demo automations available if the provider key is absent or fails.
+    'demo_fallback' => (bool) env('AI_DEMO_FALLBACK', true),
     // USD per 1M tokens [input, output]. Estimates for the usage screen; check OpenAI's pricing page.
     'pricing' => [
         'gpt-4.1' => [2.00, 8.00],

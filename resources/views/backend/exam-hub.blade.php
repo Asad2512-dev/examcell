@@ -1,7 +1,7 @@
 @php
     $ehTab = request('tab', 'overview');
     $ehExam = request('exam') ? $exams->firstWhere('id', (int) request('exam')) : null;
-    $ehConfigured = app(\App\Services\AI\AiSettings::class)->keyConfigured();
+    $ehConfigured = app(\App\Services\AI\AiClient::class)->configured();
 @endphp
 @if (!$ehExam)
     <div class="callout">

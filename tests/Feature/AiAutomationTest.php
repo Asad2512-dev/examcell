@@ -54,7 +54,7 @@ class AiAutomationTest extends TestCase
         $html = $this->actingAs($f['admin'])->get('/admin/settings?tab=ai')->assertOk()->assertSee('Configured')->getContent();
         $this->assertStringNotContainsString('test-only-key', $html);
         config(['openai.api_key' => '']);
-        $this->get('/admin/settings?tab=ai')->assertOk()->assertSee('Missing');
+        $this->get('/admin/settings?tab=ai')->assertOk()->assertSee('Demo mode');
         $this->actingAs($f['student'])->get('/admin/settings?tab=ai')->assertForbidden();
     }
 
@@ -69,13 +69,27 @@ class AiAutomationTest extends TestCase
         $this->assertStringNotContainsString('test-only-key', json_encode(M\AuditLog::all()->toArray()));
     }
 
-    public function test_missing_key_never_calls_openai(): void
+    public function test_missing_key_uses_validated_offline_demo_without_calling_openai(): void
     {
         $f = $this->fixture();
         config(['openai.api_key' => '']);
         OpenAI::fake([]);
-        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id])->assertSessionHasErrors('ai');
-        $this->assertSame(0, M\AiRun::count());
+        $this->actingAs($f['admin'])->post('/ai/start', ['feature' => 'datesheet', 'exam_id' => $f['exam']->id])->assertRedirect();
+        $run = M\AiRun::firstOrFail();
+        $this->assertSame('needs_review', $run->status);
+        $this->assertSame([], $run->result['errors']);
+        $this->assertDatabaseHas('ai_usages', ['feature' => 'datesheet.generate', 'model' => 'offline-demo', 'status' => 'demo', 'cost_usd' => 0]);
+        $this->assertDatabaseHas('audit_logs', ['action' => 'ai.demo_fallback']);
+    }
+
+    public function test_invalid_key_or_provider_failure_falls_back_to_demo(): void
+    {
+        $f = $this->fixture();
+        $failure = new ErrorException(['message' => 'invalid api key', 'type' => 'invalid_request_error', 'code' => 'invalid_api_key'], new Response(401));
+        OpenAI::fake([$failure, $failure, $failure]);
+
+        $this->actingAs($f['admin'])->post('/admin/ai/report', ['question' => 'pass rate by course'])->assertSessionHas('ai_report');
+        $this->assertDatabaseHas('ai_usages', ['feature' => 'report.plan', 'model' => 'offline-demo', 'status' => 'demo']);
     }
 
     public function test_datesheet_retries_with_errors_then_validates_and_applies_on_approval(): void

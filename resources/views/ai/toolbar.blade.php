@@ -1,7 +1,7 @@
 @php
     $tbKey = $wsState['key'] ?? null;
     $tbTab = $wsState['tab'] ?? null;
-    $tbConfigured = app(\App\Services\AI\AiSettings::class)->keyConfigured();
+    $tbConfigured = app(\App\Services\AI\AiClient::class)->configured();
     $tbExams = \App\Models\Examination::orderByDesc('id')->limit(30)->get();
 @endphp
 @if (in_array($tbKey, ['seating', 'invigilation', 'people']) ||

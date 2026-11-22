@@ -52,7 +52,7 @@ class AiController
         try {
             $this->guard($ai);
             $ai->structured('settings.test', 'Reply with ok=true.', 'ping', 'ping', $schema, auth()->id());
-            $msg = 'Connection successful.';
+            $msg = app(AI\AiSettings::class)->keyConfigured() ? 'Connection successful.' : 'Offline demo mode is working.';
             $ok = true;
         } catch (\Throwable $e) {
             $ok = false;

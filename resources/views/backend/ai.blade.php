@@ -10,7 +10,7 @@
         </div>
     @endif
     <div class="dashboard-kpis">
-        <x-stat-card label="API key" :value="$aiConfigured ? 'Configured' : 'Missing'" icon="shield" :note="$aiConfigured ? 'Read from OPENAI_API_KEY in .env (hidden)' : 'Add OPENAI_API_KEY to .env'" />
+        <x-stat-card label="API key" :value="$aiConfigured ? 'Configured' : 'Demo mode'" icon="shield" :note="$aiConfigured ? 'Read from OPENAI_API_KEY in .env (hidden)' : 'Offline fallback is active; no key required'" />
         <x-stat-card label="Requests this month" :value="$aiUsage['requests']" icon="sparkles" :note="$aiUsage['failed'] . ' failed attempts'" />
         <x-stat-card label="Tokens this month" :value="number_format($aiUsage['input_tokens'] + $aiUsage['output_tokens'])" icon="chart" :note="number_format($aiUsage['input_tokens']) .
             ' in · ' .
@@ -29,10 +29,9 @@
             <x-button type="submit" variant="secondary" icon="check">{{ ui_text('ai.copy.save_model') }}</x-button>
         </form>
         <form method="POST" action="/admin/ai-settings/test" class="card-body">@csrf<x-button type="submit"
-                icon="sparkles" :disabled="!$aiConfigured">{{ ui_text('ai.copy.test_connection') }}</x-button>
+                icon="sparkles">{{ $aiConfigured ? ui_text('ai.copy.test_connection') : 'Test demo mode' }}</x-button>
             @unless ($aiConfigured)
-                <p class="muted text-xs mt-3">{{ ui_text('ai.copy.set_openai_api_key_in_env_run') }} <code>php artisan
-                        config:clear</code>, then test.</p>
+                <p class="muted text-xs mt-3">No API key is required. Validated offline demo proposals are used automatically. Add a key later for generative wording and PDF or image reading.</p>
             @endunless
         </form>
     </x-card>
@@ -66,16 +65,15 @@
             ->with('examCourse.course', 'examCourse.examination')
             ->orderBy('starts_at')
             ->get();
-        $aiConfigured = app(\App\Services\AI\AiSettings::class)->keyConfigured();
+        $aiConfigured = app(\App\Services\AI\AiClient::class)->configured();
         $aiRecent = \App\Models\AiRun::where('user_id', auth()->id())
             ->latest()
             ->limit(8)
             ->get();
     @endphp
-    @unless ($aiConfigured)
+    @unless (app(\App\Services\AI\AiSettings::class)->keyConfigured())
         <div class="callout callout-warning" role="status">
-            <strong>{{ ui_text('ai.copy.openai_is_not_configured_yet') }}</strong> <a class="card-link"
-                href="/admin/ai-settings">{{ ui_text('ai.copy.open_ai_settings') }}</a>
+            <strong>Offline AI demo mode is active.</strong> Proposals still use the normal validation and approval flow. Add an API key later for cloud-generated responses.
         </div>
     @endunless
     @include('ai.run-panel')

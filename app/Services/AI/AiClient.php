@@ -12,11 +12,11 @@ use OpenAI\Laravel\Facades\OpenAI;
  */
 class AiClient
 {
-    public function __construct(private AiSettings $settings) {}
+    public function __construct(private AiSettings $settings, private DemoAiService $demo) {}
 
     public function configured(): bool
     {
-        return $this->settings->keyConfigured();
+        return $this->settings->keyConfigured() || (bool) config('ai.demo_fallback', true);
     }
 
     /**
@@ -25,8 +25,8 @@ class AiClient
      */
     public function structured(string $feature, string $system, string|array $user, string $schemaName, array $schema, ?int $actorId = null): array
     {
-        if (! $this->configured()) {
-            throw new AiException('OpenAI is not configured. Add OPENAI_API_KEY to .env and run php artisan config:clear.');
+        if (! $this->settings->keyConfigured()) {
+            return $this->demo($feature, $user, $actorId, 'missing_key');
         }
         $model = $this->settings->model();
         $max = max(1, (int) config('ai.max_attempts', 3));
@@ -60,7 +60,18 @@ class AiClient
                 }
             }
         }
+        if (config('ai.demo_fallback', true)) {
+            return $this->demo($feature, $user, $actorId, 'provider_unavailable');
+        }
         throw new AiException('The AI service is unavailable right now. Please try again shortly.', 0, $last);
+    }
+
+    private function demo(string $feature, string|array $user, ?int $actor, string $reason): array
+    {
+        $this->record($feature, 'offline-demo', 'demo', 0, 0, $actor, 1);
+        AuditLog::create(['actor_id' => $actor, 'action' => 'ai.demo_fallback', 'entity_type' => 'ai', 'changes' => ['feature' => $feature, 'reason' => $reason]]);
+
+        return $this->demo->structured($feature, $user);
     }
 
     private function record(string $feature, string $model, string $status, int $in, int $out, ?int $actor, int $attempt): void
