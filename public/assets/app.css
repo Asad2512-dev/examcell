@@ -3637,6 +3637,54 @@ td form {
 .chat-message.user {
   background: #eff6ff;
 }
+.assistant-copy {
+  margin: 10px 0 0;
+  white-space: normal;
+  line-height: 1.65;
+}
+.assistant-records {
+  margin-top: 12px;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.assistant-records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.assistant-records-table th,
+.assistant-records-table td {
+  padding: 11px 14px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #edf1f6;
+}
+.assistant-records-table th {
+  color: #475569;
+  background: #f8fafc;
+  font-size: 12px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.assistant-records-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.assistant-details {
+  margin: 12px 0 0;
+}
+.assistant-explanation {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--primary, #4f46e5);
+  border-radius: 0 8px 8px 0;
+  background: #f8fafc;
+}
+.assistant-explanation p {
+  margin: 5px 0 0;
+  line-height: 1.65;
+}
 dl {
   display: grid;
   grid-template-columns: 120px 1fr;

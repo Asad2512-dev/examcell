@@ -1825,6 +1825,54 @@ dd {
   font-family: inherit;
   font-size: 13px;
 }
+.assistant-copy {
+  margin: 10px 0 0;
+  white-space: normal;
+  line-height: 1.65;
+}
+.assistant-records {
+  margin-top: 12px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.assistant-records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.assistant-records-table th,
+.assistant-records-table td {
+  padding: 11px 14px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.assistant-records-table th {
+  color: var(--muted);
+  background: var(--surface-muted);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.assistant-records-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.assistant-details {
+  margin: 12px 0 0;
+}
+.assistant-explanation {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface-muted);
+}
+.assistant-explanation p {
+  margin: 5px 0 0;
+  line-height: 1.65;
+}
 .chat-prompts {
   display: flex;
   flex-wrap: wrap;

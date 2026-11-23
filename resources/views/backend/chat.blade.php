@@ -6,18 +6,7 @@
             @forelse(($conversation?->messages??collect()) as $m)
                 <article class="chat-message {{ $m->role }}">
                     <strong>{{ $m->role === 'user' ? 'You' : 'ExamCell AI' }}</strong>
-                    @php
-                        $parts = preg_split(
-                            '/\[\[link:(\/admin\/[^|\]]+)\|([^\]]+)\]\]/',
-                            $m->content,
-                            -1,
-                            PREG_SPLIT_DELIM_CAPTURE,
-                        );
-                    @endphp
-                    <pre>{{ $parts[0] }}</pre>
-                    @if (isset($parts[1]))
-                        <a class="btn btn-secondary btn-small" href="{{ $parts[1] }}">{{ $parts[2] }}</a>
-                    @endif
+                    @include('ai.message-content', ['message' => $m])
                 </article>
             @empty<x-empty-state title="{{ ui_text('ai.copy.what_would_you_like_to_do') }}"
                     description="Try: Generate date sheet for Fall 2026, Who has missing marks?, Draft a results announcement."
@@ -51,10 +40,7 @@
                 @foreach ($conversation->messages as $m)
                     <article class="chat-message {{ $m->role }}"><strong><x-icon :name="$m->role === 'user' ? 'user' : 'sparkles'"
                                 :size="14" /> {{ $m->role === 'user' ? 'You' : 'ExamCell Assistant' }}</strong>
-                        <pre>{{ $m->content }}</pre>
-                        @if ($m->provider_status)
-                            <small class="muted">{{ $m->provider_status }}</small>
-                        @endif
+                        @include('ai.message-content', ['message' => $m])
                     </article>
                 @endforeach
             @else<x-empty-state title="{{ ui_text('ai.copy.how_can_i_help_you_today') }}"
