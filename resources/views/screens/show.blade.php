@@ -95,7 +95,7 @@
     @if ($role === 'admin' && !in_array($wsState['key'] ?? null, ['exams', 'assistant', 'dashboard', 'settings', 'rooms']))
         @include('ai.toolbar')
     @endif
-    @if ($role === 'admin' && in_array($wsState['key'] ?? null, ['rooms', 'exams', 'seating', 'invigilation']))
+    @if ($role === 'admin' && in_array($wsState['key'] ?? null, ['rooms', 'exams', 'seating']))
         <x-admin-flow :active="$wsState['key']" />
     @endif
     @if ($role === 'admin' && ($wsState['key'] ?? null) === 'exams')

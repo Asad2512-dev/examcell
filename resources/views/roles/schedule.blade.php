@@ -7,6 +7,9 @@
             Your invigilation assignments are in My duties.
         @endif All times are in {{ config('app.timezone') }}.</p>
 </div>
+@if ($role === 'student')
+    <x-invigilation-flow role="student" active="schedule" compact />
+@endif
 <x-card title="{{ ui_text('examinations.copy.exam_schedule') }}" :description="$role === 'student'
     ? 'Published examinations available to your account.'
     : 'Schedules for your assigned courses. Drafts may change.'">

@@ -19,6 +19,7 @@
     <x-workspace-actions :role="$role" />
 @endunless
 @if ($role === 'admin')
+    <x-workspace-actions :role="$role" />
     <x-exam-cycle :cycle="app(\App\Services\ExamCycle::class)->overview(
         request()->filled('exam') ? request()->integer('exam') : null,
     )" />

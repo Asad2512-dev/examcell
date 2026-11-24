@@ -2,14 +2,9 @@
 @php
     $tasks = match ($role) {
         'admin' => [
-            [
-                'calendar',
-                'Create / view date sheet',
-                'Choose an exam and make its timetable',
-                '/admin/exams?tab=datesheet',
-            ],
-            ['edit', 'Review marks', 'Submissions, results and corrections', '/admin/marks'],
-            ['grid', 'Organize seating', 'Room plans and seat assignments', '/admin/seating'],
+            ['calendar', 'Plan an examination', 'Date sheet, rooms and publication', '/admin/exams'],
+            ['shield', 'Prepare invigilation', 'Seating, duties and reserve cover', '/admin/invigilation'],
+            ['edit', 'Complete results', 'Marks, review and publication', '/admin/marks'],
         ],
         'teacher' => [
             ['edit', 'Enter marks', 'Save a draft or submit for review', '/teacher/courses?tab=marks'],

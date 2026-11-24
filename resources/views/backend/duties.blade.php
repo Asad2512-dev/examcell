@@ -1,6 +1,20 @@
 @if ($role === 'teacher')
     @include('roles.teacher-duties')
 @else
+    @if ($role === 'admin')
+        @php
+            $uiDutyRecords = collect($records->items());
+            $uiAssignedDuties = $uiDutyRecords->where('status', 'assigned')->count();
+            $uiReserveDuties = $uiDutyRecords->where('reserve', true)->count();
+            $uiPendingRequests = $dutyRequests->getCollection()->where('status', 'pending')->count();
+        @endphp
+        <x-invigilation-flow role="admin" active="assign" />
+        <div class="dashboard-kpis invigilation-kpis">
+            <x-stat-card label="Assigned on this page" :value="$uiAssignedDuties" icon="shield" note="Primary and standby duties" />
+            <x-stat-card label="Standby cover" :value="$uiReserveDuties" icon="users" note="Reserve staff ready to help" tone="teal" />
+            <x-stat-card label="Cover requests" :value="$uiPendingRequests" icon="alert" note="Pending administrator decision" :tone="$uiPendingRequests ? 'warning' : 'teal'" />
+        </div>
+    @endif
     @if ($role === 'admin' && $page['slug'] === 'room-availability-calendar')
         @php
             $uiRoomNames = \App\Models\Room::pluck('name', 'id');
@@ -45,18 +59,8 @@
     @endif
 
     @if ($role === 'admin')
-        <x-stepper :steps="['Affected duties', 'Eligible cover', 'Review & approve', 'Updated list']" :current="str_contains($page['slug'], 'updated')
-            ? 4
-            : (str_contains($page['slug'], 'approval')
-                ? 3
-                : (str_contains($page['slug'], 'replacement')
-                    ? 2
-                    : 1))" />
-    @endif
-    @if ($role === 'admin')
-        <x-card class="">
-            <h2>{{ ui_text('examinations.copy.assign_paper_duty') }}</h2>
-            <p><a
+        <x-disclosure title="Assign one duty manually" description="AI assignment is recommended. Open this only for a specific paper or exception.">
+            <div class="card-body"><p><a
                     href="/admin/records?resource=users">{{ ui_text('examinations.copy.provision_teacher_extra_staff_accounts') }}</a>
                 · <a
                     href="/admin/records?resource=teacher-profiles">{{ ui_text('examinations.copy.configure_reserve_staff_and_workload') }}</a>
@@ -89,10 +93,10 @@
                     {{ ui_text('examinations.copy.standby_duty_not_primary_invigilation_cover') }}</label><x-button
                     variant="primary" class=""
                     type="submit">{{ ui_text('examinations.copy.check_and_assign') }}</x-button>
-            </form>
-        </x-card>
+            </form></div>
+        </x-disclosure>
     @endif
-    <x-card class="">
+    <x-card class="" id="cover-requests" @if($uiPendingRequests ?? 0) data-priority-section @endif>
         <h2>{{ ui_text('examinations.copy.48_hour_unavailability_requests') }}</h2>
         <p>{{ ui_text('examinations.copy.submit_at_least_48_hours_before_the_paper_starts_request') }}</p>
         @forelse($dutyRequests as $req)
@@ -202,7 +206,7 @@
                     href="{{ $dutyRequests->previousPageUrl() }}">{{ ui_text('examinations.copy.newer_requests') }}</a>
             @endif
     </x-card>
-    <x-card class="table-card"><x-data-table>
+    <x-card class="table-card" id="duty-roster"><x-data-table>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -258,9 +262,8 @@
             </table>
         </x-data-table>
         @include('backend.pagination')</x-card>
-    <x-card class="">
-        <h2>{{ ui_text('examinations.copy.future_availability_without_an_assigned_paper') }}</h2>
-        <p>{{ ui_text('examinations.copy.this_form_creates_duty_requests_for_any_affected_assigne') }}</p>
+    <x-disclosure title="Record future staff unavailability" description="Optional planning tool for leave that is not linked to an assigned paper.">
+        <div class="card-body"><p>{{ ui_text('examinations.copy.this_form_creates_duty_requests_for_any_affected_assigne') }}</p>
         <form method="POST" action="/workflow/availability" class="form-grid">
             @csrf @if ($role === 'admin')
                 <x-form-field><span>{{ ui_text('examinations.copy.teacher_staff') }}</span><select name="teacher_id"
@@ -279,7 +282,7 @@
                 <textarea name="reason" required minlength="10"></textarea>
             </x-form-field><x-button variant="secondary" class=""
                 type="submit">{{ ui_text('examinations.copy.submit_availability_request') }}</x-button>
-        </form>
-    </x-card>
+        </form></div>
+    </x-disclosure>
 
 @endif

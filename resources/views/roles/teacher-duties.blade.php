@@ -2,10 +2,7 @@
     @include('backend.profile')
     @include('roles.availability')
 @else
-    <div class="role-flow-note">
-        <strong>{{ ui_text('teacher.copy.check_your_duty_date_time_and_room') }}</strong>
-        <p>{{ ui_text('teacher.copy.if_you_cannot_attend_request_cover_at_least_48_hours_bef') }}</p>
-    </div>
+    <x-invigilation-flow role="teacher" active="review" />
     @php
         $personalDuties = collect($records->items())->sortBy(
             fn($d) => [$d->status === 'assigned' ? 0 : 1, $d->scheduleEntry->starts_at->timestamp],
@@ -13,7 +10,7 @@
         $upcomingDuties = $personalDuties->filter(fn($d) => $d->scheduleEntry->ends_at->gte(now()));
         $pastDuties = $personalDuties->reject(fn($d) => $d->scheduleEntry->ends_at->gte(now()));
     @endphp
-    <x-card title="{{ ui_text('teacher.copy.my_invigilation_duties') }}"
+    <x-card id="my-duties" title="{{ ui_text('teacher.copy.my_invigilation_duties') }}"
         description="Upcoming duties on this page. Past duties are available below. Times are in {{ config('app.timezone') }}.">
         <div class="role-task-list">
             @forelse($upcomingDuties as $d)
@@ -57,4 +54,12 @@
     </x-disclosure>
     <p class="role-flow-note">{{ ui_text('teacher.copy.planning_future_leave') }} <a class="card-link"
             href="/teacher/profile">{{ ui_text('teacher.copy.update_my_availability') }}</a></p>
+    <x-card id="exam-day-guide" title="Exam-day quick guide"
+        description="Use this short check before, during and after every duty.">
+        <div class="invigilation-day-grid">
+            <section><span class="invigilation-day-icon"><x-icon name="clock" :size="18" /></span><h3>Before students enter</h3><p>Arrive early, verify the room and seating plan, count papers and report missing material immediately.</p></section>
+            <section><span class="invigilation-day-icon"><x-icon name="shield" :size="18" /></span><h3>During the paper</h3><p>Check admit cards, announce timings, record incidents and keep the room supervised at all times.</p></section>
+            <section><span class="invigilation-day-icon"><x-icon name="file" :size="18" /></span><h3>At handover</h3><p>Count scripts against attendance, secure all material and hand it to the authorized examination staff.</p></section>
+        </div>
+    </x-card>
 @endif

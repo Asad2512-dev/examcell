@@ -76,9 +76,11 @@
             <strong>Offline AI demo mode is active.</strong> Proposals still use the normal validation and approval flow. Add an API key later for cloud-generated responses.
         </div>
     @endunless
+    @include('ai.command-box', ['from' => 'assistant'])
     @include('ai.run-panel')
     @include('ai.outputs')
-    <div class="dashboard-middle">
+    <x-disclosure title="Advanced AI tools" description="Use these forms only when you want to choose every option yourself.">
+    <div class="dashboard-middle ai-advanced-grid">
         <x-card title="{{ ui_text('ai.copy.1_generate_a_date_sheet') }}"
             description="Pick a draft examination and describe any rules in plain language.">
             <form method="POST" action="/ai/start" class="form-grid card-body">@csrf<input type="hidden"
@@ -183,8 +185,9 @@
             </form>
         </x-card>
     </div>
-    @if ($aiRecent->isNotEmpty())<x-card
-            title="{{ ui_text('ai.copy.recent_ai_runs') }}"><x-data-table :enhanced="false">
+    </x-disclosure>
+    @if ($aiRecent->isNotEmpty())<x-disclosure
+            title="{{ ui_text('ai.copy.recent_ai_runs') }}" description="Open earlier proposals and their status."><x-data-table :enhanced="false">
                 <table class="data-table">
                     <tbody>
                         @foreach ($aiRecent as $r)
@@ -198,6 +201,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </x-data-table></x-card>
+            </x-data-table></x-disclosure>
     @endif
 @endif
