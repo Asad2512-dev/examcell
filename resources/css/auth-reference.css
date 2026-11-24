@@ -540,6 +540,76 @@
   cursor: wait;
   opacity: 0.7;
 }
+.ex-quick-login {
+  margin-top: 27px;
+}
+.ex-quick-login-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+.ex-quick-login-heading span {
+  height: 1px;
+  flex: 1;
+  background: var(--palette-d8d2f4);
+}
+.auth-reference .ex-quick-login-heading h3 {
+  margin: 0;
+  color: var(--ex-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ex-quick-login-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.ex-auth-card .ex-quick-login-form {
+  display: block;
+  margin: 0;
+}
+.ex-quick-login-form button {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 48px;
+  padding: 7px 8px;
+  border: 1px solid var(--ex-border);
+  border-radius: 13px;
+  background: var(--palette-faf8ffc9);
+  color: var(--ex-ink);
+  text-align: center;
+}
+.ex-quick-login-form button:hover {
+  border-color: var(--palette-8064eb);
+  background: var(--palette-f4efff);
+  transform: translateY(-1px);
+}
+.ex-quick-login-form button > span:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+.ex-quick-login-form strong,
+.ex-quick-login-form small {
+  display: block;
+}
+.ex-quick-login-form strong { font-size: 12px; white-space: nowrap; }
+.ex-quick-login-form small { display: none; }
+.ex-quick-login-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--palette-dbccff80);
+  color: var(--palette-4b22f4);
+}
 .ex-auth-help {
   margin-top: 30px;
   font-size: 14px;
@@ -943,6 +1013,16 @@
     font-size: 15px;
     min-height: 50px;
   }
+  .ex-quick-login-grid { gap: 6px; }
+  .ex-quick-login-form button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    min-height: 70px;
+    padding: 7px 4px;
+  }
+  .ex-quick-login-form strong { font-size: 11px; }
 }
 @media (max-width: 359px) {
   .ex-auth-card {

@@ -184,6 +184,32 @@
                                 type="submit">{{ $mode === 'login' ? 'Sign In' : ($mode === 'forgot' ? 'Send Reset Link' : 'Reset Password') }}<x-icon
                                     name="arrow" :size="19" /></button>
                         </form>
+                        @if ($mode === 'login' && config('examcell.quick_role_login'))
+                            @php
+                                $quickRoles = [
+                                    ['Super Admin', 'Full system control', 'admin@gmail.com', 'shield'],
+                                    ['Teacher', 'Courses, marks & duties', 'teacher@gmail.com', 'users'],
+                                    ['Student', 'Exams, seats & results', 'student@gmail.com', 'user'],
+                                ];
+                            @endphp
+                            <section class="ex-quick-login" aria-labelledby="quick-login-title">
+                                <div class="ex-quick-login-heading"><span></span><h3 id="quick-login-title">Quick Role Login</h3><span></span></div>
+                                <div class="ex-quick-login-grid">
+                                    @foreach ($quickRoles as [$label, $description, $quickEmail, $icon])
+                                        <form method="POST" action="/sign-in" class="ex-quick-login-form">
+                                            @csrf
+                                            <input type="hidden" name="email" value="{{ $quickEmail }}">
+                                            <input type="hidden" name="password" value="{{ config('examcell.demo_password') }}">
+                                            <input type="hidden" name="remember" value="1">
+                                            <button type="submit" aria-label="Sign in as {{ $label }}">
+                                                <span class="ex-quick-login-icon"><x-icon :name="$icon" :size="18" /></span>
+                                                <span><strong>{{ $label }}</strong><small>{{ $description }}</small></span>
+                                            </button>
+                                        </form>
+                                    @endforeach
+                                </div>
+                            </section>
+                        @endif
                     @elseif($mode === 'sent')
                         <div class="ex-recovery-state"><span class="ex-recovery-state-icon"><x-auth-icon
                                     name="mail" :size="32" /></span>
